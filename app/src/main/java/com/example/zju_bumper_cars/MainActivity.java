@@ -7,7 +7,7 @@ import android.util.DisplayMetrics;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.example.zju_bumper_cars.SurfaceView.MySurfaceView;
+import com.example.zju_bumper_cars.ViewLayer.MySurfaceView;
 
 public class MainActivity extends Activity {
 
@@ -41,6 +41,7 @@ public class MainActivity extends Activity {
         mview = new MySurfaceView(this);
         mview.requestFocus();//获取焦点
         mview.setFocusableInTouchMode(true);//设置为可触控
+
         setContentView(mview);
 
     }
