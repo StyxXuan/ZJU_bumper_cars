@@ -38,7 +38,10 @@ public class MainActivity extends Activity {
 //        }
 //        //设置为横屏模式
 //        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+//        setContentView(R.layout.activity_main);
         mview = new MySurfaceView(this);
+        setContentView(mview);
+//        mview = findViewById(R.id.glscene);
         mview.requestFocus();//获取焦点
         mview.setFocusableInTouchMode(true);//设置为可触控
 

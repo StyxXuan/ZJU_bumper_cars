@@ -11,6 +11,8 @@ public class MySurfaceView extends GLSurfaceView {
 
     public MySurfaceView(Context context) {
         super(context);
+
+        initES2();
         initRender();
         initModel(this);
     }
@@ -70,6 +72,11 @@ public class MySurfaceView extends GLSurfaceView {
 
     public float getSceneHeight() {
         return mSceneHeight;
+    }
+
+    private void initES2() {
+        // 使用OpenGL ES 2.0
+        setEGLContextClientVersion(2);
     }
 
 }
