@@ -10,6 +10,7 @@ import com.example.zju_bumper_cars.ModelLayer.models.glColorObj;
 import com.example.zju_bumper_cars.ViewLayer.MySurfaceView;
 import com.example.zju_bumper_cars.utils.BitmapUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ModelGroup {
@@ -20,14 +21,24 @@ public class ModelGroup {
 
     private static List<ObjLoaderUtil.ObjData> mObjList;
 
+    private static List<glColorObj> mObjSprites;
+
     public static void initModel(MySurfaceView surfaceView){
+        modelGroup = new ArrayList<>();
+        mObjList = new ArrayList<>();
+        mObjSprites = new ArrayList<>();
+        
         try {
             mObjList = ObjLoaderUtil.load("camaro.obj", surfaceView.getResources());
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        if(mObjList == null) {return;}
+        if(mObjList == null) {
+           Log.d("info","No objs");
+           return;
+        }
+
         for(int i=0; i<mObjList.size(); i++){
             ObjLoaderUtil.ObjData data = mObjList.get(i);
             //
@@ -43,12 +54,16 @@ public class ModelGroup {
             } else {
 
                 glColorObj spirit = new glColorObj(surfaceView, data.aVertices, data.aNormals, diffuseColor, alpha);
-//                mObjSprites.add(spirit);
+                mObjSprites.add(spirit);
             }
         }
     }
 
-    public static void draw(){}
+    public static void draw(){
+        for(int i=0; i<mObjSprites.size(); i++){
+            mObjSprites.get(i).drawSelf();
+        }
+    }
 
     public static void addModel(){}
 

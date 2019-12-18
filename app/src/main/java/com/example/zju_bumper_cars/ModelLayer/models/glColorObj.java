@@ -105,7 +105,7 @@ public class glColorObj{
         muOpacityHandle = GLES20.glGetUniformLocation(mProgram, "uOpacity");
     }
 
-    public void drawSelf(long drawTime) {
+    public void drawSelf() {
         //制定使用某套着色器程序
         GLES20.glUseProgram(mProgram);
         //将最终变换矩阵传入着色器程序
