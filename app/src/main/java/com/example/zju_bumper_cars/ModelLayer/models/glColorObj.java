@@ -4,9 +4,9 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.opengl.GLES20;
 
-import com.example.zju_bumper_cars.ModelLayer.map.ShaderUtil;
 import com.example.zju_bumper_cars.ViewLayer.MySurfaceView;
 import com.example.zju_bumper_cars.utils.MatrixState;
+import com.example.zju_bumper_cars.utils.ShaderUtil;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;

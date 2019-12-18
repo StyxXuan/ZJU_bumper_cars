@@ -3,10 +3,11 @@ package com.example.zju_bumper_cars.ModelLayer.models;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.opengl.GLES20;
+import android.util.Log;
 
-import com.example.zju_bumper_cars.ModelLayer.map.ShaderUtil;
 import com.example.zju_bumper_cars.ViewLayer.MySurfaceView;
 import com.example.zju_bumper_cars.utils.MatrixState;
+import com.example.zju_bumper_cars.utils.ShaderUtil;
 import com.example.zju_bumper_cars.utils.TextureUtil;
 
 import java.nio.ByteBuffer;
@@ -132,6 +133,7 @@ public class glTextureObj extends glBasicObj {
 
 
     public void drawSelf() {
+        Log.d("info", "draw Texture obj");
         // 加载纹理
         if (isInintFinsh == false) {
             initTexture();

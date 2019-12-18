@@ -3,6 +3,7 @@ package com.example.zju_bumper_cars.ViewLayer;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 
+import com.example.zju_bumper_cars.config.glConfig;
 import com.example.zju_bumper_cars.utils.MatrixState;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -33,14 +34,14 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         //
         float ratio = (float) width / height;
         // 平行投影
-//		MatrixState.setProjectOrtho(-ratio, ratio, -1, 1,
-//				LeGLConfig.PROJECTION_NEAR, LeGLConfig.PROJECTION_FAR);
-//        MatrixState.setProjectFrustum(-ratio, ratio, -1, 1,
-//                LeGLConfig.PROJECTION_NEAR, LeGLConfig.PROJECTION_FAR);
-//        // camera
-//        MatrixState.setCamera(LeGLConfig.EYE_X, LeGLConfig.EYE_Y, LeGLConfig.EYE_Z,
-//                LeGLConfig.VIEW_CENTER_X, LeGLConfig.VIEW_CENTER_Y, LeGLConfig.VIEW_CENTER_Z,
-//                0f, 1f, 0f);
+		MatrixState.setProjectOrtho(-ratio, ratio, -1, 1,
+				glConfig.PROJECTION_NEAR, glConfig.PROJECTION_FAR);
+        MatrixState.setProjectFrustum(-ratio, ratio, -1, 1,
+                glConfig.PROJECTION_NEAR, glConfig.PROJECTION_FAR);
+        // camera
+        MatrixState.setCamera(glConfig.EYE_X, glConfig.EYE_Y, glConfig.EYE_Z,
+                glConfig.VIEW_CENTER_X, glConfig.VIEW_CENTER_Y, glConfig.VIEW_CENTER_Z,
+                0f, 1f, 0f);
     }
 
     @Override
