@@ -6,7 +6,9 @@ import android.util.Log;
 
 import com.example.zju_bumper_cars.IOLayer.Obj.ObjLoaderUtil;
 import com.example.zju_bumper_cars.ModelLayer.models.BaseModel;
+import com.example.zju_bumper_cars.ModelLayer.models.glBasicObj;
 import com.example.zju_bumper_cars.ModelLayer.models.glColorObj;
+import com.example.zju_bumper_cars.ModelLayer.models.glTextureObj;
 import com.example.zju_bumper_cars.ViewLayer.MySurfaceView;
 import com.example.zju_bumper_cars.utils.BitmapUtil;
 
@@ -21,14 +23,15 @@ public class ModelGroup {
 
     private static List<ObjLoaderUtil.ObjData> mObjList;
 
-    private static List<glColorObj> mObjSprites;
+    private static List<glBasicObj> mObjSprites;
 
     public static void initModel(MySurfaceView surfaceView){
         modelGroup = new ArrayList<>();
         mObjList = new ArrayList<>();
         mObjSprites = new ArrayList<>();
-        
+
         try {
+            Log.d("info","Loading Objs");
             mObjList = ObjLoaderUtil.load("camaro.obj", surfaceView.getResources());
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,11 +51,12 @@ public class ModelGroup {
 
             // 构造对象
             if (data.aTexCoords != null && data.aTexCoords.length != 0 && TextUtils.isEmpty(texturePath) == false) {
-//                Bitmap bmp = BitmapUtil.getBitmapFromAsset(surfaceView.getContext(), texturePath);
-//                glColorObj spirit = new glColorObj(surfaceView, data.aVertices, data.aNormals, data.aTexCoords, alpha, bmp);
-//                mObjSprites.add(spirit);
+                Log.d("info", "texture spirite");
+                Bitmap bmp = BitmapUtil.getBitmapFromAsset(surfaceView.getContext(), texturePath);
+                glTextureObj spirit = new glTextureObj(surfaceView, data.aVertices, data.aNormals, data.aTexCoords, alpha, bmp);
+                mObjSprites.add(spirit);
             } else {
-
+                Log.d("info", "color spirite");
                 glColorObj spirit = new glColorObj(surfaceView, data.aVertices, data.aNormals, diffuseColor, alpha);
                 mObjSprites.add(spirit);
             }
