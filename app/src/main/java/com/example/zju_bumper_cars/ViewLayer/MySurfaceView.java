@@ -31,9 +31,7 @@ public class MySurfaceView extends GLSurfaceView {
 
     public MySurfaceView(Context context) {
         super(context);
-
         initES2();
-        initModel(this);
         initRender();
     }
 
@@ -47,6 +45,11 @@ public class MySurfaceView extends GLSurfaceView {
         this.setRenderer(render);
         // 渲染模式(被动渲染)
         this.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+    }
+
+    @Override
+    public void setRenderer(Renderer renderer) {
+        super.setRenderer(renderer);
     }
 
     @Override
@@ -71,7 +74,6 @@ public class MySurfaceView extends GLSurfaceView {
                 float dx = x - mPreviousX;//计算触控笔X位移
                 glConfig.VIEW_CENTER_Z += dx;
                 glConfig.VIEW_CENTER_X += dy;
-
                 MatrixState.setCamera(glConfig.EYE_X, glConfig.EYE_Y, glConfig.EYE_Z,
                         glConfig.VIEW_CENTER_X, glConfig.VIEW_CENTER_Y, glConfig.VIEW_CENTER_Z,
                         0f, 1f, 0f);
@@ -111,7 +113,7 @@ public class MySurfaceView extends GLSurfaceView {
 
         MatrixState.pushMatrix();
         MatrixState.translate(0, 0, -10);
-        ModelGroup.draw();
+        ModelGroup.draw(this);
         MatrixState.popMatrix();
 
     }

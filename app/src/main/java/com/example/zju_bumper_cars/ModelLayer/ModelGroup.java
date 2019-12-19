@@ -16,28 +16,22 @@ import java.util.List;
 
 public class ModelGroup {
 
-//    private static Mountion map
-
     private static List<BaseModel> modelGroup;
 
     public static void initData(MySurfaceView surfaceView){
         Cars car = new Cars(surfaceView);
-        Cars car2 = new Cars(surfaceView, new vec(3, 3, 0), new vec(90, 20, 0), new vec(10, 20, 30));
-        Mountion mountion = new Mountion(surfaceView, Constant.yArray,
-                Constant.yArray.length-1, Constant.yArray[0].length-1, R.mipmap.grass);
+        Cars car2 = new Cars(surfaceView, new vec(3, 3, 0), new vec(40, 20, 0), new vec(10, 20, 30));
 
-        modelGroup.add(mountion);
         modelGroup.add(car);
         modelGroup.add(car2);
     }
 
     public static void initModel(MySurfaceView surfaceView){
         modelGroup = new ArrayList<>();
-        Constant.yArray=Constant.loadLandforms(surfaceView.getResources(), R.mipmap.land);
         initData(surfaceView);
     }
 
-    public static void draw(){
+    public static void draw(MySurfaceView surfaceView){
         Log.d("info", "draw objs");
         MatrixState.pushMatrix();
         MatrixState.translate(0, 0, -10);
@@ -46,6 +40,7 @@ public class ModelGroup {
             model.draw();
         }
         MatrixState.popMatrix();
+        surfaceView.requestRender();
     }
 
     public static void addModel(){}

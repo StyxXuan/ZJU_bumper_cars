@@ -23,7 +23,7 @@ public class Cars extends BaseModel{
         }
         objs = Util.DatatoOBJ(mySurfaceView, mObjList);
         this.pos = new vec(0, 0, 0);
-        this.direction = new vec(0, 90, 0);
+        this.direction = new vec(0, 40, 0);
         this.normal = new vec(0, 0, 0);
     }
 

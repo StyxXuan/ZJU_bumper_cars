@@ -15,7 +15,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-public class Mountion extends BaseModel{
+public class Mountion{
     float UNIT_SIZE=1.0f;
 
     //自定义渲染管线的id
@@ -36,67 +36,14 @@ public class Mountion extends BaseModel{
     //顶点数量
     int vCount=0;
 
-    int texId;
 
-    public Mountion(MySurfaceView mv,float[][] yArray,int rows,int cols, int drawableId)
+    public Mountion(MySurfaceView mv,float[][] yArray,int rows,int cols)
     {
         initVertexData(yArray,rows,cols);
         initShader(mv);
-        texId = initTexture(mv, drawableId);
     }
 
-    public int initTexture(MySurfaceView mv, int drawableId)
-    {
-        //生成纹理ID
-        int[] textures = new int[1];
-        GLES20.glGenTextures
-                (
-                        1,          //产生的纹理id的数量
-                        textures,   //纹理id的数组
-                        0           //偏移量
-                );
-        int textureId=textures[0];
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
-        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER,GLES20.GL_NEAREST);
-        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,GLES20.GL_TEXTURE_MAG_FILTER,GLES20.GL_LINEAR);
-        //ST方向纹理拉伸方式
-        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S,GLES20.GL_REPEAT);
-        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T,GLES20.GL_REPEAT);
 
-        //通过输入流加载图片
-        InputStream is = mv.getResources().openRawResource(drawableId);
-        Bitmap bitmapTmp;
-        try
-        {
-            bitmapTmp = BitmapFactory.decodeStream(is);
-        }
-        finally
-        {
-            try
-            {
-                is.close();
-            }
-            catch(IOException e)
-            {
-                e.printStackTrace();
-            }
-        }
-
-        //实际加载纹理
-        GLUtils.texImage2D
-                (
-                        GLES20.GL_TEXTURE_2D,   //纹理类型，在OpenGL ES中必须为GL10.GL_TEXTURE_2D
-                        0, 					  //纹理的层次，0表示基本图像层，可以理解为直接贴图
-                        bitmapTmp, 			  //纹理图像
-                        0					  //纹理边框尺寸
-                );
-        //自动生成Mipmap纹理
-        GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D);
-        //释放纹理图
-        bitmapTmp.recycle();
-        //返回纹理ID
-        return textureId;
-    }
 
 
     //初始化顶点坐标与着色数据的方法
@@ -211,8 +158,7 @@ public class Mountion extends BaseModel{
         return  result;
     }
 
-    @Override
-    public void draw() {
+    public void drawSelf(int texId) {
         //指定使用某套shader程序
         GLES20.glUseProgram(mProgram);
         //将最终变换矩阵传入shader程序
