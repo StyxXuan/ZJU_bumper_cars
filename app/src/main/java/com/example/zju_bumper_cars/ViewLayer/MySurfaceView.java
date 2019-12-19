@@ -5,12 +5,29 @@ import android.opengl.GLSurfaceView;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import com.example.zju_bumper_cars.MainActivity;
 import com.example.zju_bumper_cars.ModelLayer.ModelGroup;
+import com.example.zju_bumper_cars.config.glConfig;
 import com.example.zju_bumper_cars.utils.MatrixState;
 
 import static com.example.zju_bumper_cars.ModelLayer.ModelGroup.initModel;
 
 public class MySurfaceView extends GLSurfaceView {
+    static float direction=0;//视线方向
+    static float cx=0;//摄像机x坐标
+    static float cz=12;//摄像机z坐标
+
+    static float tx=0;//观察目标点x坐标
+    static float tz=0;//观察目标点z坐标
+    static final float DEGREE_SPAN=(float)(3.0/180.0f*Math.PI);//摄像机每次转动的角度
+
+    //线程循环的标志位
+    boolean flag=true;
+    float x;
+    float y;
+    float Offset=12;
+    float preX;
+    float preY;
 
     public MySurfaceView(Context context) {
         super(context);
@@ -45,23 +62,23 @@ public class MySurfaceView extends GLSurfaceView {
     private float mPreviousX;//上次的触控位置X坐标
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        float y = event.getY();
-        float x = event.getX();
-        switch (event.getAction()) {
+    public boolean onTouchEvent(MotionEvent e) {
+        float y = e.getY();
+        float x = e.getX();
+        switch (e.getAction()) {
             case MotionEvent.ACTION_MOVE:
                 float dy = y - mPreviousY;//计算触控笔Y位移
                 float dx = x - mPreviousX;//计算触控笔X位移
-                //
-//                float yAngle = mSpriteGroup.getSpriteAngleY();
-//                yAngle += dx * TOUCH_SCALE_FACTOR;
-//                mSpriteGroup.setSpriteAngleY(yAngle);
+
+                MatrixState.setCamera(dx,dy,cz,tx,1,tz,0,1,0);
+
+                Log.d("info: ","on Touch");
 
                 this.requestRender();//重绘画面
         }
         mPreviousY = y;//记录触控笔位置
         mPreviousX = x;//记录触控笔位置
-        return super.onTouchEvent(event);
+        return true;
     }
 
     public void setSceneWidthAndHeight(float mSceneWidth, float mSceneHeight) {

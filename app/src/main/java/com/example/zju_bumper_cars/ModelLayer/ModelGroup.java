@@ -1,19 +1,15 @@
 package com.example.zju_bumper_cars.ModelLayer;
 
-import android.graphics.Bitmap;
-import android.text.TextUtils;
 import android.util.Log;
 
-import com.example.zju_bumper_cars.IOLayer.Obj.ObjLoaderUtil;
 import com.example.zju_bumper_cars.ModelLayer.models.BaseModel;
-import com.example.zju_bumper_cars.ModelLayer.models.glBasicObj;
-import com.example.zju_bumper_cars.ModelLayer.models.glColorObj;
-import com.example.zju_bumper_cars.ModelLayer.models.glTextureObj;
+import com.example.zju_bumper_cars.ModelLayer.models.Cars;
 import com.example.zju_bumper_cars.ViewLayer.MySurfaceView;
-import com.example.zju_bumper_cars.utils.BitmapUtil;
 import com.example.zju_bumper_cars.utils.MatrixState;
+import com.example.zju_bumper_cars.utils.vec;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class ModelGroup {
@@ -22,57 +18,26 @@ public class ModelGroup {
 
     private static List<BaseModel> modelGroup;
 
-    private static List<ObjLoaderUtil.ObjData> mObjList;
-
-    private static List<glBasicObj> mObjSprites;
+    public static void initData(MySurfaceView surfaceView){
+        Cars car = new Cars(surfaceView);
+        Cars car2 = new Cars(surfaceView, new vec(50, 50, 0), new vec(10, 20, 30), new vec(10, 20, 30));
+        modelGroup.add(car);
+        modelGroup.add(car2);
+    }
 
     public static void initModel(MySurfaceView surfaceView){
         modelGroup = new ArrayList<>();
-        mObjList = new ArrayList<>();
-        mObjSprites = new ArrayList<>();
 
-        try {
-            Log.d("info","Loading Objs");
-            mObjList.addAll(ObjLoaderUtil.load("camaro.obj", surfaceView.getResources()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        if(mObjList == null) {
-           Log.d("info","No objs");
-           return;
-        }
-
-        for(int i=0; i<mObjList.size(); i++){
-            ObjLoaderUtil.ObjData data = mObjList.get(i);
-            //
-            int diffuseColor = data.mtlData != null ? data.mtlData.Kd_Color : 0xffffffff;
-            float alpha = data.mtlData != null ? data.mtlData.alpha : 1.0f;
-            String texturePath = data.mtlData != null ? data.mtlData.Kd_Texture : "";
-            Log.d("info", texturePath);
-            // 构造对象
-            if (data.aTexCoords != null && data.aTexCoords.length != 0 && TextUtils.isEmpty(texturePath) == false) {
-                Log.d("info", "texture spirite");
-                Bitmap bmp = BitmapUtil.getBitmapFromAsset(surfaceView.getContext(), texturePath);
-                glTextureObj spirit = new glTextureObj(surfaceView, data.aVertices, data.aNormals, data.aTexCoords, alpha, bmp);
-                mObjSprites.add(spirit);
-                Log.d("info", "add one spririte");
-            } else {
-                Log.d("info", "color spirite");
-                glColorObj spirit = new glColorObj(surfaceView, data.aVertices, data.aNormals, diffuseColor, alpha);
-                mObjSprites.add(spirit);
-                Log.d("info", "add one spririte");
-            }
-        }
+        initData(surfaceView);
     }
 
     public static void draw(){
         Log.d("info", "draw objs");
         MatrixState.pushMatrix();
         MatrixState.translate(0, 0, -10);
-        for(int i=0; i<mObjSprites.size(); i++){
-            Log.d("info", "draw " + i);
-            mObjSprites.get(i).drawSelf();
+        for(BaseModel model:modelGroup){
+            Log.d("info", "draw model");
+            model.draw();
         }
         MatrixState.popMatrix();
     }
