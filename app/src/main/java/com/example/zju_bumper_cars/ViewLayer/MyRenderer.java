@@ -50,6 +50,6 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         //开启混合
         gl10.glEnable(GL10.GL_BLEND);
         gl10.glBlendFunc( GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA );
-        draw();
+        mSurfaceView.drawSelf();
     }
 }

@@ -5,6 +5,9 @@ import android.opengl.GLSurfaceView;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import com.example.zju_bumper_cars.ModelLayer.ModelGroup;
+import com.example.zju_bumper_cars.utils.MatrixState;
+
 import static com.example.zju_bumper_cars.ModelLayer.ModelGroup.initModel;
 
 public class MySurfaceView extends GLSurfaceView {
@@ -13,8 +16,8 @@ public class MySurfaceView extends GLSurfaceView {
         super(context);
 
         initES2();
-        initRender();
         initModel(this);
+        initRender();
     }
 
     // 宽
@@ -77,6 +80,20 @@ public class MySurfaceView extends GLSurfaceView {
     private void initES2() {
         // 使用OpenGL ES 2.0
         setEGLContextClientVersion(2);
+    }
+    boolean isInintFinsh = false;
+    public void drawSelf() {
+        if (isInintFinsh == false) {
+            initModel(this);
+            isInintFinsh = true;
+        }
+
+        MatrixState.pushMatrix();
+        MatrixState.translate(0, 0, -10);
+        //
+        ModelGroup.draw();
+        MatrixState.popMatrix();
+
     }
 
 }
