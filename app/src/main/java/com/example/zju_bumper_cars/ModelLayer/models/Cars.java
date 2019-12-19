@@ -23,7 +23,7 @@ public class Cars extends BaseModel{
         }
         objs = Util.DatatoOBJ(mySurfaceView, mObjList);
         this.pos = new vec(0, 0, 0);
-        this.direction = new vec(0, 0, 0);
+        this.direction = new vec(0, 90, 0);
         this.normal = new vec(0, 0, 0);
     }
 
@@ -43,10 +43,10 @@ public class Cars extends BaseModel{
     @Override
     public void draw() {
         MatrixState.pushMatrix();
-        MatrixState.rotate(pos.x, 1, 0, 0);
-        MatrixState.rotate(pos.y, 0, 1, 0);
-        MatrixState.rotate(pos.z, 0, 0, 1);
-        MatrixState.translate(direction.x, direction.y, direction.z);
+        MatrixState.rotate(direction.x, 1, 0, 0);
+        MatrixState.rotate(direction.y, 0, 1, 0);
+        MatrixState.rotate(direction.z, 0, 0, 1);
+        MatrixState.translate(pos.x, pos.y, pos.z);
         for(glBasicObj obj:objs){
             obj.drawSelf();
         }

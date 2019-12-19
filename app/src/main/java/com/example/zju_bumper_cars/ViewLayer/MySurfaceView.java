@@ -69,8 +69,12 @@ public class MySurfaceView extends GLSurfaceView {
             case MotionEvent.ACTION_MOVE:
                 float dy = y - mPreviousY;//计算触控笔Y位移
                 float dx = x - mPreviousX;//计算触控笔X位移
+                glConfig.VIEW_CENTER_Z += dx;
+                glConfig.VIEW_CENTER_X += dy;
 
-                MatrixState.setCamera(dx,dy,cz,tx,1,tz,0,1,0);
+                MatrixState.setCamera(glConfig.EYE_X, glConfig.EYE_Y, glConfig.EYE_Z,
+                        glConfig.VIEW_CENTER_X, glConfig.VIEW_CENTER_Y, glConfig.VIEW_CENTER_Z,
+                        0f, 1f, 0f);
 
                 Log.d("info: ","on Touch");
 
