@@ -36,8 +36,8 @@ public abstract class BaseModel {
         this.normal = normal;
     }
 
-    private vec pos;
-    private vec normal;
-    private vec direction;
-    private float Velocity;
+    public vec pos;
+    public vec normal;
+    public vec direction;
+    public float Velocity;
 }

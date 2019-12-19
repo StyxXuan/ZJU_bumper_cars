@@ -1,41 +1,21 @@
 package com.example.zju_bumper_cars.ModelLayer.models;
 
 
-import com.example.zju_bumper_cars.utils.vec;
+import com.example.zju_bumper_cars.utils.MatrixState;
 
-public class cars {
-    private vec position;
-    private Boolean isPlayer;
+public class cars extends BaseModel{
 
-    public vec getPosition() {
-        return position;
-    }
+    private glTextureObj textureObj;
+    public void initObj(glTextureObj obj) {this.textureObj = obj;}
 
-    public void setPlayer(Boolean player) {
-        isPlayer = player;
-    }
-
-    public void setPosition(vec position) {
-        this.position = position;
-    }
-
-    public Boolean getPlayer() {
-        return isPlayer;
-    }
-
-    public cars(){
-
-    }
-
-    public void init(){
-
-    }
-
-    public void draw(){
-
-    }
-
-    public void moveTo(vec position){
-        this.position = position;
+    @Override
+    public void draw() {
+        MatrixState.pushMatrix();
+        MatrixState.rotate(pos.x, 1, 0, 0);
+        MatrixState.rotate(pos.y, 0, 1, 0);
+        MatrixState.rotate(pos.z, 0, 0, 1);
+        MatrixState.translate(direction.x, direction.y, direction.z);
+        textureObj.drawSelf();
+        MatrixState.popMatrix();
     }
 }

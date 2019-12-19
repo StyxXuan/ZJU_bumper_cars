@@ -90,7 +90,6 @@ public class MySurfaceView extends GLSurfaceView {
 
         MatrixState.pushMatrix();
         MatrixState.translate(0, 0, -10);
-        //
         ModelGroup.draw();
         MatrixState.popMatrix();
 

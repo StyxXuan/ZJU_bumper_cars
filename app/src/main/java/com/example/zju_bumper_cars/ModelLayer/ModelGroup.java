@@ -33,7 +33,7 @@ public class ModelGroup {
 
         try {
             Log.d("info","Loading Objs");
-            mObjList = ObjLoaderUtil.load("camaro.obj", surfaceView.getResources());
+            mObjList.addAll(ObjLoaderUtil.load("camaro.obj", surfaceView.getResources()));
         } catch (Exception e) {
             e.printStackTrace();
         }
