@@ -116,7 +116,6 @@ public class MySurfaceView extends GLSurfaceView {
         float x = e.getX();
         switch (e.getAction()) {
             case MotionEvent.ACTION_MOVE:
-                Log.d("Action", "Move");
                 if(mPreviousY > y){
                     player_controler.goStraght();
                 }else{

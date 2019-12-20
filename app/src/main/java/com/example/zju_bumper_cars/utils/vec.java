@@ -76,4 +76,8 @@ public class vec {
     public vec mul(float f){
         return new vec(x*f, y*f, z*f);
     }
+
+    public Boolean same(vec p){
+        return (x == p.x) & (y == p.y) & (z == p.z);
+    }
 }

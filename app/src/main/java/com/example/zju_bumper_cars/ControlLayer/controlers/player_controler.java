@@ -13,14 +13,17 @@ public class player_controler {
 
     public static void ChageDerectionRight(){
         ModelGroup.Player.goRight();
+        ModelGroup.CollisionDetect(ModelGroup.Player);
     }
 
     public static void goStraght(){
         ModelGroup.Player.goStraight();
+        ModelGroup.CollisionDetect(ModelGroup.Player);
     }
 
     public static void goBack(){
         ModelGroup.Player.goBack();
+        ModelGroup.CollisionDetect(ModelGroup.Player);
     }
 
     public static void ChangeSpeede(){}
