@@ -6,6 +6,7 @@ import com.example.zju_bumper_cars.ModelLayer.map.Constant;
 import com.example.zju_bumper_cars.ModelLayer.models.BaseModel;
 import com.example.zju_bumper_cars.ModelLayer.models.Cars;
 import com.example.zju_bumper_cars.ModelLayer.models.Mountion;
+import com.example.zju_bumper_cars.ModelLayer.models.test_obj;
 import com.example.zju_bumper_cars.R;
 import com.example.zju_bumper_cars.ViewLayer.MySurfaceView;
 import com.example.zju_bumper_cars.utils.MatrixState;
@@ -21,9 +22,10 @@ public class ModelGroup {
     public static void initData(MySurfaceView surfaceView){
         Cars car = new Cars(surfaceView);
         Cars car2 = new Cars(surfaceView, new vec(3, 3, 0), new vec(40, 20, 0), new vec(10, 20, 30));
-
+        test_obj obj1 = new test_obj(surfaceView);
         modelGroup.add(car);
         modelGroup.add(car2);
+        modelGroup.add(obj1);
     }
 
     public static void initModel(MySurfaceView surfaceView){

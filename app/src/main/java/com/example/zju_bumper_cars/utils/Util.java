@@ -31,7 +31,7 @@ public class Util {
             int diffuseColor = data.mtlData != null ? data.mtlData.Kd_Color : 0xffffffff;
             float alpha = data.mtlData != null ? data.mtlData.alpha : 1.0f;
             String texturePath = data.mtlData != null ? data.mtlData.Kd_Texture : "";
-            Log.d("info", texturePath);
+//            Log.d("info", texturePath);
             // 构造对象
             if (data.aTexCoords != null && data.aTexCoords.length != 0 && TextUtils.isEmpty(texturePath) == false) {
                 Log.d("info", "texture spirite");

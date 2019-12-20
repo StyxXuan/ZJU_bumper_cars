@@ -18,6 +18,8 @@ import java.io.InputStream;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import static com.example.zju_bumper_cars.ModelLayer.map.Constant.mountionId;
+
 
 public class MyRenderer implements GLSurfaceView.Renderer {
     public MySurfaceView mSurfaceView;
@@ -26,8 +28,6 @@ public class MyRenderer implements GLSurfaceView.Renderer {
     }
     Mountion mountion;
     //山的纹理id
-    int mountionId;
-
     @Override
     public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
@@ -40,7 +40,7 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         Constant.yArray=Constant.loadLandforms(mSurfaceView.getResources(), R.mipmap.land);
         mountion=new Mountion(mSurfaceView, Constant.yArray,
                 Constant.yArray.length-1,Constant.yArray[0].length-1);
-        mountionId = initTexture(R.mipmap.grass);
+
     }
 
     @Override
@@ -66,62 +66,10 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         //开启混合
 //        gl10.glEnable(GL10.GL_BLEND);
 //        gl10.glBlendFunc( GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA );
-        MatrixState.pushMatrix();
-        mountion.drawSelf(mountionId);
-        MatrixState.popMatrix();
+//        MatrixState.pushMatrix();
+//        mountion.drawSelf(mountionId);
+//        MatrixState.popMatrix();
         mSurfaceView.drawSelf();
     }
 
-    public int initTexture(int drawableId)
-    {
-        //生成纹理ID
-        int[] textures = new int[1];
-        GLES20.glGenTextures
-                (
-                        1,          //产生的纹理id的数量
-                        textures,   //纹理id的数组
-                        0           //偏移量
-                );
-        int textureId=textures[0];
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
-        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER,GLES20.GL_NEAREST);
-        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,GLES20.GL_TEXTURE_MAG_FILTER,GLES20.GL_LINEAR);
-        //ST方向纹理拉伸方式
-        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S,GLES20.GL_REPEAT);
-        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T,GLES20.GL_REPEAT);
-
-        //通过输入流加载图片
-        InputStream is = mSurfaceView.getResources().openRawResource(drawableId);
-        Bitmap bitmapTmp;
-        try
-        {
-            bitmapTmp = BitmapFactory.decodeStream(is);
-        }
-        finally
-        {
-            try
-            {
-                is.close();
-            }
-            catch(IOException e)
-            {
-                e.printStackTrace();
-            }
-        }
-
-        //实际加载纹理
-        GLUtils.texImage2D
-                (
-                        GLES20.GL_TEXTURE_2D,   //纹理类型，在OpenGL ES中必须为GL10.GL_TEXTURE_2D
-                        0, 					  //纹理的层次，0表示基本图像层，可以理解为直接贴图
-                        bitmapTmp, 			  //纹理图像
-                        0					  //纹理边框尺寸
-                );
-        //自动生成Mipmap纹理
-        GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D);
-        //释放纹理图
-        bitmapTmp.recycle();
-        //返回纹理ID
-        return textureId;
-    }
 }
