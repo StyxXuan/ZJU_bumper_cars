@@ -9,7 +9,7 @@ import android.opengl.GLUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 
-import com.example.zju_bumper_cars.MainActivity;
+import com.example.zju_bumper_cars.ControlLayer.controlers.player_controler;
 import com.example.zju_bumper_cars.ModelLayer.ModelGroup;
 import com.example.zju_bumper_cars.ModelLayer.map.Constant;
 import com.example.zju_bumper_cars.R;
@@ -132,17 +132,20 @@ public class MySurfaceView extends GLSurfaceView {
         float x = e.getX();
         switch (e.getAction()) {
             case MotionEvent.ACTION_MOVE:
-                float dy = y - mPreviousY;//计算触控笔Y位移
-                float dx = x - mPreviousX;//计算触控笔X位移
-                glConfig.VIEW_CENTER_Z += dx;
-                glConfig.VIEW_CENTER_X += dy;
-                MatrixState.setCamera(glConfig.EYE_X, glConfig.EYE_Y, glConfig.EYE_Z,
-                        glConfig.VIEW_CENTER_X, glConfig.VIEW_CENTER_Y, glConfig.VIEW_CENTER_Z,
-                        0f, 1f, 0f);
+                Log.d("Action", "Move");
+                if(mPreviousY > y){
+                    player_controler.goStraght();
+                }else{
+                    player_controler.goBack();
+                }
 
-                Log.d("info: ","on Touch");
+//                if(mPreviousX > x){
+//                    player_controler.ChageDerectionRight();
+//                }else{
+//                    player_controler.ChangeDerectionLeft();
+//                }
 
-                this.requestRender();//重绘画面
+            this.requestRender();//重绘画面
         }
         mPreviousY = y;//记录触控笔位置
         mPreviousX = x;//记录触控笔位置

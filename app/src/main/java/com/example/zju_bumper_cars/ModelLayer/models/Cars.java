@@ -12,6 +12,7 @@ import java.util.List;
 
 public class Cars extends BaseModel{
     private static String ObjPath = "camaro.obj";
+    public static vec bouningBox = new vec(1.565f, 3.863f, 1.093f);
     private List<glBasicObj> objs;
 
     public Cars(MySurfaceView mySurfaceView){
@@ -23,8 +24,8 @@ public class Cars extends BaseModel{
         }
         objs = Util.DatatoOBJ(mySurfaceView, mObjList);
         this.pos = new vec(0, 0, 0);
-        this.direction = new vec(0, 40, 0);
-        this.normal = new vec(0, 0, 0);
+        this.direction = new vec(270, 0, 0);
+        this.normal = new vec(0, 1, 0);
     }
 
     public Cars(MySurfaceView mySurfaceView, vec position, vec direction, vec normal){
@@ -38,6 +39,22 @@ public class Cars extends BaseModel{
         this.pos = position;
         this.direction = direction;
         this.normal = normal;
+    }
+
+    public void goStraight(){
+        pos.y += 1;
+    }
+
+    public void goBack(){
+        pos.y -= 1;
+    }
+
+    public void goLeft(){
+        pos.x += 1;
+    }
+
+    public void goRight(){
+        pos.x -= 1;
     }
 
     @Override

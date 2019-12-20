@@ -2,12 +2,9 @@ package com.example.zju_bumper_cars.ModelLayer;
 
 import android.util.Log;
 
-import com.example.zju_bumper_cars.ModelLayer.map.Constant;
 import com.example.zju_bumper_cars.ModelLayer.models.BaseModel;
 import com.example.zju_bumper_cars.ModelLayer.models.Cars;
-import com.example.zju_bumper_cars.ModelLayer.models.Mountion;
 import com.example.zju_bumper_cars.ModelLayer.models.test_obj;
-import com.example.zju_bumper_cars.R;
 import com.example.zju_bumper_cars.ViewLayer.MySurfaceView;
 import com.example.zju_bumper_cars.utils.MatrixState;
 import com.example.zju_bumper_cars.utils.vec;
@@ -18,14 +15,20 @@ import java.util.List;
 public class ModelGroup {
 
     private static List<BaseModel> modelGroup;
+    public static List<Cars> AI;
+    public static Cars Player;
 
     public static void initData(MySurfaceView surfaceView){
-        Cars car = new Cars(surfaceView);
-        Cars car2 = new Cars(surfaceView, new vec(3, 3, 0), new vec(40, 20, 0), new vec(10, 20, 30));
-        test_obj obj1 = new test_obj(surfaceView);
-        modelGroup.add(car);
-        modelGroup.add(car2);
-        modelGroup.add(obj1);
+        Player = new Cars(surfaceView, new vec(-3, 3, 0), new vec(270, 0, 0), new vec(1, 0, 0));
+        Cars car1 = new Cars(surfaceView, new vec(3, 3, 0), new vec(270, 0, 0), new vec(1, 0, 0));
+        Cars car2 = new Cars(surfaceView, new vec(3, -3, 0), new vec(270, 0, 0), new vec(1, 0, 0));
+        Cars car3 = new Cars(surfaceView, new vec(-3, -3, 0), new vec(270, 0, 0), new vec(1, 0, 0));
+
+        modelGroup.add(Player);
+        modelGroup.addAll(AI);
+        AI.add(car1);
+        AI.add(car2);
+        AI.add(car3);
     }
 
     public static void initModel(MySurfaceView surfaceView){
@@ -48,4 +51,10 @@ public class ModelGroup {
     public static void addModel(){}
 
     public static void deleteModel(){}
+
+    public static void CollisionDetect(Cars car){
+        for(Cars car1:AI){
+            
+        }
+    }
 }
