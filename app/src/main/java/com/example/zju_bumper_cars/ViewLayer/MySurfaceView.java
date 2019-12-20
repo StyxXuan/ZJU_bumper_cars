@@ -11,9 +11,8 @@ import android.view.MotionEvent;
 
 import com.example.zju_bumper_cars.ControlLayer.controlers.player_controler;
 import com.example.zju_bumper_cars.ModelLayer.ModelGroup;
-import com.example.zju_bumper_cars.ModelLayer.map.Constant;
+import com.example.zju_bumper_cars.config.Constant;
 import com.example.zju_bumper_cars.R;
-import com.example.zju_bumper_cars.config.glConfig;
 import com.example.zju_bumper_cars.utils.MatrixState;
 
 import java.io.IOException;
@@ -22,21 +21,6 @@ import java.io.InputStream;
 import static com.example.zju_bumper_cars.ModelLayer.ModelGroup.initModel;
 
 public class MySurfaceView extends GLSurfaceView {
-    static float direction=0;//视线方向
-    static float cx=0;//摄像机x坐标
-    static float cz=12;//摄像机z坐标
-
-    static float tx=0;//观察目标点x坐标
-    static float tz=0;//观察目标点z坐标
-    static final float DEGREE_SPAN=(float)(3.0/180.0f*Math.PI);//摄像机每次转动的角度
-
-    //线程循环的标志位
-    boolean flag=true;
-    float x;
-    float y;
-    float Offset=12;
-    float preX;
-    float preY;
 
     public MySurfaceView(Context context) {
         super(context);
@@ -152,6 +136,12 @@ public class MySurfaceView extends GLSurfaceView {
         return true;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
     public void setSceneWidthAndHeight(float mSceneWidth, float mSceneHeight) {
         this.mSceneWidth = mSceneWidth;
         this.mSceneHeight = mSceneHeight;
@@ -170,6 +160,7 @@ public class MySurfaceView extends GLSurfaceView {
         setEGLContextClientVersion(2);
     }
     boolean isInintFinsh = false;
+
     public void drawSelf() {
         if (isInintFinsh == false) {
             initModel(this);
@@ -181,7 +172,6 @@ public class MySurfaceView extends GLSurfaceView {
         MatrixState.translate(0, 0, -10);
         ModelGroup.draw(this);
         MatrixState.popMatrix();
-
     }
 
 }

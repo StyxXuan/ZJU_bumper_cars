@@ -4,6 +4,7 @@ import com.example.zju_bumper_cars.utils.vec;
 
 public abstract class BaseModel {
     public abstract void draw();
+
     public void setPos(vec pos){
         this.pos = pos;
     }

@@ -1,12 +1,9 @@
 package com.example.zju_bumper_cars.ViewLayer;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
-import android.opengl.GLUtils;
 
-import com.example.zju_bumper_cars.ModelLayer.map.Constant;
+import com.example.zju_bumper_cars.config.Constant;
 import com.example.zju_bumper_cars.R;
 import com.example.zju_bumper_cars.config.glConfig;
 import com.example.zju_bumper_cars.utils.MatrixState;

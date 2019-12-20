@@ -1,4 +1,4 @@
-package com.example.zju_bumper_cars.ModelLayer.map;
+package com.example.zju_bumper_cars.config;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;

@@ -20,19 +20,22 @@ public class ModelGroup {
 
     public static void initData(MySurfaceView surfaceView){
         Player = new Cars(surfaceView, new vec(-3, 3, 0), new vec(270, 0, 0), new vec(1, 0, 0));
-        Cars car1 = new Cars(surfaceView, new vec(3, 3, 0), new vec(270, 0, 0), new vec(1, 0, 0));
-        Cars car2 = new Cars(surfaceView, new vec(3, -3, 0), new vec(270, 0, 0), new vec(1, 0, 0));
-        Cars car3 = new Cars(surfaceView, new vec(-3, -3, 0), new vec(270, 0, 0), new vec(1, 0, 0));
+//        Cars car1 = new Cars(surfaceView, new vec(3, 3, 0), new vec(270, 0, 0), new vec(1, 0, 0));
+//        Cars car2 = new Cars(surfaceView, new vec(3, -3, 0), new vec(270, 0, 0), new vec(1, 0, 0));
+//        Cars car3 = new Cars(surfaceView, new vec(-3, -3, 0), new vec(270, 0, 0), new vec(1, 0, 0));
 
+        test_obj obj = new test_obj(surfaceView, new vec(3, 3, 0), new vec(270, 0, 0), new vec(1, 0, 0));
         modelGroup.add(Player);
-        modelGroup.addAll(AI);
-        AI.add(car1);
-        AI.add(car2);
-        AI.add(car3);
+//        AI.add(car1);
+//        AI.add(car2);
+//        AI.add(car3);
+//        modelGroup.addAll(AI);
+        modelGroup.add(obj);
     }
 
     public static void initModel(MySurfaceView surfaceView){
         modelGroup = new ArrayList<>();
+        AI = new ArrayList<>();
         initData(surfaceView);
     }
 
@@ -52,9 +55,16 @@ public class ModelGroup {
 
     public static void deleteModel(){}
 
-    public static void CollisionDetect(Cars car){
-        for(Cars car1:AI){
-            
+    public static int CollisionDetect(Cars car){
+        for(int i = 0; i<modelGroup.size(); i++){
+            Cars toDetect = (Cars) modelGroup.get(i);
+            if(!toDetect.equals(car)){
+                if(car.detectCollistion(toDetect)){
+                    return i;
+                }
+            }
         }
+        return -1;
     }
+
 }

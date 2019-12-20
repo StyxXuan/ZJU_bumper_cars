@@ -1,5 +1,7 @@
 package com.example.zju_bumper_cars.ModelLayer.models;
 
+import android.util.Log;
+
 import com.example.zju_bumper_cars.IOLayer.Obj.ObjLoaderUtil;
 import com.example.zju_bumper_cars.ViewLayer.MySurfaceView;
 import com.example.zju_bumper_cars.utils.MatrixState;
@@ -10,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class test_obj extends  BaseModel{
-    private static String ObjPath = "pikachu.obj";
+    private static String ObjPath = "2.obj";
     private List<glBasicObj> objs;
 
     public test_obj(MySurfaceView mySurfaceView){
@@ -41,12 +43,13 @@ public class test_obj extends  BaseModel{
 
     @Override
     public void draw() {
+        Log.d("draw", "obj_test");
         MatrixState.pushMatrix();
         MatrixState.rotate(direction.x, 1, 0, 0);
         MatrixState.rotate(direction.y, 0, 1, 0);
         MatrixState.rotate(direction.z, 0, 0, 1);
         MatrixState.translate(pos.x, pos.y, pos.z);
-        MatrixState.scale(0.05f, 0.05f, 0.05f);
+//        MatrixState.scale(0.05f, 0.05f, 0.05f);
         for(glBasicObj obj:objs){
             obj.drawSelf();
         }

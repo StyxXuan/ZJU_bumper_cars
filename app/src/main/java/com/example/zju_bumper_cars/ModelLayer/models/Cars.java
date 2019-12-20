@@ -57,6 +57,31 @@ public class Cars extends BaseModel{
         pos.x -= 1;
     }
 
+    public Boolean detectCollistion(Cars b){
+        vec b_normal = b.getNormal();
+        vec b_vertical = b_normal.rotate(90, 0, 0, 1);
+        vec RightDownPoint = pos.add(b_normal.mul(1/2)).add(b_vertical.mul(1/2));
+        vec LeftDownPoint = pos.add(b_normal.mul(1/2)).sub(b_vertical.mul(1/2));
+        vec LeftUpPoint = pos.sub(b_normal.mul(1/2)).add(b_vertical.mul(1/2));
+        vec RightUpPoint = pos.sub(b_normal.mul(1/2)).sub(b_vertical.mul(1/2));
+
+        boolean collision = false;
+        collision |= this.checkInBox(RightDownPoint);
+        collision |= this.checkInBox(LeftDownPoint);
+        collision |= this.checkInBox(LeftUpPoint);
+        collision |= this.checkInBox(RightUpPoint);
+        return collision;
+    }
+
+    public boolean checkInBox(vec a){
+        boolean res = false;
+        vec b = a.sub(pos);
+        res |= Math.abs(b.x) < (Cars.bouningBox.x / 2);
+        res |= Math.abs(b.y) < (Cars.bouningBox.y / 2);
+        res |= Math.abs(b.z) < (Cars.bouningBox.z / 2);
+        return res;
+    }
+
     @Override
     public void draw() {
         MatrixState.pushMatrix();
