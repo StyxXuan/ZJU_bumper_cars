@@ -116,17 +116,17 @@ public class MySurfaceView extends GLSurfaceView {
         float x = e.getX();
         switch (e.getAction()) {
             case MotionEvent.ACTION_MOVE:
-                if(mPreviousY > y){
+                if(mPreviousY - y >= 10){
                     player_controler.goStraght();
-                }else{
+                }else if(mPreviousY - y <= -10){
                     player_controler.goBack();
                 }
 
-//                if(mPreviousX > x){
-//                    player_controler.ChageDerectionRight();
-//                }else{
-//                    player_controler.ChangeDerectionLeft();
-//                }
+                if(mPreviousX - x >= 10){
+                    player_controler.ChageDerectionRight();
+                }else if(mPreviousX - x <= -10){
+                    player_controler.ChangeDerectionLeft();
+                }
 
             this.requestRender();//重绘画面
         }

@@ -19,10 +19,10 @@ public class ModelGroup {
     public static Cars Player;
 
     public static void initData(MySurfaceView surfaceView){
-        Player = new Cars(surfaceView, new vec(-3, 3, 0), new vec(270, 0, 0), new vec(0, 1, 0));
-        Cars car1 = new Cars(surfaceView, new vec(3, 3, 0), new vec(270, 0, 0), new vec(0, 1, 0));
-        Cars car2 = new Cars(surfaceView, new vec(3, -3, 0), new vec(270, 0, 0), new vec(0, 1, 0));
-        Cars car3 = new Cars(surfaceView, new vec(-3, -3, 0), new vec(270, 0, 0), new vec(0, 1, 0));
+        Player = new Cars(surfaceView, new vec(-3, 0, 3), new vec(270, 0, 0));
+        Cars car1 = new Cars(surfaceView, new vec(3, 0, 3), new vec(270, 0, 0));
+        Cars car2 = new Cars(surfaceView, new vec(3, 0, -3), new vec(270, 0, 0));
+        Cars car3 = new Cars(surfaceView, new vec(-3, 0, -3), new vec(270, 0, 0));
 
         test_obj obj = new test_obj(surfaceView, new vec(3, 3, 10), new vec(270, 0, 0), new vec(1, 0, 0));
         modelGroup.add(Player);

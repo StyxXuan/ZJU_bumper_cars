@@ -1,7 +1,7 @@
 package com.example.zju_bumper_cars.utils;
 
 public class vec {
-    public float x, y, z;
+    public double x, y, z;
 
     public vec(){
         this.x = 0;
@@ -9,7 +9,7 @@ public class vec {
         this.z = 0;
     }
 
-    public vec(float x, float y, float z){
+    public vec(double x, double y, double z){
         this.x = x;
         this.y = y;
         this.z = z;
@@ -28,15 +28,15 @@ public class vec {
     }
 
 
-    public void setX(float x) {
+    public void setX(double x) {
         this.x = x;
     }
 
-    public void setY(float y) {
+    public void setY(double y) {
         this.y = y;
     }
 
-    public void setZ(float z) {
+    public void setZ(double z) {
         this.z = z;
     }
 
@@ -56,24 +56,24 @@ public class vec {
         vec v = new vec();
         if(x_r != 0){
             v.x = x;
-            v.y = y * (float) Math.cos(theta) + z * (float) Math.sin(theta);
-            v.z = -y * (float) Math.sin(theta) + z * (float) Math.cos(theta);
+            v.y = y *  Math.cos(theta) + z *  Math.sin(theta);
+            v.z = -y *  Math.sin(theta) + z *  Math.cos(theta);
             return v;
         }else if(y_r != 0){
-            v.x = x * (float) Math.cos(theta) - z * (float) Math.sin(theta);
+            v.x = x * Math.cos(theta) - z *  Math.sin(theta);
             v.y = y;
-            v.z = x * (float) Math.sin(theta) - z * (float) Math.cos(theta);
+            v.z = x * Math.sin(theta) - z *  Math.cos(theta);
             return v;
         }else if(z_r != 0){
-            v.x = x * (float) Math.cos(theta) + y * (float) Math.sin(theta);
-            v.y = -x * (float) Math.sin(theta) + y * (float) Math.cos(theta);
+            v.x = x * Math.cos(theta) + y *  Math.sin(theta);
+            v.y = -x * Math.sin(theta) + y *  Math.cos(theta);
             v.z = z;
             return v;
         }
         return this;
     }
 
-    public vec mul(float f){
+    public vec mul(double f){
         return new vec(x*f, y*f, z*f);
     }
 

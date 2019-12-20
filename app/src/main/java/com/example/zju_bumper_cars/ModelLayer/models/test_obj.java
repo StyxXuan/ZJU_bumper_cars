@@ -45,10 +45,10 @@ public class test_obj extends  BaseModel{
     public void draw() {
         Log.d("draw", "obj_test");
         MatrixState.pushMatrix();
-        MatrixState.rotate(direction.x, 1, 0, 0);
-        MatrixState.rotate(direction.y, 0, 1, 0);
-        MatrixState.rotate(direction.z, 0, 0, 1);
-        MatrixState.translate(pos.x, pos.y, pos.z);
+        MatrixState.rotate((float)direction.x, 1, 0, 0);
+        MatrixState.rotate((float)direction.y, 0, 1, 0);
+        MatrixState.rotate((float)direction.z, 0, 0, 1);
+        MatrixState.translate((float)pos.x, (float)pos.y, (float)pos.z);
 //        MatrixState.scale(0.05f, 0.05f, 0.05f);
         for(glBasicObj obj:objs){
             obj.drawSelf();

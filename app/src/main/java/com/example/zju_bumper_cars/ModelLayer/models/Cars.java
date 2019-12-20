@@ -29,11 +29,11 @@ public class Cars extends BaseModel{
         objs = Util.DatatoOBJ(mySurfaceView, mObjList);
         this.pos = new vec(0, 0, 0);
         this.direction = new vec(270, 0, 0);
-        this.normal = new vec(0, 1, 0);
+        this.normal = new vec(0, 0, 1);
         id = System.currentTimeMillis();
     }
 
-    public Cars(MySurfaceView mySurfaceView, vec position, vec direction, vec normal){
+    public Cars(MySurfaceView mySurfaceView, vec position, vec direction){
         List<ObjLoaderUtil.ObjData> mObjList = new ArrayList<>();
         try {
             mObjList.addAll(ObjLoaderUtil.load(ObjPath, mySurfaceView.getResources()));
@@ -43,29 +43,31 @@ public class Cars extends BaseModel{
         objs = Util.DatatoOBJ(mySurfaceView, mObjList);
         this.pos = position;
         this.direction = direction;
-        this.normal = normal;
+        this.normal = new vec(Math.cos(Math.toRadians(90-direction.y)), 0, Math.sin(Math.toRadians(90-direction.y)));
         id = System.currentTimeMillis();
     }
 
     public void goStraight(){
-        pos.y += 1;
+        pos = pos.sub(normal.mul(1f));
     }
 
     public void goBack(){
-        pos.y -= 1;
+        pos = pos.add(normal.mul(1f));
     }
 
     public void goLeft(){
-        pos.x += 1;
+        direction.y -= 5;
+        normal = new vec(Math.cos(Math.toRadians(90-direction.y)), 0, Math.sin(Math.toRadians(90-direction.y)));
     }
 
     public void goRight(){
-        pos.x -= 1;
+        direction.y += 5;
+        normal = new vec(Math.cos(Math.toRadians(90-direction.y)), 0, Math.sin(Math.toRadians(90-direction.y)));
     }
 
     public Boolean detectCollistion(Cars b){
         vec b_normal = b.getNormal();
-        vec b_vertical = b_normal.rotate(Math.toRadians(90), 0, 0, 1);
+        vec b_vertical = b_normal.rotate(Math.toRadians(90), 0, 1, 0);
         vec b_pos = b.pos;
         Log.d("point b_vertical", ""+b_vertical.x +" "+b_vertical.y + " " + b_vertical.z);
         Log.d("point b_position", ""+b_pos.x +" "+b_pos.y + " " + b_pos.z);
@@ -106,10 +108,10 @@ public class Cars extends BaseModel{
     @Override
     public void draw() {
         MatrixState.pushMatrix();
-        MatrixState.rotate(direction.x, 1, 0, 0);
-        MatrixState.rotate(direction.y, 0, 1, 0);
-        MatrixState.rotate(direction.z, 0, 0, 1);
-        MatrixState.translate(pos.x, pos.y, pos.z);
+        MatrixState.translate((float)pos.x, (float)pos.y, (float)pos.z);
+        MatrixState.rotate((float) direction.y, 0, 1, 0);
+        MatrixState.rotate((float)direction.z, 0, 0, 1);
+        MatrixState.rotate((float)direction.x, 1, 0, 0);
         for(glBasicObj obj:objs){
             obj.drawSelf();
         }
