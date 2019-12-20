@@ -14,7 +14,7 @@ public class glConfig {
      * camera position
      */
     public static float EYE_X = 0f;
-    public static float EYE_Y = -0.5f;
+    public static float EYE_Y = -0.7f;
     public static float EYE_Z = 0f;
     public static float VIEW_CENTER_X = 0f;
     public static float VIEW_CENTER_Y = -0.5f;

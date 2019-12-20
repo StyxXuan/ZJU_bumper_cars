@@ -45,7 +45,7 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         // camera
         MatrixState.setCamera(glConfig.EYE_X, glConfig.EYE_Y, glConfig.EYE_Z,
                 glConfig.VIEW_CENTER_X, glConfig.VIEW_CENTER_Y, glConfig.VIEW_CENTER_Z,
-                0f, 1f, 0f);
+                0f, 0.8f, 0f);
     }
 
 
