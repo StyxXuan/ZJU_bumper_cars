@@ -9,6 +9,11 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_main" tools:context=".MainActivity">
 
+<!--    <com.example.zju_bumper_cars.ViewLayer.MySurfaceView-->
+<!--        android:id="@+id/glscen"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"/>-->
+
     <TextView android:text="Hello World!" android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </RelativeLayout>

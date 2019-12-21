@@ -1,13 +1,16 @@
 package com.example.zju_bumper_cars.ViewLayer;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLUtils;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.widget.Button;
 
 import com.example.zju_bumper_cars.ControlLayer.controlers.player_controler;
 import com.example.zju_bumper_cars.ModelLayer.ModelGroup;
@@ -28,6 +31,21 @@ public class MySurfaceView extends GLSurfaceView {
         initRender();
     }
 
+    public MySurfaceView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        // 初始化render
+        initES2();
+        initRender();
+
+    }
+
+    public MySurfaceView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs);
+        // 初始化render
+        initES2();
+        initRender();
+
+    }
     // 宽
     private float mSceneWidth = 720;
     // 高
@@ -168,7 +186,8 @@ public class MySurfaceView extends GLSurfaceView {
         }
 
         MatrixState.pushMatrix();
-        MatrixState.translate(0, 0, -10);
+        MatrixState.translate(0, 0, -35);
+        MatrixState.rotate(45, 1 ,0, 0);
         ModelGroup.draw(this);
         MatrixState.popMatrix();
     }
