@@ -16,7 +16,8 @@ import java.util.List;
 
 public class Cars extends BaseModel{
     private static String ObjPath = "camaro.obj";
-    public static vec bouningBox = new vec(1.565f, 3.863f, 1.093f);
+    private static float scale = 3;
+    public static vec bouningBox = new vec(1.565f*scale, 3.863f*scale, 1.093f*scale);
     private List<glBasicObj> objs;
     public boolean RunState;
     public Cars(MySurfaceView mySurfaceView){
@@ -82,7 +83,7 @@ public class Cars extends BaseModel{
                         Log.d("state", ""+ Math.abs(Velocity.sum()));
                         pos = pos.add(Velocity.mul(0.01f));
                         Velocity = Velocity.sub(Velocity.mul(0.01f));
-                        if (Math.abs(Velocity.sum()) < 0.01) {
+                        if (Math.abs(Velocity.AbsSum()) < 0.01) {
                             Velocity = new vec(0, 0, 0);
                             RunState = false;
                         }
@@ -135,6 +136,7 @@ public class Cars extends BaseModel{
         MatrixState.rotate((float) direction.y, 0, 1, 0);
         MatrixState.rotate((float)direction.z, 0, 0, 1);
         MatrixState.rotate((float)direction.x, 1, 0, 0);
+        MatrixState.scale(scale, scale, scale);
         for(glBasicObj obj:objs){
             obj.drawSelf();
         }

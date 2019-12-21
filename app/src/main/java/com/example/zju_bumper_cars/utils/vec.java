@@ -31,6 +31,9 @@ public class vec {
         return x+y+z;
     }
 
+    public double AbsSum(){
+        return Math.abs(x) + Math.abs(y) + Math.abs(z);
+    }
 
     public void setX(double x) {
         this.x = x;

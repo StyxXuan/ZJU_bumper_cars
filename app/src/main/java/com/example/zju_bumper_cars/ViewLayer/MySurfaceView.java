@@ -24,6 +24,8 @@ import java.io.InputStream;
 import static com.example.zju_bumper_cars.ModelLayer.ModelGroup.initModel;
 
 public class MySurfaceView extends GLSurfaceView {
+    float angle = 90;
+    float distance = 0;
 
     public MySurfaceView(Context context) {
         super(context);
@@ -181,15 +183,18 @@ public class MySurfaceView extends GLSurfaceView {
     public void drawSelf() {
         if (isInintFinsh == false) {
             initModel(this);
-            Constant.mountionId = initTexture(R.mipmap.grass);
             isInintFinsh = true;
         }
 
         MatrixState.pushMatrix();
-        MatrixState.translate(0, 0, -35);
-        MatrixState.rotate(45, 1 ,0, 0);
+        MatrixState.translate(0, 0, distance);
+        MatrixState.rotate(angle, 1 ,0, 0);
         ModelGroup.draw(this);
         MatrixState.popMatrix();
-    }
 
+        if(distance > -100){
+            distance -= 1;
+        }
+
+    }
 }

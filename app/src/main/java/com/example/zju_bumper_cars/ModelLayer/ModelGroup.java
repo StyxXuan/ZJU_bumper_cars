@@ -5,6 +5,7 @@ import android.util.Log;
 import com.example.zju_bumper_cars.ControlLayer.controlers.player_controler;
 import com.example.zju_bumper_cars.ModelLayer.models.BaseModel;
 import com.example.zju_bumper_cars.ModelLayer.models.Cars;
+import com.example.zju_bumper_cars.ModelLayer.models.SkyBox;
 import com.example.zju_bumper_cars.ModelLayer.models.test_obj;
 import com.example.zju_bumper_cars.ViewLayer.MySurfaceView;
 import com.example.zju_bumper_cars.utils.MatrixState;
@@ -18,19 +19,21 @@ public class ModelGroup {
     private static List<BaseModel> modelGroup;
     public static List<Cars> ALLPlayer;
     public static Cars Player;
+    public static SkyBox skyBox;
 
     public static void initData(MySurfaceView surfaceView){
         Player = new Cars(surfaceView, new vec(-3, 0, 3), new vec(270, 0, 0));
         Cars car1 = new Cars(surfaceView, new vec(3, 0, 3), new vec(270, 0, 0));
         Cars car2 = new Cars(surfaceView, new vec(3, 0, -3), new vec(270, 0, 0));
         Cars car3 = new Cars(surfaceView, new vec(-3, 0, -3), new vec(270, 0, 0));
-
+        skyBox = new SkyBox(surfaceView);
         test_obj obj = new test_obj(surfaceView, new vec(0, -27, 0), new vec(0, 0, 0), new vec(1, 0, 0));
         ALLPlayer.add(Player);
         ALLPlayer.add(car1);
         ALLPlayer.add(car2);
         ALLPlayer.add(car3);
         modelGroup.addAll(ALLPlayer);
+        modelGroup.add(skyBox);
         for(Cars c:ALLPlayer){
             c.driving();
         }
@@ -65,8 +68,8 @@ public class ModelGroup {
                 if(car.detectCollistion(toDetect)){
                     Log.i("detection", "collision detected " + i);
                     vec v = new vec(car.Velocity);
-                    car.Velocity = toDetect.Velocity.sub(v.mul(10));
-                    toDetect.Velocity = v.mul(10);
+                    car.Velocity = toDetect.Velocity.sub(v.mul(4));
+                    toDetect.Velocity = v.mul(4);
                     toDetect.RunState = true;
                     return i;
                 }

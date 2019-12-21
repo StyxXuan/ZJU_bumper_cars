@@ -11,11 +11,12 @@ import com.example.zju_bumper_cars.utils.vec;
 import java.util.ArrayList;
 import java.util.List;
 
-public class test_obj extends  BaseModel{
-    private static String ObjPath = "wall.obj";
+public class SkyBox extends BaseModel{
+
+    private static String ObjPath = "sky.obj";
     private List<glBasicObj> objs;
 
-    public test_obj(MySurfaceView mySurfaceView){
+    public SkyBox(MySurfaceView mySurfaceView){
         List<ObjLoaderUtil.ObjData> mObjList = new ArrayList<>();
         try {
             mObjList.addAll(ObjLoaderUtil.load(ObjPath, mySurfaceView.getResources()));
@@ -28,7 +29,7 @@ public class test_obj extends  BaseModel{
         this.normal = new vec(0, 0, 0);
     }
 
-    public test_obj(MySurfaceView mySurfaceView, vec position, vec direction, vec normal){
+    public SkyBox(MySurfaceView mySurfaceView, vec position, vec direction, vec normal){
         List<ObjLoaderUtil.ObjData> mObjList = new ArrayList<>();
         try {
             mObjList.addAll(ObjLoaderUtil.load(ObjPath, mySurfaceView.getResources()));
@@ -43,13 +44,9 @@ public class test_obj extends  BaseModel{
 
     @Override
     public void draw() {
-        Log.d("draw", "obj_test");
+        Log.d("draw", "sky_box");
         MatrixState.pushMatrix();
-        MatrixState.translate((float)pos.x, (float)pos.y, (float)pos.z);
-        MatrixState.rotate((float) direction.y, 0, 1, 0);
-        MatrixState.rotate((float)direction.z, 0, 0, 1);
-        MatrixState.rotate((float)direction.x, 1, 0, 0);
-        MatrixState.scale(0.8f, 0.8f, 0.8f);
+        MatrixState.scale(1.4f,1.4f,1.4f);
         for(glBasicObj obj:objs){
             obj.drawSelf();
         }
