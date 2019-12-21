@@ -13,7 +13,7 @@ import java.util.List;
 
 public class SkyBox extends BaseModel{
 
-    private static String ObjPath = "sky.obj";
+    private static String ObjPath = "try.obj";
     private List<glBasicObj> objs;
 
     public SkyBox(MySurfaceView mySurfaceView){
@@ -46,7 +46,7 @@ public class SkyBox extends BaseModel{
     public void draw() {
         Log.d("draw", "sky_box");
         MatrixState.pushMatrix();
-        MatrixState.scale(1.4f,1.4f,1.4f);
+        MatrixState.scale(1.8f,1.8f,1.8f);
         for(glBasicObj obj:objs){
             obj.drawSelf();
         }

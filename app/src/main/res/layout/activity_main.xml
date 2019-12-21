@@ -16,7 +16,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="1dp"
         android:layout_marginBottom="15dp"
-        android:background="@mipmap/icon" />
+        android:background="@mipmap/down" />
 
     <ImageButton
         android:id="@+id/btn_up"
@@ -25,7 +25,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="1dp"
         android:layout_marginBottom="82dp"
-        android:background="@mipmap/icon" />
+        android:background="@mipmap/up" />
 
     <ImageButton
         android:id="@+id/btn_left"
@@ -34,7 +34,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="280dp"
         android:layout_marginBottom="15dp"
-        android:background="@mipmap/icon" />
+        android:background="@mipmap/left" />
 
     <ImageButton
         android:id="@+id/btn_right"
@@ -43,6 +43,6 @@
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="335dp"
         android:layout_marginBottom="15dp"
-        android:background="@mipmap/icon" />
+        android:background="@mipmap/right" />
 
 </RelativeLayout>
