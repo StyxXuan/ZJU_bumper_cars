@@ -65,8 +65,8 @@ public class ModelGroup {
                 if(car.detectCollistion(toDetect)){
                     Log.i("detection", "collision detected " + i);
                     vec v = new vec(car.Velocity);
-                    car.Velocity = toDetect.Velocity;
-                    toDetect.Velocity = v;
+                    car.Velocity = toDetect.Velocity.sub(v.mul(10));
+                    toDetect.Velocity = v.mul(10);
                     toDetect.RunState = true;
                     return i;
                 }

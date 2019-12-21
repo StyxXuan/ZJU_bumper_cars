@@ -49,24 +49,24 @@ public class Cars extends BaseModel{
         RunState = false;
     }
 
-    public void goStraight(){
+    public void goBack(){
         Velocity = Velocity.add(normal.mul(0.1f));
         RunState = true;
 //        pos = pos.sub(normal.mul(0.1f));
     }
 
-    public void goBack(){
+    public void goStraight(){
         Velocity = Velocity.sub(normal.mul(0.1f));
         RunState = true;
 //        pos = pos.add(normal.mul(0.1f));
     }
 
-    public void goLeft(){
+    public void goRight(){
         direction.y -= 1;
         normal = new vec(Math.cos(Math.toRadians(90-direction.y)), 0, Math.sin(Math.toRadians(90-direction.y)));
     }
 
-    public void goRight(){
+    public void goLeft(){
         direction.y += 1;
         normal = new vec(Math.cos(Math.toRadians(90-direction.y)), 0, Math.sin(Math.toRadians(90-direction.y)));
     }
@@ -80,7 +80,7 @@ public class Cars extends BaseModel{
                     if(RunState) {
                         Log.d("state", "RunState is true");
                         Log.d("state", ""+ Math.abs(Velocity.sum()));
-                        pos = pos.add(Velocity.mul(0.1f));
+                        pos = pos.add(Velocity.mul(0.01f));
                         Velocity = Velocity.sub(Velocity.mul(0.01f));
                         if (Math.abs(Velocity.sum()) < 0.01) {
                             Velocity = new vec(0, 0, 0);
