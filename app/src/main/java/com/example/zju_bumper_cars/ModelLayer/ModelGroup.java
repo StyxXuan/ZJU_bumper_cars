@@ -2,6 +2,7 @@ package com.example.zju_bumper_cars.ModelLayer;
 
 import android.util.Log;
 
+import com.example.zju_bumper_cars.ControlLayer.controlers.player_controler;
 import com.example.zju_bumper_cars.ModelLayer.models.BaseModel;
 import com.example.zju_bumper_cars.ModelLayer.models.Cars;
 import com.example.zju_bumper_cars.ModelLayer.models.test_obj;
@@ -15,7 +16,7 @@ import java.util.List;
 public class ModelGroup {
 
     private static List<BaseModel> modelGroup;
-    public static List<Cars> AI;
+    public static List<Cars> ALLPlayer;
     public static Cars Player;
 
     public static void initData(MySurfaceView surfaceView){
@@ -25,17 +26,21 @@ public class ModelGroup {
         Cars car3 = new Cars(surfaceView, new vec(-3, 0, -3), new vec(270, 0, 0));
 
         test_obj obj = new test_obj(surfaceView, new vec(0, -27, 0), new vec(0, 0, 0), new vec(1, 0, 0));
-        modelGroup.add(Player);
-        AI.add(car1);
-        AI.add(car2);
-        AI.add(car3);
-        modelGroup.addAll(AI);
+        ALLPlayer.add(Player);
+        ALLPlayer.add(car1);
+        ALLPlayer.add(car2);
+        ALLPlayer.add(car3);
+        modelGroup.addAll(ALLPlayer);
+        for(Cars c:ALLPlayer){
+            c.driving();
+        }
+
         modelGroup.add(obj);
     }
 
     public static void initModel(MySurfaceView surfaceView){
         modelGroup = new ArrayList<>();
-        AI = new ArrayList<>();
+        ALLPlayer = new ArrayList<>();
         initData(surfaceView);
     }
 
@@ -54,16 +59,19 @@ public class ModelGroup {
     public static void deleteModel(){}
 
     public static int CollisionDetect(Cars car){
-        for(int i = 0; i<AI.size(); i++){
-            Cars toDetect = AI.get(i);
+        for(int i = 0; i<ALLPlayer.size(); i++){
+            Cars toDetect = ALLPlayer.get(i);
             if(!toDetect.getPos().same(car.getPos())){
                 if(car.detectCollistion(toDetect)){
                     Log.i("detection", "collision detected " + i);
+                    vec v = new vec(car.Velocity);
+                    car.Velocity = toDetect.Velocity;
+                    toDetect.Velocity = v;
+                    toDetect.RunState = true;
                     return i;
                 }
             }
         }
         return -1;
     }
-
 }

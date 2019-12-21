@@ -27,6 +27,10 @@ public class vec {
         this.z = pos[2];
     }
 
+    public double sum(){
+        return x+y+z;
+    }
+
 
     public void setX(double x) {
         this.x = x;

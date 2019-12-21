@@ -4,6 +4,7 @@ package com.example.zju_bumper_cars.ModelLayer.models;
 
 import android.util.Log;
 
+import com.example.zju_bumper_cars.ControlLayer.controlers.player_controler;
 import com.example.zju_bumper_cars.IOLayer.Obj.ObjLoaderUtil;
 import com.example.zju_bumper_cars.ViewLayer.MySurfaceView;
 import com.example.zju_bumper_cars.utils.MatrixState;
@@ -17,8 +18,7 @@ public class Cars extends BaseModel{
     private static String ObjPath = "camaro.obj";
     public static vec bouningBox = new vec(1.565f, 3.863f, 1.093f);
     private List<glBasicObj> objs;
-    private long id;
-
+    public boolean RunState;
     public Cars(MySurfaceView mySurfaceView){
         List<ObjLoaderUtil.ObjData> mObjList = new ArrayList<>();
         try {
@@ -30,7 +30,8 @@ public class Cars extends BaseModel{
         this.pos = new vec(0, 0, 0);
         this.direction = new vec(270, 0, 0);
         this.normal = new vec(0, 0, 1);
-        id = System.currentTimeMillis();
+        Velocity = new vec(0, 0,0);
+        RunState = false;
     }
 
     public Cars(MySurfaceView mySurfaceView, vec position, vec direction){
@@ -44,15 +45,20 @@ public class Cars extends BaseModel{
         this.pos = position;
         this.direction = direction;
         this.normal = new vec(Math.cos(Math.toRadians(90-direction.y)), 0, Math.sin(Math.toRadians(90-direction.y)));
-        id = System.currentTimeMillis();
+        Velocity = new vec(0, 0,0);
+        RunState = false;
     }
 
     public void goStraight(){
-        pos = pos.sub(normal.mul(0.1f));
+        Velocity = Velocity.add(normal.mul(0.1f));
+        RunState = true;
+//        pos = pos.sub(normal.mul(0.1f));
     }
 
     public void goBack(){
-        pos = pos.add(normal.mul(0.1f));
+        Velocity = Velocity.sub(normal.mul(0.1f));
+        RunState = true;
+//        pos = pos.add(normal.mul(0.1f));
     }
 
     public void goLeft(){
@@ -63,6 +69,27 @@ public class Cars extends BaseModel{
     public void goRight(){
         direction.y += 1;
         normal = new vec(Math.cos(Math.toRadians(90-direction.y)), 0, Math.sin(Math.toRadians(90-direction.y)));
+    }
+
+    public void driving(){
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                while(true){
+                    if(RunState) {
+                        Log.d("state", "RunState is true");
+                        Log.d("state", ""+ Math.abs(Velocity.sum()));
+                        pos = pos.add(Velocity.mul(0.1f));
+                        Velocity = Velocity.sub(Velocity.mul(0.01f));
+                        if (Math.abs(Velocity.sum()) < 0.01) {
+                            Velocity = new vec(0, 0, 0);
+                            RunState = false;
+                        }
+                    }
+                }
+            }
+        }.start();
     }
 
     public Boolean detectCollistion(Cars b){
@@ -99,10 +126,6 @@ public class Cars extends BaseModel{
         res &= Math.abs(b.y) <= (Cars.bouningBox.y / 2);
         res &= Math.abs(b.z) <= (Cars.bouningBox.z / 2);
         return res;
-    }
-
-    public long getId() {
-        return id;
     }
 
     @Override

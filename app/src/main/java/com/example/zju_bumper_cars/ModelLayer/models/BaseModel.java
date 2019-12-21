@@ -13,11 +13,11 @@ public abstract class BaseModel {
         return pos;
     }
 
-    public void setVelocity(float velocity) {
+    public void setVelocity(vec velocity) {
         Velocity = velocity;
     }
 
-    public float getVelocity() {
+    public vec getVelocity() {
         return Velocity;
     }
 
@@ -40,5 +40,5 @@ public abstract class BaseModel {
     public vec pos;
     public vec normal;
     public vec direction;
-    public float Velocity;
+    public vec Velocity;
 }
