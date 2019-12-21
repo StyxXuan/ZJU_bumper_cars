@@ -4,7 +4,6 @@ package com.example.zju_bumper_cars.ModelLayer.models;
 
 import android.util.Log;
 
-import com.example.zju_bumper_cars.ControlLayer.controlers.player_controler;
 import com.example.zju_bumper_cars.IOLayer.Obj.ObjLoaderUtil;
 import com.example.zju_bumper_cars.ViewLayer.MySurfaceView;
 import com.example.zju_bumper_cars.utils.MatrixState;
@@ -19,6 +18,8 @@ import static com.example.zju_bumper_cars.ModelLayer.ModelGroup.particleSystems;
 public class Cars extends BaseModel{
     private static String ObjPath = "camaro.obj";
     private static float scale = 3;
+    public boolean isLive;
+    public boolean canMove;
     public static vec bouningBox = new vec(1.565f*scale, 3.863f*scale, 1.093f*scale);
     private List<glBasicObj> objs;
     public boolean RunState;
@@ -34,7 +35,9 @@ public class Cars extends BaseModel{
         this.direction = new vec(270, 0, 0);
         this.normal = new vec(0, 0, 1);
         Velocity = new vec(0, 0,0);
+        isLive = true;
         RunState = false;
+        canMove = true;
     }
 
     public Cars(MySurfaceView mySurfaceView, vec position, vec direction){
@@ -49,7 +52,9 @@ public class Cars extends BaseModel{
         this.direction = direction;
         this.normal = new vec(Math.cos(Math.toRadians(90-direction.y)), 0, Math.sin(Math.toRadians(90-direction.y)));
         Velocity = new vec(0, 0,0);
+        isLive = true;
         RunState = false;
+        canMove = true;
     }
 
     public void goBack(){
