@@ -14,6 +14,8 @@ import com.example.zju_bumper_cars.utils.vec;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.zju_bumper_cars.ModelLayer.ModelGroup.particleSystems;
+
 public class Cars extends BaseModel{
     private static String ObjPath = "camaro.obj";
     private static float scale = 3;
@@ -87,6 +89,22 @@ public class Cars extends BaseModel{
                             Velocity = new vec(0, 0, 0);
                             RunState = false;
                         }
+                    }
+                }
+            }
+        }.start();
+    }
+
+    public void addParticleSys(){
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                for(int i=0; i<particleSystems.size(); i++){
+                    if(!particleSystems.get(i).inUse){
+                        particleSystems.get(i).setParam("red.obj", pos, new vec(0, -1, 0));
+                        Log.d("add ParticleSys", "not inUse");
+                        return;
                     }
                 }
             }

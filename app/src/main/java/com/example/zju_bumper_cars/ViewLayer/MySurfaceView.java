@@ -14,6 +14,7 @@ import android.widget.Button;
 
 import com.example.zju_bumper_cars.ControlLayer.controlers.player_controler;
 import com.example.zju_bumper_cars.ModelLayer.ModelGroup;
+import com.example.zju_bumper_cars.ModelLayer.models.Particle;
 import com.example.zju_bumper_cars.config.Constant;
 import com.example.zju_bumper_cars.R;
 import com.example.zju_bumper_cars.utils.MatrixState;
@@ -21,6 +22,7 @@ import com.example.zju_bumper_cars.utils.MatrixState;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static com.example.zju_bumper_cars.ModelLayer.ModelGroup.ParticleSystemReady;
 import static com.example.zju_bumper_cars.ModelLayer.ModelGroup.initModel;
 
 public class MySurfaceView extends GLSurfaceView {
@@ -194,6 +196,8 @@ public class MySurfaceView extends GLSurfaceView {
 
         if(distance > -100){
             distance -= 1;
+        }else{
+            ParticleSystemReady = true;
         }
 
     }
