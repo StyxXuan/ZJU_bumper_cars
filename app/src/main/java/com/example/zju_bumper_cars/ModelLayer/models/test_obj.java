@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class test_obj extends  BaseModel{
-    private static String ObjPath = "plate.obj";
+    private static String ObjPath = "wall.obj";
     private List<glBasicObj> objs;
 
     public test_obj(MySurfaceView mySurfaceView){

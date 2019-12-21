@@ -24,7 +24,7 @@ public class ModelGroup {
         Cars car2 = new Cars(surfaceView, new vec(3, 0, -3), new vec(270, 0, 0));
         Cars car3 = new Cars(surfaceView, new vec(-3, 0, -3), new vec(270, 0, 0));
 
-        test_obj obj = new test_obj(surfaceView, new vec(0, -2, 0), new vec(0, 0, 0), new vec(1, 0, 0));
+        test_obj obj = new test_obj(surfaceView, new vec(0, -27, 0), new vec(0, 0, 0), new vec(1, 0, 0));
         modelGroup.add(Player);
         AI.add(car1);
         AI.add(car2);
