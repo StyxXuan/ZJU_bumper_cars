@@ -48,20 +48,20 @@ public class Cars extends BaseModel{
     }
 
     public void goStraight(){
-        pos = pos.sub(normal.mul(1f));
+        pos = pos.sub(normal.mul(0.1f));
     }
 
     public void goBack(){
-        pos = pos.add(normal.mul(1f));
+        pos = pos.add(normal.mul(0.1f));
     }
 
     public void goLeft(){
-        direction.y -= 5;
+        direction.y -= 1;
         normal = new vec(Math.cos(Math.toRadians(90-direction.y)), 0, Math.sin(Math.toRadians(90-direction.y)));
     }
 
     public void goRight(){
-        direction.y += 5;
+        direction.y += 1;
         normal = new vec(Math.cos(Math.toRadians(90-direction.y)), 0, Math.sin(Math.toRadians(90-direction.y)));
     }
 
