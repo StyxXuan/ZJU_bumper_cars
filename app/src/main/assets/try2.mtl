@@ -1,8 +1,8 @@
 # 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
-# 创建的文件:21.12.2019 20:01:20
+# 创建的文件:21.12.2019 20:39:14
 
-newmtl 材质_3
-	Ns 50.0000
+newmtl 材质_2
+	Ns 0.0000
 	Ni 1.5000
 	d 1.0000
 	Tr 0.0000
@@ -10,7 +10,8 @@ newmtl 材质_3
 	illum 2
 	Ka 0.0000 0.0000 0.0000
 	Kd 0.8000 0.8000 0.8000
-	Ks 0.2000 0.2000 0.2000
-	Ke 0.0000 0.0000 0.0000
-	map_Ka sky.jpg
-	map_Kd sky.jpg
+	Ks 0.0000 0.0000 0.0000
+	Ke 1.0000 1.0000 1.0000
+	map_Ka floor.jpg
+	map_Kd floor.jpg
+	map_Ke floor.jpg

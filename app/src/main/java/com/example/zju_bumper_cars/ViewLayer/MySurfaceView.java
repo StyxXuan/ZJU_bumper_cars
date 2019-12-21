@@ -192,7 +192,7 @@ public class MySurfaceView extends GLSurfaceView {
         ModelGroup.draw(this);
         MatrixState.popMatrix();
 
-        if(distance > -100){
+        if(distance > -70){
             distance -= 1;
         }
 

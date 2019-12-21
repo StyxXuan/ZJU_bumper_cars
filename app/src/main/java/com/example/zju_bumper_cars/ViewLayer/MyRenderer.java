@@ -28,7 +28,7 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         // 初始化变换矩阵
         MatrixState.setInitStack();
         //初始化定位光光源
-        MatrixState.setLightLocation(40, 10, 20);
+        MatrixState.setLightLocation(0, 100, 0);
         Constant.yArray=Constant.loadLandforms(mSurfaceView.getResources(), R.mipmap.land);
     }
 

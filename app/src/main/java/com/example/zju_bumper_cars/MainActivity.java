@@ -2,6 +2,7 @@ package com.example.zju_bumper_cars;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
@@ -80,6 +81,7 @@ public class MainActivity extends Activity {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                    BtnDown.setBackground(getResources().getDrawable(R.mipmap.down_w));
                     DownPress = true;
                     new Thread(){
                         @Override
