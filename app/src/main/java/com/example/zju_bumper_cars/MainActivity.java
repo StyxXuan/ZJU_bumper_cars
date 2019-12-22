@@ -95,6 +95,7 @@ public class MainActivity extends Activity {
                 }
                 else if(motionEvent.getAction() == MotionEvent.ACTION_UP){
                     DownPress = false;
+                    BtnDown.setBackground(getResources().getDrawable(R.mipmap.down));
                 }
                 return false;
             }
@@ -104,6 +105,7 @@ public class MainActivity extends Activity {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                    BtnUp.setBackground(getResources().getDrawable(R.mipmap.up_w));
                     UpPress = true;
                     new Thread(){
                         @Override
@@ -117,6 +119,7 @@ public class MainActivity extends Activity {
                 }
                 else if(motionEvent.getAction() == MotionEvent.ACTION_UP){
                     UpPress = false;
+                    BtnUp.setBackground(getResources().getDrawable(R.mipmap.up));
                 }
                 return false;
             }
@@ -126,6 +129,7 @@ public class MainActivity extends Activity {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                    BtnLeft.setBackground(getResources().getDrawable(R.mipmap.left_w));
                     LeftPress = true;
                     new Thread(){
                         @Override
@@ -139,6 +143,7 @@ public class MainActivity extends Activity {
                 }
                 else if(motionEvent.getAction() == MotionEvent.ACTION_UP){
                     LeftPress = false;
+                    BtnLeft.setBackground(getResources().getDrawable(R.mipmap.left));
                 }
                 return false;
             }
@@ -148,6 +153,7 @@ public class MainActivity extends Activity {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                    BtnRight.setBackground(getResources().getDrawable(R.mipmap.right_w));
                     RightPress = true;
                     new Thread(){
                         @Override
@@ -161,6 +167,7 @@ public class MainActivity extends Activity {
                 }
                 else if(motionEvent.getAction() == MotionEvent.ACTION_UP){
                     RightPress = false;
+                    BtnRight.setBackground(getResources().getDrawable(R.mipmap.right));
                 }
                 return false;
             }
