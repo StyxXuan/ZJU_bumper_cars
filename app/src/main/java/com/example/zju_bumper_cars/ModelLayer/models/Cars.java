@@ -70,12 +70,12 @@ public class Cars extends BaseModel{
     }
 
     public void goRight(){
-        direction.y -= 1;
+        direction.y -= 0.5;
         normal = new vec(Math.cos(Math.toRadians(90-direction.y)), 0, Math.sin(Math.toRadians(90-direction.y)));
     }
 
     public void goLeft(){
-        direction.y += 1;
+        direction.y += 0.5;
         normal = new vec(Math.cos(Math.toRadians(90-direction.y)), 0, Math.sin(Math.toRadians(90-direction.y)));
     }
 

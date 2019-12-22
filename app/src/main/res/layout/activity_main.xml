@@ -27,14 +27,6 @@
         android:layout_marginBottom="82dp"
         android:background="@mipmap/up" />
 
-    <ImageButton
-        android:id="@+id/btn_left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/btn_right"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="15dp"
-        android:background="@mipmap/left" />
 
     <ImageButton
         android:id="@+id/btn_right"
@@ -44,5 +36,15 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="15dp"
         android:background="@mipmap/right" />
+
+    <ImageButton
+        android:id="@+id/btn_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@id/btn_right"
+        android:layout_marginBottom="15dp"
+        android:background="@mipmap/left" />
+
 
 </RelativeLayout>
