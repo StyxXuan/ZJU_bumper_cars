@@ -229,6 +229,10 @@ public class MainActivity extends Activity {
                         }
                         ModelGroup.CollisionHapen = false;
                     }
+                    if(glConfig.LIGHT_POS_X <= -360 | glConfig.LIGHT_POS_X >= 360){
+                        glConfig.LIGHT_DISPLACEMENT = -glConfig.LIGHT_DISPLACEMENT;
+                    }
+                    glConfig.LIGHT_POS_X += glConfig.LIGHT_DISPLACEMENT;
                 }
             }
         }.start();
