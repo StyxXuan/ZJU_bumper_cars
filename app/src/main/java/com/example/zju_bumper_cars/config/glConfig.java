@@ -22,4 +22,9 @@ public class glConfig {
     public static float LIGHT_POS_X = 0f;
     public static float LIGHT_POS_Y = 100f;
     public static float LIGHT_POS_Z = 0f;
+    public static int COLLISTION_X = 0;
+    public static int COLLISTION_Y = 0;
+    public static int COLLISTION_Z = 0;
+    public static float angle = 90;
+    public static float distance = 0;
 }

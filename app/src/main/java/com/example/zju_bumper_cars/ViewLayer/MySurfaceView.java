@@ -1,6 +1,7 @@
 package com.example.zju_bumper_cars.ViewLayer;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,12 +14,14 @@ import android.view.MotionEvent;
 import android.widget.Button;
 
 import com.example.zju_bumper_cars.ControlLayer.controlers.player_controler;
+import com.example.zju_bumper_cars.MainActivity;
 import com.example.zju_bumper_cars.ModelLayer.ModelGroup;
 import com.example.zju_bumper_cars.ModelLayer.models.Particle;
 import com.example.zju_bumper_cars.config.Constant;
 import com.example.zju_bumper_cars.R;
 import com.example.zju_bumper_cars.config.glConfig;
 import com.example.zju_bumper_cars.utils.MatrixState;
+import com.plattysoft.leonids.ParticleSystem;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,8 +30,7 @@ import static com.example.zju_bumper_cars.ModelLayer.ModelGroup.ParticleSystemRe
 import static com.example.zju_bumper_cars.ModelLayer.ModelGroup.initModel;
 
 public class MySurfaceView extends GLSurfaceView {
-    float angle = 90;
-    float distance = 0;
+
 
     public MySurfaceView(Context context) {
         super(context);
@@ -190,13 +192,13 @@ public class MySurfaceView extends GLSurfaceView {
         }
 
         MatrixState.pushMatrix();
-        MatrixState.translate(0, 0, distance);
-        MatrixState.rotate(angle, 1 ,0, 0);
+        MatrixState.translate(0, 0, glConfig.distance);
+        MatrixState.rotate(glConfig.angle, 1 ,0, 0);
         ModelGroup.draw(this);
         MatrixState.popMatrix();
 
-        if(distance > -70){
-            distance -= 1;
+        if(glConfig.distance > -70){
+            glConfig.distance -= 1;
         }else{
             ParticleSystemReady = true;
         }

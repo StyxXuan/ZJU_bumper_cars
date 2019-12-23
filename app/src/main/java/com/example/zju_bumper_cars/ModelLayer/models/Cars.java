@@ -13,7 +13,7 @@ import com.example.zju_bumper_cars.utils.vec;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.zju_bumper_cars.ModelLayer.ModelGroup.particleSystems;
+//import static com.example.zju_bumper_cars.ModelLayer.ModelGroup.particleSystems;
 
 public class Cars extends BaseModel{
     private static String ObjPath = "camaro.obj";
@@ -23,6 +23,7 @@ public class Cars extends BaseModel{
     public static vec bouningBox = new vec(1.565f*scale, 3.863f*scale, 1.093f*scale);
     private List<glBasicObj> objs;
     public boolean RunState;
+    public boolean onCollision;
     public Cars(MySurfaceView mySurfaceView){
         List<ObjLoaderUtil.ObjData> mObjList = new ArrayList<>();
         try {
@@ -38,6 +39,7 @@ public class Cars extends BaseModel{
         isLive = true;
         RunState = false;
         canMove = true;
+        onCollision = false;
     }
 
     public Cars(MySurfaceView mySurfaceView, vec position, vec direction){
@@ -55,6 +57,7 @@ public class Cars extends BaseModel{
         isLive = true;
         RunState = false;
         canMove = true;
+        onCollision = false;
     }
 
     public void goBack(){
@@ -105,13 +108,13 @@ public class Cars extends BaseModel{
             @Override
             public void run() {
                 super.run();
-                for(int i=0; i<particleSystems.size(); i++){
-                    if(!particleSystems.get(i).inUse){
-                        particleSystems.get(i).setParam("red.obj", pos, new vec(0, -1, 0));
-                        Log.d("add ParticleSys", "not inUse");
-                        return;
-                    }
-                }
+//                for(int i=0; i<particleSystems.size(); i++){
+//                    if(!particleSystems.get(i).inUse){
+//                        particleSystems.get(i).setParam("red.obj", pos, new vec(0, -1, 0));
+//                        Log.d("add ParticleSys", "not inUse");
+//                        return;
+//                    }
+//                }
             }
         }.start();
     }
