@@ -19,4 +19,7 @@ public class glConfig {
     public static float VIEW_CENTER_X = 0f;
     public static float VIEW_CENTER_Y = -0.8f;
     public static float VIEW_CENTER_Z = -1f;
+    public static float LIGHT_POS_X = 0f;
+    public static float LIGHT_POS_Y = 100f;
+    public static float LIGHT_POS_Z = 0f;
 }

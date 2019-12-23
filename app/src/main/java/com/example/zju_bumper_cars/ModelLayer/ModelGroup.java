@@ -10,6 +10,7 @@ import com.example.zju_bumper_cars.ModelLayer.models.ParticleSystem;
 import com.example.zju_bumper_cars.ModelLayer.models.SkyBox;
 import com.example.zju_bumper_cars.ModelLayer.models.test_obj;
 import com.example.zju_bumper_cars.ViewLayer.MySurfaceView;
+import com.example.zju_bumper_cars.config.glConfig;
 import com.example.zju_bumper_cars.utils.MatrixState;
 import com.example.zju_bumper_cars.utils.vec;
 
@@ -59,6 +60,9 @@ public class ModelGroup {
 
     public static void draw(MySurfaceView surfaceView){
         MatrixState.pushMatrix();
+
+        MatrixState.setLightLocation(glConfig.LIGHT_POS_X, glConfig.LIGHT_POS_Y, glConfig.LIGHT_POS_Z);
+
         MatrixState.translate(0, 0, -10);
         for(BaseModel model:modelGroup){
             model.draw();

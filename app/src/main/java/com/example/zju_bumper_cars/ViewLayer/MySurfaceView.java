@@ -17,6 +17,7 @@ import com.example.zju_bumper_cars.ModelLayer.ModelGroup;
 import com.example.zju_bumper_cars.ModelLayer.models.Particle;
 import com.example.zju_bumper_cars.config.Constant;
 import com.example.zju_bumper_cars.R;
+import com.example.zju_bumper_cars.config.glConfig;
 import com.example.zju_bumper_cars.utils.MatrixState;
 
 import java.io.IOException;
@@ -139,15 +140,15 @@ public class MySurfaceView extends GLSurfaceView {
         switch (e.getAction()) {
             case MotionEvent.ACTION_MOVE:
                 if(mPreviousY - y >= 10){
-                    player_controler.goStraght();
+                    glConfig.LIGHT_POS_Y++;
                 }else if(mPreviousY - y <= -10){
-                    player_controler.goBack();
+                    glConfig.LIGHT_POS_Y--;
                 }
 
                 if(mPreviousX - x >= 10){
-                    player_controler.ChageDerectionRight();
+                    glConfig.LIGHT_POS_X++;
                 }else if(mPreviousX - x <= -10){
-                    player_controler.ChangeDerectionLeft();
+                    glConfig.LIGHT_POS_X--;
                 }
 
             this.requestRender();//重绘画面
