@@ -2,6 +2,7 @@ package com.example.zju_bumper_cars.ModelLayer;
 
 import android.util.Log;
 
+import com.example.zju_bumper_cars.ControlLayer.controlers.AI_controler;
 import com.example.zju_bumper_cars.ControlLayer.controlers.player_controler;
 import com.example.zju_bumper_cars.ModelLayer.models.BaseModel;
 import com.example.zju_bumper_cars.ModelLayer.models.Cars;
@@ -33,7 +34,12 @@ public class ModelGroup {
         ALLPlayer.add(car2);
         ALLPlayer.add(car3);
         modelGroup.addAll(ALLPlayer);
+<<<<<<< Updated upstream
         modelGroup.add(skyBox);
+=======
+//        modelGroup.add(skyBox);
+        AI_controler.attack();
+>>>>>>> Stashed changes
         for(Cars c:ALLPlayer){
             c.driving();
         }

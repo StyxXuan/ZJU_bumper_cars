@@ -147,7 +147,6 @@ public class MySurfaceView extends GLSurfaceView {
                 }else if(mPreviousX - x <= -10){
                     player_controler.ChangeDerectionLeft();
                 }
-
             this.requestRender();//重绘画面
         }
         mPreviousY = y;//记录触控笔位置

@@ -63,12 +63,20 @@ public class Cars extends BaseModel{
     }
 
     public void goRight(){
+<<<<<<< Updated upstream
         direction.y -= 1;
+=======
+        direction.y -= 0.1;
+>>>>>>> Stashed changes
         normal = new vec(Math.cos(Math.toRadians(90-direction.y)), 0, Math.sin(Math.toRadians(90-direction.y)));
     }
 
     public void goLeft(){
+<<<<<<< Updated upstream
         direction.y += 1;
+=======
+        direction.y += 0.1;
+>>>>>>> Stashed changes
         normal = new vec(Math.cos(Math.toRadians(90-direction.y)), 0, Math.sin(Math.toRadians(90-direction.y)));
     }
 
@@ -141,5 +149,14 @@ public class Cars extends BaseModel{
             obj.drawSelf();
         }
         MatrixState.popMatrix();
+    }
+
+    public void setRunState(Boolean state){
+        this.RunState = state;
+    }
+
+    public void setDirection(vec direction){
+        this.direction = direction;
+        normal = new vec(Math.cos(Math.toRadians(90-direction.y)), 0, Math.sin(Math.toRadians(90-direction.y)));
     }
 }
