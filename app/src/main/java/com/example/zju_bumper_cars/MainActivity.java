@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
+import com.example.zju_bumper_cars.ControlLayer.controlers.AI_controler;
 import com.example.zju_bumper_cars.ControlLayer.controlers.player_controler;
 import com.example.zju_bumper_cars.ModelLayer.ModelGroup;
 import com.example.zju_bumper_cars.ModelLayer.models.Cars;
@@ -37,6 +38,7 @@ public class MainActivity extends Activity {
     boolean UpPress = false;
     boolean LeftPress = false;
     boolean RightPress = false;
+    boolean GameStart = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -62,6 +64,7 @@ public class MainActivity extends Activity {
 
         mview = new MySurfaceView(this);
         mview = (MySurfaceView) findViewById(R.id.glscen);
+        GameStart = true;
         initBtn();
         mview.requestFocus();//获取焦点
         mview.setFocusableInTouchMode(true);//设置为可触控
@@ -113,6 +116,7 @@ public class MainActivity extends Activity {
                             }
                         }
                     }.start();
+
                 }
                 else if(motionEvent.getAction() == MotionEvent.ACTION_UP){
                     DownPress = false;

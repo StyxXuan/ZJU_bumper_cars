@@ -5,6 +5,7 @@ package com.example.zju_bumper_cars.ModelLayer.models;
 import android.util.Log;
 
 import com.example.zju_bumper_cars.IOLayer.Obj.ObjLoaderUtil;
+import com.example.zju_bumper_cars.ModelLayer.ModelGroup;
 import com.example.zju_bumper_cars.ViewLayer.MySurfaceView;
 import com.example.zju_bumper_cars.utils.MatrixState;
 import com.example.zju_bumper_cars.utils.Util;
@@ -167,5 +168,18 @@ public class Cars extends BaseModel{
             obj.drawSelf();
         }
         MatrixState.popMatrix();
+    }
+
+    public void setRunState(Boolean state){
+        this.RunState = state;
+    }
+    public Boolean AimAt(vec p){
+
+        if(this.normal.opposite(p)){
+            Log.d("normal opposite", this.normal + " " + p);
+            return true;
+        }
+        Log.d("normal unopposite", this.normal + " " + p);
+        return false;
     }
 }

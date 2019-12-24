@@ -3,6 +3,7 @@ package com.example.zju_bumper_cars.ModelLayer;
 import android.util.Log;
 import android.view.animation.AccelerateInterpolator;
 
+import com.example.zju_bumper_cars.ControlLayer.controlers.AI_controler;
 import com.example.zju_bumper_cars.ControlLayer.controlers.player_controler;
 import com.example.zju_bumper_cars.MainActivity;
 import com.example.zju_bumper_cars.ModelLayer.models.BaseModel;
@@ -43,7 +44,7 @@ public class ModelGroup {
         ALLPlayer.add(car2);
         ALLPlayer.add(car3);
         modelGroup.addAll(ALLPlayer);
-//        modelGroup.add(skyBox);
+        AI_controler.attack();
         for(Cars c:ALLPlayer){
             c.driving();
         }

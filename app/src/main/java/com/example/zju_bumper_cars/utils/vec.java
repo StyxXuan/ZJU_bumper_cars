@@ -84,7 +84,28 @@ public class vec {
         return new vec(x*f, y*f, z*f);
     }
 
+    public void standardize(){
+        double length = Math.sqrt(x * x + y * y + z * z);
+        x = x / length;
+        y = y / length;
+        z = z / length;
+    }
     public Boolean same(vec p){
         return (x == p.x) & (y == p.y) & (z == p.z);
+    }
+    public Boolean parallel(vec p){
+        if(p.x / this.x == p.y / this.y && p.y / this.y == p.z / this.z)
+            return true;
+        return false;
+    }
+    public Boolean opposite(vec p){
+        if(this.x == -p.x && this.y == -p.y && this.z == -p.z){
+            return true;
+        }
+        return false;
+    }
+
+    public String toString(){
+        return this.x + " " + this.y + " " + this.z;
     }
 }
