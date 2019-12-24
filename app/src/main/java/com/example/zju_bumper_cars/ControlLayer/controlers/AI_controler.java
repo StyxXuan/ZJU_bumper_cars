@@ -8,24 +8,15 @@ import com.example.zju_bumper_cars.utils.vec;
 
 public class AI_controler {
 
-    public static void attack(){
-        new Thread(){
-            @Override
-            public void run() {
-                super.run();
-                vec RelativeAngle = new vec(0, 0, 0);
-                while(ModelGroup.Player.isLive){
-                    for(Cars c : ModelGroup.ALLPlayer){
-                        if(c != ModelGroup.Player && !c.AimAt(RelativeAngle)){
-                            RelativeAngle = ModelGroup.Player.pos.sub(c.pos);
-                            RelativeAngle.standardize();
-                            c.setRunState(true);
-                            c.goLeft();
-                        }
-                    }
-                }
+    public static void attack(Cars car){
+        vec RelativeAngle = car.pos.sub(ModelGroup.Player.pos);
+        if(RelativeAngle.sub(car.normal).sum() < 0.5){
+            for(int i=0; i<10; i++){
+                car.goStraight();
             }
-        }.start();
-
+            return;
+        }else{
+            car.goLeft();
+        }
     }
 }

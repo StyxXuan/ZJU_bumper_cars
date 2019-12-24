@@ -2,8 +2,10 @@ package com.example.zju_bumper_cars.ModelLayer.models;
 
 
 
+import android.media.midi.MidiOutputPort;
 import android.util.Log;
 
+import com.example.zju_bumper_cars.ControlLayer.controlers.AI_controler;
 import com.example.zju_bumper_cars.IOLayer.Obj.ObjLoaderUtil;
 import com.example.zju_bumper_cars.ModelLayer.ModelGroup;
 import com.example.zju_bumper_cars.ViewLayer.MySurfaceView;
@@ -25,6 +27,7 @@ public class Cars extends BaseModel{
     private List<glBasicObj> objs;
     public boolean RunState;
     public boolean onCollision;
+    public boolean isPlayer;
     public Cars(MySurfaceView mySurfaceView){
         List<ObjLoaderUtil.ObjData> mObjList = new ArrayList<>();
         try {
@@ -41,6 +44,7 @@ public class Cars extends BaseModel{
         RunState = false;
         canMove = true;
         onCollision = false;
+        isPlayer = false;
     }
 
     public Cars(MySurfaceView mySurfaceView, vec position, vec direction){
@@ -59,6 +63,11 @@ public class Cars extends BaseModel{
         RunState = false;
         canMove = true;
         onCollision = false;
+        isPlayer = false;
+    }
+
+    void setPlayer(){
+        isPlayer = true;
     }
 
     public void goBack(){
@@ -89,6 +98,12 @@ public class Cars extends BaseModel{
             public void run() {
                 super.run();
                 while(true){
+                    if(!ModelGroup.initDown)
+                        continue;
+
+                    if(!isPlayer){
+                        AI_controler.attack(Cars.this);
+                    }
                     if(RunState) {
                         Log.d("state", "RunState is true");
                         Log.d("state", ""+ Math.abs(Velocity.sum()));
@@ -99,7 +114,13 @@ public class Cars extends BaseModel{
                             RunState = false;
                         }
                     }
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
+
             }
         }.start();
     }

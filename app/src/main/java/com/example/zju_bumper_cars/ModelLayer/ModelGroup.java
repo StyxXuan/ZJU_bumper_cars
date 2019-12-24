@@ -30,9 +30,11 @@ public class ModelGroup {
     public static SkyBox skyBox;
     public static boolean ParticleSystemReady = false;
     public static boolean CollisionHapen = false;
+    public static boolean initDown = false;
 
     public static void initData(MySurfaceView surfaceView){
         Player = new Cars(surfaceView, new vec(-10, 0, 10), new vec(270, 0, 0));
+        Player.isPlayer = true;
         Cars car1 = new Cars(surfaceView, new vec(10, 0, 10), new vec(270, 0, 0));
         Cars car2 = new Cars(surfaceView, new vec(10, 0, -10), new vec(270, 0, 0));
         Cars car3 = new Cars(surfaceView, new vec(-10, 0, -10), new vec(270, 0, 0));
@@ -44,7 +46,6 @@ public class ModelGroup {
         ALLPlayer.add(car2);
         ALLPlayer.add(car3);
         modelGroup.addAll(ALLPlayer);
-        AI_controler.attack();
         for(Cars c:ALLPlayer){
             c.driving();
         }

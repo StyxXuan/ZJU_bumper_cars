@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import static com.example.zju_bumper_cars.ModelLayer.ModelGroup.ParticleSystemReady;
+import static com.example.zju_bumper_cars.ModelLayer.ModelGroup.initDown;
 import static com.example.zju_bumper_cars.ModelLayer.ModelGroup.initModel;
 
 public class MySurfaceView extends GLSurfaceView {
@@ -201,6 +202,7 @@ public class MySurfaceView extends GLSurfaceView {
             glConfig.distance -= 1;
         }else{
             ParticleSystemReady = true;
+            initDown = true;
         }
 
     }

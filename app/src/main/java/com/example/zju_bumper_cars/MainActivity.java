@@ -237,6 +237,11 @@ public class MainActivity extends Activity {
                         glConfig.LIGHT_DISPLACEMENT = -glConfig.LIGHT_DISPLACEMENT;
                     }
                     glConfig.LIGHT_POS_X += glConfig.LIGHT_DISPLACEMENT;
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }.start();
