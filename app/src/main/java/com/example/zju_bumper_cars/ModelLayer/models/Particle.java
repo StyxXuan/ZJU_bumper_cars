@@ -11,12 +11,11 @@ import com.example.zju_bumper_cars.utils.vec;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SkyBox extends BaseModel{
-
-    private static String ObjPath = "try.obj";
+public class Particle extends BaseModel {
+    private static String ObjPath = "red.obj";
     private List<glBasicObj> objs;
 
-    public SkyBox(MySurfaceView mySurfaceView){
+    public Particle(MySurfaceView mySurfaceView){
         List<ObjLoaderUtil.ObjData> mObjList = new ArrayList<>();
         try {
             mObjList.addAll(ObjLoaderUtil.load(ObjPath, mySurfaceView.getResources()));
@@ -29,7 +28,7 @@ public class SkyBox extends BaseModel{
         this.normal = new vec(0, 0, 0);
     }
 
-    public SkyBox(MySurfaceView mySurfaceView, vec position, vec direction, vec normal){
+    public Particle(MySurfaceView mySurfaceView, vec position, vec direction, vec normal){
         List<ObjLoaderUtil.ObjData> mObjList = new ArrayList<>();
         try {
             mObjList.addAll(ObjLoaderUtil.load(ObjPath, mySurfaceView.getResources()));
@@ -42,11 +41,15 @@ public class SkyBox extends BaseModel{
         this.normal = normal;
     }
 
+    public void setObjPath(String ObjPath){
+        this.ObjPath = ObjPath;
+    }
+
     @Override
     public void draw() {
-        Log.d("draw", "sky_box");
         MatrixState.pushMatrix();
-        MatrixState.scale(0.5f,0.5f,0.5f);
+        MatrixState.translate((float)pos.x, (float)pos.y, (float)pos.z);
+        MatrixState.scale(5, 5, 5);
         for(glBasicObj obj:objs){
             obj.drawSelf();
         }

@@ -4,8 +4,8 @@ package com.example.zju_bumper_cars.ModelLayer.models;
 
 import android.util.Log;
 
-import com.example.zju_bumper_cars.ControlLayer.controlers.player_controler;
 import com.example.zju_bumper_cars.IOLayer.Obj.ObjLoaderUtil;
+import com.example.zju_bumper_cars.ModelLayer.ModelGroup;
 import com.example.zju_bumper_cars.ViewLayer.MySurfaceView;
 import com.example.zju_bumper_cars.utils.MatrixState;
 import com.example.zju_bumper_cars.utils.Util;
@@ -14,12 +14,17 @@ import com.example.zju_bumper_cars.utils.vec;
 import java.util.ArrayList;
 import java.util.List;
 
+//import static com.example.zju_bumper_cars.ModelLayer.ModelGroup.particleSystems;
+
 public class Cars extends BaseModel{
     private static String ObjPath = "camaro.obj";
     private static float scale = 3;
+    public boolean isLive;
+    public boolean canMove;
     public static vec bouningBox = new vec(1.565f*scale, 3.863f*scale, 1.093f*scale);
     private List<glBasicObj> objs;
     public boolean RunState;
+    public boolean onCollision;
     public Cars(MySurfaceView mySurfaceView){
         List<ObjLoaderUtil.ObjData> mObjList = new ArrayList<>();
         try {
@@ -32,7 +37,10 @@ public class Cars extends BaseModel{
         this.direction = new vec(270, 0, 0);
         this.normal = new vec(0, 0, 1);
         Velocity = new vec(0, 0,0);
+        isLive = true;
         RunState = false;
+        canMove = true;
+        onCollision = false;
     }
 
     public Cars(MySurfaceView mySurfaceView, vec position, vec direction){
@@ -47,7 +55,10 @@ public class Cars extends BaseModel{
         this.direction = direction;
         this.normal = new vec(Math.cos(Math.toRadians(90-direction.y)), 0, Math.sin(Math.toRadians(90-direction.y)));
         Velocity = new vec(0, 0,0);
+        isLive = true;
         RunState = false;
+        canMove = true;
+        onCollision = false;
     }
 
     public void goBack(){
@@ -63,20 +74,12 @@ public class Cars extends BaseModel{
     }
 
     public void goRight(){
-<<<<<<< Updated upstream
-        direction.y -= 1;
-=======
-        direction.y -= 0.1;
->>>>>>> Stashed changes
+        direction.y -= 0.5;
         normal = new vec(Math.cos(Math.toRadians(90-direction.y)), 0, Math.sin(Math.toRadians(90-direction.y)));
     }
 
     public void goLeft(){
-<<<<<<< Updated upstream
-        direction.y += 1;
-=======
-        direction.y += 0.1;
->>>>>>> Stashed changes
+        direction.y += 0.5;
         normal = new vec(Math.cos(Math.toRadians(90-direction.y)), 0, Math.sin(Math.toRadians(90-direction.y)));
     }
 
@@ -91,12 +94,29 @@ public class Cars extends BaseModel{
                         Log.d("state", ""+ Math.abs(Velocity.sum()));
                         pos = pos.add(Velocity.mul(0.01f));
                         Velocity = Velocity.sub(Velocity.mul(0.01f));
+                        test_obj.detectBorder(ModelGroup.Player);
                         if (Math.abs(Velocity.AbsSum()) < 0.01) {
                             Velocity = new vec(0, 0, 0);
                             RunState = false;
                         }
                     }
                 }
+            }
+        }.start();
+    }
+
+    public void addParticleSys(){
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+//                for(int i=0; i<particleSystems.size(); i++){
+//                    if(!particleSystems.get(i).inUse){
+//                        particleSystems.get(i).setParam("red.obj", pos, new vec(0, -1, 0));
+//                        Log.d("add ParticleSys", "not inUse");
+//                        return;
+//                    }
+//                }
             }
         }.start();
     }
@@ -154,9 +174,13 @@ public class Cars extends BaseModel{
     public void setRunState(Boolean state){
         this.RunState = state;
     }
+    public Boolean AimAt(vec p){
 
-    public void setDirection(vec direction){
-        this.direction = direction;
-        normal = new vec(Math.cos(Math.toRadians(90-direction.y)), 0, Math.sin(Math.toRadians(90-direction.y)));
+        if(this.normal.opposite(p)){
+//            Log.d("normal opposite", this.normal + " " + p);
+            return true;
+        }
+//        Log.d("normal not opposite", this.normal + " " + p);
+        return false;
     }
 }

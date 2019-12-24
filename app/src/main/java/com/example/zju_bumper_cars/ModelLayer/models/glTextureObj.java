@@ -133,7 +133,6 @@ public class glTextureObj extends glBasicObj {
 
 
     public void drawSelf() {
-        Log.d("info", "draw Texture obj");
         // 加载纹理
         if (isInintFinsh == false) {
             initTexture();

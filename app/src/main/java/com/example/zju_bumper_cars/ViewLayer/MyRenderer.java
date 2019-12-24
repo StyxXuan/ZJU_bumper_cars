@@ -28,7 +28,7 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         // 初始化变换矩阵
         MatrixState.setInitStack();
         //初始化定位光光源
-        MatrixState.setLightLocation(0, 100, 0);
+        MatrixState.setLightLocation(0, 60, 0);
         Constant.yArray=Constant.loadLandforms(mSurfaceView.getResources(), R.mipmap.land);
     }
 
@@ -48,12 +48,10 @@ public class MyRenderer implements GLSurfaceView.Renderer {
                 0f, 0.8f, 0f);
     }
 
-
     @Override
     public void onDrawFrame(GL10 gl10) {
         GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
         //开启混合
         mSurfaceView.drawSelf();
     }
-
 }
