@@ -46,6 +46,7 @@ public class ModelGroup {
         ALLPlayer.add(car2);
         ALLPlayer.add(car3);
         modelGroup.addAll(ALLPlayer);
+        modelGroup.add(skyBox);
         for(Cars c:ALLPlayer){
             c.driving();
         }

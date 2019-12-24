@@ -115,7 +115,7 @@ public class Cars extends BaseModel{
                         Log.d("state", "RunState is true");
                         Log.d("state", ""+ Math.abs(Velocity.sum()));
                         pos = pos.add(Velocity.mul(0.01f));
-                        Velocity = Velocity.sub(Velocity.mul(0.01f));
+                        Velocity = Velocity.sub(Velocity.mul(0.05f));
                         if (Math.abs(Velocity.AbsSum()) < 0.01) {
                             Velocity = new vec(0, 0, 0);
                             RunState = false;
