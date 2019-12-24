@@ -23,7 +23,7 @@ public class Cars extends BaseModel{
     private static float scale = 3;
     public boolean isLive;
     public boolean canMove;
-    public static vec bouningBox = new vec(1.565f*scale, 3.863f*scale, 1.093f*scale);
+    public static vec bouningBox = new vec(3.863f*scale, 1.565f*scale, 1.093f*scale*1.5);
     private List<glBasicObj> objs;
     public boolean RunState;
     public boolean onCollision;
@@ -98,8 +98,14 @@ public class Cars extends BaseModel{
             public void run() {
                 super.run();
                 while(true){
-                    if(!ModelGroup.initDown)
-                        continue;
+                    if(!ModelGroup.initDown) {
+                        try {
+                            Thread.sleep(100);
+                            continue;
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
 
                     if(!isPlayer){
                         AI_controler.attack(Cars.this);
@@ -174,6 +180,8 @@ public class Cars extends BaseModel{
         res &= Math.abs(b.x) <= (Cars.bouningBox.x / 2);
         res &= Math.abs(b.y) <= (Cars.bouningBox.y / 2);
         res &= Math.abs(b.z) <= (Cars.bouningBox.z / 2);
+//        vec b = this.pos.sub(a);
+
         return res;
     }
 

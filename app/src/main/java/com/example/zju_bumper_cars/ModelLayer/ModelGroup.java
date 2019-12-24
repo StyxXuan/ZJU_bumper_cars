@@ -100,7 +100,7 @@ public class ModelGroup {
 
     public static void deleteModel(){}
 
-    public static int CollisionDetect(Cars car){
+    public static void CollisionDetect(Cars car){
         for(int i = 0; i<ALLPlayer.size(); i++){
             Cars toDetect = ALLPlayer.get(i);
             if(!toDetect.getPos().same(car.getPos())){
@@ -109,14 +109,15 @@ public class ModelGroup {
                     toDetect.onCollision = true;
                     CollisionHapen = true;
                     vec v = new vec(car.Velocity);
-                    car.Velocity = toDetect.Velocity.sub(v);
+                    car.Velocity = toDetect.Velocity;
+                    car.pos.add(car.getVelocity().mul(0.01f));
                     toDetect.Velocity = v;
+                    toDetect.pos.add(toDetect.getVelocity().mul(0.01f));
                     toDetect.addParticleSys();
                     toDetect.RunState = true;
-                    return i;
+                    car.RunState = true;
                 }
             }
         }
-        return -1;
     }
 }
