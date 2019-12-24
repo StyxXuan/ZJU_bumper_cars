@@ -179,7 +179,7 @@ public class Cars extends BaseModel{
             Log.d("normal opposite", this.normal + " " + p);
             return true;
         }
-        Log.d("normal unopposite", this.normal + " " + p);
+        Log.d("normal not opposite", this.normal + " " + p);
         return false;
     }
 }
