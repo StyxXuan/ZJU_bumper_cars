@@ -49,7 +49,7 @@ public class Particle extends BaseModel {
     public void draw() {
         MatrixState.pushMatrix();
         MatrixState.translate((float)pos.x, (float)pos.y, (float)pos.z);
-        MatrixState.scale(5, 5, 5);
+        MatrixState.scale(1, 1, 1);
         for(glBasicObj obj:objs){
             obj.drawSelf();
         }

@@ -46,7 +46,7 @@ public class SkyBox extends BaseModel{
     public void draw() {
         Log.d("draw", "sky_box");
         MatrixState.pushMatrix();
-        MatrixState.scale(2.5f,2.5f,2.5f);
+        MatrixState.scale(5f,5f,5f);
 //        MatrixState.translate(0, 10, 0);
         for(glBasicObj obj:objs){
             obj.drawSelf();

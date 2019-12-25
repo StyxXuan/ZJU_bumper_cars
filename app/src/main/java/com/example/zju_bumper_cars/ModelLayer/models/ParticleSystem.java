@@ -24,7 +24,7 @@ public class ParticleSystem {
         inUse = false;
         initParticles();
         readyToDraw = false;
-        LifeTime = 50;
+        LifeTime = 100;
     }
 
 
@@ -39,7 +39,7 @@ public class ParticleSystem {
             particles.get(i).setPos(pos);
             particles.get(i).setNormal(normal);
         }
-        LifeTime = 50;
+        LifeTime = 100;
         readyToDraw = true;
     }
 
@@ -48,24 +48,23 @@ public class ParticleSystem {
         this.FileName = FileName;
         this.pos = pos;
         this.normal = normal;
-        inUse = true;
-        particles = new ArrayList<>();
+        inUse = false;
+        readyToDraw = false;
         initParticles();
-        LifeTime = 50;
+        LifeTime = 100;
     }
 
     public void initParticles(){
         Log.d("draw", "inUse initParticles");
+        particles = new ArrayList<>();
         if(particles.size()==0){
-            for(int i=0; i<30; i++){
+            for(int i=0; i<100; i++){
                 particles.add(new Particle(mySurfaceView, pos, normal, normal));
             }
         }
-        readyToDraw = true;
     }
 
     public void drawSelf(){
-        LifeTime--;
         if(!inUse | !readyToDraw) {
             Log.d("draw", "but not inUse");
             return;
@@ -75,9 +74,9 @@ public class ParticleSystem {
             Log.d("draw", "inUse Pos " + particles.get(0).pos.x + " "+particles.get(0).pos.y + " " + particles.get(0).pos.z);
         }
 
-
+        LifeTime--;
         for(Particle particle : particles){
-            vec randVec = new vec(Math.random(), Math.random(), Math.random());
+            vec randVec = new vec(Math.random()*0.8, 0.1, Math.random()*0.8);
             double randNum = Math.random() / 50;
             particle.draw();
             particle.setPos(particle.getPos().add(normal.mul(randNum)));

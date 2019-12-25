@@ -11,7 +11,8 @@ public class AI_controler {
         vec Direc = car.pos.sub(ModelGroup.Player.pos);
         Direc.standardize();
         if(car.normal.dot(Direc).sum() >= 0.8){
-            car.goStraight();
+            for(int i=0; i<10; i++)
+                car.goStraight();
         }else{
             car.goLeft();
         }

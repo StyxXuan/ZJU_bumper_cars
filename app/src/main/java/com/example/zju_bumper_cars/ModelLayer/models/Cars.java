@@ -29,6 +29,7 @@ public class Cars extends BaseModel{
     public boolean RunState;
     public boolean onCollision;
     public boolean isPlayer;
+    public boolean reBirth;
     public Cars(MySurfaceView mySurfaceView){
         List<ObjLoaderUtil.ObjData> mObjList = new ArrayList<>();
         try {
@@ -46,6 +47,7 @@ public class Cars extends BaseModel{
         canMove = true;
         onCollision = false;
         isPlayer = false;
+        reBirth = false;
     }
 
     public Cars(MySurfaceView mySurfaceView, vec position, vec direction){
@@ -65,6 +67,7 @@ public class Cars extends BaseModel{
         canMove = true;
         onCollision = false;
         isPlayer = false;
+        reBirth = false;
     }
 
     void setPlayer(){
@@ -124,8 +127,23 @@ public class Cars extends BaseModel{
                         Cars.this.canMove = outfBound;
                         Cars.this.isLive = outfBound;
                     }else if(!canMove && !isLive){
-                        rotateDown();
+                        for(int i=0; i<100; i++)
+                            rotateDown();
+                        reBirth = true;
+                        isLive = true;
+                        direction = new vec(270, 0, 0);
+                        pos = new vec(0, 50, 0);
+                        Velocity = new vec(0, 0, 0);
                     }
+                    if(isLive && reBirth){
+                        if(pos.y > 0)
+                            pos.y -= 0.1;
+                        else{
+                            reBirth = false;
+                            canMove = true;
+                        }
+                    }
+
                     try {
                         Thread.sleep(10);
                     } catch (InterruptedException e) {
