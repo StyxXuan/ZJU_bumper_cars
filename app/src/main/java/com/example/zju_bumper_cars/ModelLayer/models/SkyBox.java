@@ -13,7 +13,7 @@ import java.util.List;
 
 public class SkyBox extends BaseModel{
 
-    private static String ObjPath = "wall.obj";
+    private static String ObjPath = "sky.obj";
     private List<glBasicObj> objs;
 
     public SkyBox(MySurfaceView mySurfaceView){
