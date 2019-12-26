@@ -21,12 +21,12 @@ import com.example.zju_bumper_cars.config.Constant;
 import com.example.zju_bumper_cars.R;
 import com.example.zju_bumper_cars.config.glConfig;
 import com.example.zju_bumper_cars.utils.MatrixState;
-import com.plattysoft.leonids.ParticleSystem;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 import static com.example.zju_bumper_cars.ModelLayer.ModelGroup.ParticleSystemReady;
+import static com.example.zju_bumper_cars.ModelLayer.ModelGroup.initDown;
 import static com.example.zju_bumper_cars.ModelLayer.ModelGroup.initModel;
 
 public class MySurfaceView extends GLSurfaceView {
@@ -142,15 +142,15 @@ public class MySurfaceView extends GLSurfaceView {
         switch (e.getAction()) {
             case MotionEvent.ACTION_MOVE:
                 if(mPreviousY - y >= 10){
-                    glConfig.LIGHT_POS_Y++;
+                    glConfig.distance++;
                 }else if(mPreviousY - y <= -10){
-                    glConfig.LIGHT_POS_Y--;
+                    glConfig.distance--;
                 }
 
                 if(mPreviousX - x >= 10){
-                    glConfig.LIGHT_POS_X++;
+                    glConfig.angle++;
                 }else if(mPreviousX - x <= -10){
-                    glConfig.LIGHT_POS_X--;
+                    glConfig.angle--;
                 }
 
             this.requestRender();//重绘画面
@@ -197,11 +197,13 @@ public class MySurfaceView extends GLSurfaceView {
         ModelGroup.draw(this);
         MatrixState.popMatrix();
 
-        if(glConfig.distance > -70){
-            glConfig.distance -= 1;
-        }else{
-            ParticleSystemReady = true;
+        if(!ParticleSystemReady){
+            if(glConfig.distance > -70){
+                glConfig.distance -= 1;
+            }else{
+                ParticleSystemReady = true;
+                initDown = true;
+            }
         }
-
     }
 }

@@ -1,31 +1,19 @@
 package com.example.zju_bumper_cars;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.AccelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 
-import com.example.zju_bumper_cars.ControlLayer.controlers.AI_controler;
 import com.example.zju_bumper_cars.ControlLayer.controlers.player_controler;
-import com.example.zju_bumper_cars.ModelLayer.ModelGroup;
-import com.example.zju_bumper_cars.ModelLayer.models.Cars;
 import com.example.zju_bumper_cars.ViewLayer.MySurfaceView;
-import com.example.zju_bumper_cars.config.glConfig;
-import com.plattysoft.leonids.ParticleSystem;
-
-import java.text.SimpleDateFormat;
 
 public class MainActivity extends Activity {
     public static float WIDTH;
@@ -39,6 +27,7 @@ public class MainActivity extends Activity {
     boolean LeftPress = false;
     boolean RightPress = false;
     boolean GameStart = false;
+    private Intent intent;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -62,24 +51,30 @@ public class MainActivity extends Activity {
         //设置为横屏模式
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
+        intent = new Intent(MainActivity.this, MyIntentService.class);
+        String action = MyIntentService.ACTION_MUSIC;
+        // 设置action
+        intent.setAction(action);
+        startService(intent);
+
         mview = new MySurfaceView(this);
         mview = (MySurfaceView) findViewById(R.id.glscen);
         GameStart = true;
         initBtn();
         mview.requestFocus();//获取焦点
         mview.setFocusableInTouchMode(true);//设置为可触控
-        handler=new Handler(){
-            @Override
-            public void handleMessage(Message msg) {
-                Log.d("collision", "particle sys start");
-                ParticleSystem ps = new ParticleSystem(MainActivity.this, 100, R.drawable.star_pink, 800);
-                ps.setScaleRange(0.7f, 1.3f);
-                ps.setSpeedRange(0.1f, 0.25f);
-                ps.setRotationSpeedRange(90, 180);
-                ps.setFadeOut(200, new AccelerateInterpolator());
-                ps.emit(glConfig.COLLISTION_X, glConfig.COLLISTION_Y, 200, 200);
-            }
-        };
+//        handler=new Handler(){
+//            @Override
+//            public void handleMessage(Message msg) {
+//                Log.d("collision", "particle sys start");
+//                ParticleSystem ps = new ParticleSystem(MainActivity.this, 100, R.drawable.star_pink, 800);
+//                ps.setScaleRange(0.7f, 1.3f);
+//                ps.setSpeedRange(0.1f, 0.25f);
+//                ps.setRotationSpeedRange(90, 180);
+//                ps.setFadeOut(200, new AccelerateInterpolator());
+//                ps.emit(glConfig.COLLISTION_X, glConfig.COLLISTION_Y, 200, 200);
+//            }
+//        };
 
     }
     @Override
@@ -91,7 +86,16 @@ public class MainActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
+        
         mview.onPause();
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (intent != null){
+            // 对于intentService，这一步可能是多余的
+            stopService(intent);
+        }
     }
 
     public void initBtn(){
@@ -210,36 +214,40 @@ public class MainActivity extends Activity {
 //            }
 //        });
 
-        new Thread(){
-            @Override
-            public void run() {
-                super.run();
-                while(true){
-                    if(ModelGroup.CollisionHapen){
-                        for(Cars car:ModelGroup.ALLPlayer){
-                            if (car.onCollision){
-                                car.onCollision = false;
-                                glConfig.COLLISTION_X = (int)car.pos.x + 100;
-                                glConfig.COLLISTION_Y = -(int)car.pos.y + 100;
-//                                glConfig.COLLISTION_X /= WIDTH;
-//                                glConfig.COLLISTION_Y /= HEIGHT;
-                                handler.sendEmptyMessage(0);
-                                try {
-                                    Thread.sleep(10);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-                        ModelGroup.CollisionHapen = false;
-                    }
-                    if(glConfig.LIGHT_POS_X <= -360 | glConfig.LIGHT_POS_X >= 360){
-                        glConfig.LIGHT_DISPLACEMENT = -glConfig.LIGHT_DISPLACEMENT;
-                    }
-                    glConfig.LIGHT_POS_X += glConfig.LIGHT_DISPLACEMENT;
-                }
-            }
-        }.start();
+//        new Thread(){
+//            @Override
+//            public void run() {
+//                super.run();
+//                while(true){
+//                    if(ModelGroup.CollisionHapen){
+//                        for(Cars car:ModelGroup.ALLPlayer){
+//                            if (car.onCollision){
+//                                car.onCollision = false;
+//                                glConfig.COLLISTION_X = (int)car.pos.x;
+//                                glConfig.COLLISTION_Y = (int)car.pos.y;
+////                                glConfig.COLLISTION_X /= WIDTH;
+////                                glConfig.COLLISTION_Y /= HEIGHT;
+//                                handler.sendEmptyMessage(0);
+//                                try {
+//                                    Thread.sleep(10);
+//                                } catch (InterruptedException e) {
+//                                    e.printStackTrace();
+//                                }
+//                            }
+//                        }
+//                        ModelGroup.CollisionHapen = false;
+//                    }
+//                    if(glConfig.LIGHT_POS_X <= -360 | glConfig.LIGHT_POS_X >= 360){
+//                        glConfig.LIGHT_DISPLACEMENT = -glConfig.LIGHT_DISPLACEMENT;
+//                    }
+//                    glConfig.LIGHT_POS_X += glConfig.LIGHT_DISPLACEMENT;
+//                    try {
+//                        Thread.sleep(10);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        }.start();
     }
-
 }

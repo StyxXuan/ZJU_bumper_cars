@@ -197,4 +197,7 @@ public class glTextureObj extends glBasicObj {
         GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vCount);
     }
 
+    public void subAlph(){
+        mAlpha--;
+    }
 }

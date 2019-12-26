@@ -1,7 +1,6 @@
 package com.example.zju_bumper_cars.ControlLayer.controlers;
 
 import com.example.zju_bumper_cars.ModelLayer.ModelGroup;
-import com.example.zju_bumper_cars.ModelLayer.models.test_obj;
 
 public class player_controler {
 

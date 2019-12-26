@@ -2,8 +2,11 @@ package com.example.zju_bumper_cars.ModelLayer.models;
 
 
 
+import android.media.midi.MidiOutputPort;
 import android.util.Log;
 
+import com.example.zju_bumper_cars.ControlLayer.controlers.AI_controler;
+import com.example.zju_bumper_cars.ControlLayer.controlers.Judger;
 import com.example.zju_bumper_cars.IOLayer.Obj.ObjLoaderUtil;
 import com.example.zju_bumper_cars.ModelLayer.ModelGroup;
 import com.example.zju_bumper_cars.ViewLayer.MySurfaceView;
@@ -21,10 +24,12 @@ public class Cars extends BaseModel{
     private static float scale = 3;
     public boolean isLive;
     public boolean canMove;
-    public static vec bouningBox = new vec(1.565f*scale, 3.863f*scale, 1.093f*scale);
+    public static vec bouningBox = new vec(3.863f*scale, 1.565f*scale, 1.093f*scale*1.5);
     private List<glBasicObj> objs;
     public boolean RunState;
     public boolean onCollision;
+    public boolean isPlayer;
+    public boolean reBirth;
     public Cars(MySurfaceView mySurfaceView){
         List<ObjLoaderUtil.ObjData> mObjList = new ArrayList<>();
         try {
@@ -41,6 +46,8 @@ public class Cars extends BaseModel{
         RunState = false;
         canMove = true;
         onCollision = false;
+        isPlayer = false;
+        reBirth = false;
     }
 
     public Cars(MySurfaceView mySurfaceView, vec position, vec direction){
@@ -59,6 +66,12 @@ public class Cars extends BaseModel{
         RunState = false;
         canMove = true;
         onCollision = false;
+        isPlayer = false;
+        reBirth = false;
+    }
+
+    void setPlayer(){
+        isPlayer = true;
     }
 
     public void goBack(){
@@ -89,22 +102,71 @@ public class Cars extends BaseModel{
             public void run() {
                 super.run();
                 while(true){
-                    if(RunState) {
+                    if(!ModelGroup.initDown) {
+                        try {
+                            Thread.sleep(100);
+                            continue;
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    if(!isPlayer){
+                        AI_controler.attack(Cars.this);
+                    }
+                    if(RunState && canMove) {
                         Log.d("state", "RunState is true");
                         Log.d("state", ""+ Math.abs(Velocity.sum()));
                         pos = pos.add(Velocity.mul(0.01f));
-                        Velocity = Velocity.sub(Velocity.mul(0.01f));
-                        test_obj.detectBorder(ModelGroup.Player);
+                        Velocity = Velocity.sub(Velocity.mul(0.05f));
                         if (Math.abs(Velocity.AbsSum()) < 0.01) {
                             Velocity = new vec(0, 0, 0);
                             RunState = false;
                         }
+                        Boolean outfBound = Judger.detectBorder(Cars.this);
+                        Cars.this.canMove = outfBound;
+                        Cars.this.isLive = outfBound;
+                    }else if(!canMove && !isLive){
+                        for(int i=0; i<100; i++)
+                            rotateDown();
+                        reBirth = true;
+                        isLive = true;
+                        direction = new vec(270, 0, 0);
+                        pos = new vec(0, 10, 0);
+                        Velocity = new vec(0, 0, 0);
+                    }
+                    if(isLive && reBirth){
+                        if(pos.y > -17.5)
+                            pos.y -= 0.1;
+                        else{
+                            reBirth = false;
+                            canMove = true;
+                        }
+                    }
+
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
                 }
+
             }
         }.start();
     }
 
+    private void rotateDown(){
+        int dis = -1;
+        if(pos.z < -4)
+            dis = 1;
+
+        for(int i=0; i<10; i++)
+            direction.x += dis;
+
+        direction.x += dis;
+        pos.y -= 1;
+        pos.add(getVelocity().mul(0.001f));
+    }
     public void addParticleSys(){
         new Thread(){
             @Override
@@ -154,6 +216,8 @@ public class Cars extends BaseModel{
         res &= Math.abs(b.x) <= (Cars.bouningBox.x / 2);
         res &= Math.abs(b.y) <= (Cars.bouningBox.y / 2);
         res &= Math.abs(b.z) <= (Cars.bouningBox.z / 2);
+//        vec b = this.pos.sub(a);
+
         return res;
     }
 
@@ -177,10 +241,10 @@ public class Cars extends BaseModel{
     public Boolean AimAt(vec p){
 
         if(this.normal.opposite(p)){
-//            Log.d("normal opposite", this.normal + " " + p);
+            Log.d("normal opposite", this.normal + " " + p);
             return true;
         }
-//        Log.d("normal not opposite", this.normal + " " + p);
+        Log.d("normal not opposite", this.normal + " " + p);
         return false;
     }
 }
