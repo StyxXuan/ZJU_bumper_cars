@@ -45,8 +45,8 @@ public class ModelGroup {
         test_obj obj = new test_obj(surfaceView, new vec(0, -27, 0), new vec(0, 0, 0), new vec(0, 0, 0));
         ALLPlayer.add(Player);
         ALLPlayer.add(car1);
-        ALLPlayer.add(car2);
-        ALLPlayer.add(car3);
+//        ALLPlayer.add(car2);
+//        ALLPlayer.add(car3);
         modelGroup.addAll(ALLPlayer);
         modelGroup.add(obj);
         modelGroup.add(skyBox);
@@ -77,17 +77,17 @@ public class ModelGroup {
             model.draw();
         }
 
-        if(ParticleSystemReady){
-            for(ParticleSystem system:particleSystems){
-                if(system.inUse && system.readyToDraw){
-                    system.drawSelf();
-                    if(system.LifeTime <= 0){
-                        system.inUse = false;
-                        system.readyToDraw = false;
-                    }
-                }
-            }
-        }
+//        if(ParticleSystemReady){
+//            for(ParticleSystem system:particleSystems){
+//                if(system.inUse && system.readyToDraw){
+//                    system.drawSelf();
+//                    if(system.LifeTime <= 0){
+//                        system.inUse = false;
+//                        system.readyToDraw = false;
+//                    }
+//                }
+//            }
+//        }
 
         MatrixState.popMatrix();
         surfaceView.requestRender();
@@ -114,8 +114,14 @@ public class ModelGroup {
                     vec v = new vec(car.Velocity);
                     car.Velocity = toDetect.Velocity;
                     toDetect.Velocity = v;
-                    car.pos.add(car.getVelocity().mul(0.05));
-                    toDetect.pos.add(toDetect.getVelocity().mul(0.05));
+                    car.pos.add(car.normal.mul(5));
+                    car.pos.add(car.getVelocity().mul(30));
+                    toDetect.pos.add(toDetect.normal.mul(30));
+//                    vec bounce_direction = car.pos.sub(toDetect.pos);
+//                    bounce_direction.standardize();
+//                    car.pos.add(bounce_direction.mul(50));
+//                    toDetect.pos.add(bounce_direction.mul(-50));
+
                     toDetect.addParticleSys();
                     toDetect.RunState = true;
                     car.RunState = true;

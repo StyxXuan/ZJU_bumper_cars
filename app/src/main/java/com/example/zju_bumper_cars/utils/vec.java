@@ -27,6 +27,12 @@ public class vec {
         this.z = pos[2];
     }
 
+    public void standardizeXZ(){
+        double mid = Math.sqrt(x*x + y*y);
+        x = x/mid;
+        y = y/mid;
+    }
+
     public double sum(){
         return x+y+z;
     }
@@ -49,6 +55,12 @@ public class vec {
 
     public vec dot(vec p){
         return new vec(this.x * p.x, this.y * p.y, this.z * p.z);
+    }
+
+    public vec getNormal(){
+        vec newVec = new vec(this);
+        newVec.standardizeXZ();
+        return newVec;
     }
 
     public vec add(vec p){

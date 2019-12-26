@@ -58,7 +58,7 @@ public class ParticleSystem {
         Log.d("draw", "inUse initParticles");
         particles = new ArrayList<>();
         if(particles.size()==0){
-            for(int i=0; i<100; i++){
+            for(int i=0; i<30; i++){
                 particles.add(new Particle(mySurfaceView, pos, normal, normal));
             }
         }
