@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.example.zju_bumper_cars.ControlLayer.controlers.player_controler;
+import com.example.zju_bumper_cars.ModelLayer.ModelGroup;
 import com.example.zju_bumper_cars.ViewLayer.MySurfaceView;
 
 public class MainActivity extends Activity {
@@ -20,13 +21,14 @@ public class MainActivity extends Activity {
     public static float HEIGHT;
     Handler handler;
     MySurfaceView mview;
-    ImageButton BtnUp, BtnDown, BtnLeft, BtnRight;
+    ImageButton BtnUp, BtnDown, BtnLeft, BtnRight, BtnState;
     public static Button BtnCollision;
     boolean DownPress = false;
     boolean UpPress = false;
     boolean LeftPress = false;
     boolean RightPress = false;
     boolean GameStart = false;
+    boolean GamePause = false;
     private Intent intent;
 
     @Override
@@ -86,7 +88,6 @@ public class MainActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-        
         mview.onPause();
     }
     @Override
@@ -104,6 +105,8 @@ public class MainActivity extends Activity {
         BtnLeft = findViewById(R.id.btn_left);
         BtnRight = findViewById(R.id.btn_right);
         BtnCollision = findViewById(R.id.btn_collision);
+        BtnState = findViewById(R.id.btn_state);
+        BtnState.setBackground(getResources().getDrawable(R.mipmap.pause));
 
         BtnDown.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -202,6 +205,21 @@ public class MainActivity extends Activity {
             }
         });
 
+        BtnState.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View view) {
+                if(!GamePause){
+                    ModelGroup.setGameState(GamePause);
+                    GamePause = true;
+                    BtnState.setBackground(getResources().getDrawable(R.mipmap.pause));
+                }
+                else{
+                    ModelGroup.setGameState(GamePause);
+                    GamePause = false;
+                    BtnState.setBackground(getResources().getDrawable(R.mipmap.start));
+                }
+            }
+        });
 //        BtnCollision.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {

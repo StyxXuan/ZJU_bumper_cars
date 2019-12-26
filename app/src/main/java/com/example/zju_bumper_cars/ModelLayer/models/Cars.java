@@ -238,6 +238,7 @@ public class Cars extends BaseModel{
     public void setRunState(Boolean state){
         this.RunState = state;
     }
+    public void setCanMove(Boolean state){this.canMove = state;}
     public Boolean AimAt(vec p){
 
         if(this.normal.opposite(p)){

@@ -21,6 +21,7 @@ import com.example.zju_bumper_cars.utils.MatrixState;
 import com.example.zju_bumper_cars.utils.vec;
 //import com.plattysoft.leonids.ParticleSystem;
 
+import java.security.AllPermission;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,6 +92,11 @@ public class ModelGroup {
 
         MatrixState.popMatrix();
         surfaceView.requestRender();
+    }
+
+    public static void setGameState(boolean state){
+        for(Cars c : ALLPlayer)
+            c.setCanMove(state);
     }
 
     public static void addParticleSystem(Cars cars){
