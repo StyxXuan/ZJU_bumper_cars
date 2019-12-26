@@ -25,6 +25,9 @@ public class glConfig {
     public static int COLLISTION_X = 0;
     public static int COLLISTION_Y = 0;
     public static int COLLISTION_Z = 0;
+    public static float rotateX = 0.0f;
+    public static float rotateY = 0.0f;
+    public static float rotateZ = 0.0f;
     public static float angle = 90;
     public static float distance = 0;
     public static double LIGHT_DISPLACEMENT = 0.00005;

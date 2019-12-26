@@ -1,10 +1,16 @@
 package com.example.zju_bumper_cars;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -13,6 +19,7 @@ import android.widget.ImageButton;
 
 import com.example.zju_bumper_cars.ControlLayer.controlers.player_controler;
 import com.example.zju_bumper_cars.ViewLayer.MySurfaceView;
+import com.example.zju_bumper_cars.config.glConfig;
 
 public class MainActivity extends Activity {
     public static float WIDTH;
@@ -26,6 +33,8 @@ public class MainActivity extends Activity {
     boolean LeftPress = false;
     boolean RightPress = false;
     boolean GameStart = false;
+    private SensorManager mSensorManager;
+    private Sensor mSensor;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -55,6 +64,9 @@ public class MainActivity extends Activity {
         initBtn();
         mview.requestFocus();//获取焦点
         mview.setFocusableInTouchMode(true);//设置为可触控
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+        mSensorManager.registerListener(mSensorEventListener, mSensor, SensorManager.SENSOR_DELAY_GAME);
 //        handler=new Handler(){
 //            @Override
 //            public void handleMessage(Message msg) {
@@ -73,13 +85,80 @@ public class MainActivity extends Activity {
     protected void onResume() {
         super.onResume();
         mview.onResume();
+        mSensorManager.registerListener(mSensorEventListener, mSensor, SensorManager.SENSOR_DELAY_GAME);
+
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         mview.onPause();
+        mSensorManager.unregisterListener(mSensorEventListener);
+
     }
+
+    private float timestamp = 0;
+    private float angle[] = new float[3];
+    private static final float NS2S = 1.0f / 1000000000.0f;
+    private float gx = 0,gy = 0,gz = 0;
+    private SensorEventListener mSensorEventListener = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent sensorEvent) {
+            if (sensorEvent.accuracy != 0) {
+                int type = sensorEvent.sensor.getType();
+                switch (type) {
+                    case Sensor.TYPE_GYROSCOPE:
+                        if (timestamp != 0) {
+                            final float dT = (sensorEvent.timestamp - timestamp) * NS2S;
+                            angle[0] += sensorEvent.values[0] * dT;
+                            angle[1] += sensorEvent.values[1] * dT;
+                            angle[2] += sensorEvent.values[2] * dT;
+
+                            float anglex = (float) Math.toDegrees(angle[0]);
+                            float angley = (float) Math.toDegrees(angle[1]);
+                            float anglez = (float) Math.toDegrees(angle[2]);
+
+                            if (gx != 0) {
+                                float c = gx - anglex;
+                                if (Math.abs(c) >= 0.5) {
+                                    Log.d("event_listener", "anglex------------>" + (gx - anglex));
+                                    gx = anglex;
+                                    glConfig.rotateZ = gx;
+                                }
+
+                            } else {
+                                gx = anglex;
+                            }
+                            if (gy != 0) {
+                                float c = gy - angley;
+                                if (Math.abs(c) >= 0.5) {
+                                    Log.d("event_listener", "anglex------------>" + (gy - angley));
+                                    gy = angley;
+                                    glConfig.rotateZ = gy;
+                                }
+                            } else {
+                                gy = angley;
+                            }
+                            if(gz != 0){
+                                Log.d("event_listener", "anglex------------>" + (gz - anglez));
+                                glConfig.rotateZ = gz + 180;
+                            }
+
+
+                            gz = anglez;
+
+                        }
+                        timestamp = sensorEvent.timestamp;
+                        break;
+                }
+            }
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int i) {
+
+        }
+    };
 
     public void initBtn(){
         BtnDown = findViewById(R.id.btn_down);
@@ -184,6 +263,7 @@ public class MainActivity extends Activity {
                 return false;
             }
         });
+
 
 //        BtnCollision.setOnClickListener(new View.OnClickListener() {
 //            @Override

@@ -72,6 +72,9 @@ public class ModelGroup {
 
         MatrixState.setLightLocation(glConfig.LIGHT_POS_X, glConfig.LIGHT_POS_Y, glConfig.LIGHT_POS_Z);
 
+        MatrixState.rotate(glConfig.rotateZ, 0, 0,1);
+        MatrixState.rotate(glConfig.rotateY, 0, 1,0);
+        MatrixState.rotate(glConfig.rotateX, 1, 0,0);
         MatrixState.translate(0, 0, -10);
         for(BaseModel model:modelGroup){
             model.draw();
