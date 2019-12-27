@@ -2,6 +2,7 @@ package com.example.zju_bumper_cars;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -18,6 +19,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.example.zju_bumper_cars.ControlLayer.controlers.player_controler;
+import com.example.zju_bumper_cars.ModelLayer.ModelGroup;
 import com.example.zju_bumper_cars.ViewLayer.MySurfaceView;
 import com.example.zju_bumper_cars.config.glConfig;
 
@@ -26,15 +28,18 @@ public class MainActivity extends Activity {
     public static float HEIGHT;
     Handler handler;
     MySurfaceView mview;
-    ImageButton BtnUp, BtnDown, BtnLeft, BtnRight;
+    ImageButton BtnUp, BtnDown, BtnLeft, BtnRight, BtnState;
     public static Button BtnCollision;
     boolean DownPress = false;
     boolean UpPress = false;
     boolean LeftPress = false;
     boolean RightPress = false;
     boolean GameStart = false;
+    boolean GamePause = false;
     private SensorManager mSensorManager;
     private Sensor mSensor;
+    private Intent intent;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -57,6 +62,12 @@ public class MainActivity extends Activity {
         }
         //设置为横屏模式
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+        intent = new Intent(MainActivity.this, MyIntentService.class);
+        String action = MyIntentService.ACTION_MUSIC;
+        // 设置action
+        intent.setAction(action);
+        startService(intent);
 
         mview = new MySurfaceView(this);
         mview = (MySurfaceView) findViewById(R.id.glscen);
@@ -95,6 +106,22 @@ public class MainActivity extends Activity {
         mview.onPause();
         mSensorManager.unregisterListener(mSensorEventListener);
 
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mSensorManager.unregisterListener(mSensorEventListener);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (intent != null){
+            // 对于intentService，这一步可能是多余的
+            stopService(intent);
+        }
     }
 
     private float timestamp = 0;
@@ -166,6 +193,8 @@ public class MainActivity extends Activity {
         BtnLeft = findViewById(R.id.btn_left);
         BtnRight = findViewById(R.id.btn_right);
         BtnCollision = findViewById(R.id.btn_collision);
+        BtnState = findViewById(R.id.btn_state);
+        BtnState.setBackground(getResources().getDrawable(R.mipmap.pause));
 
         BtnDown.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -264,7 +293,21 @@ public class MainActivity extends Activity {
             }
         });
 
-
+        BtnState.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View view) {
+                if(!GamePause){
+                    ModelGroup.setGameState(GamePause);
+                    GamePause = true;
+                    BtnState.setBackground(getResources().getDrawable(R.mipmap.pause));
+                }
+                else{
+                    ModelGroup.setGameState(GamePause);
+                    GamePause = false;
+                    BtnState.setBackground(getResources().getDrawable(R.mipmap.start));
+                }
+            }
+        });
 //        BtnCollision.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {

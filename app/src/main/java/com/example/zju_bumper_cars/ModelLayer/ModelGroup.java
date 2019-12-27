@@ -60,6 +60,11 @@ public class ModelGroup {
         modelGroup.add(obj);
     }
 
+    public static void setGameState(boolean state){
+        for(Cars c : ALLPlayer)
+            c.setCanMove(state);
+    }
+
     public static void initModel(MySurfaceView surfaceView){
         modelGroup = new ArrayList<>();
         ALLPlayer = new ArrayList<>();

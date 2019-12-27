@@ -114,6 +114,8 @@ public class Cars extends BaseModel{
         isPlayer = true;
     }
 
+    public void setCanMove(Boolean state){this.canMove = state;}
+
     public void goBack(){
         Velocity = Velocity.add(normal.mul(0.1f));
         RunState = true;
