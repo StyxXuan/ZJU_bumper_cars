@@ -214,7 +214,7 @@ public class Cars extends BaseModel{
                         reBirth = true;
                         isLive = true;
                         direction = new vec(270, 0, 0);
-                        pos = new vec((Math.random()-0.5)*40, -17.5, (Math.random()-0.5)*40);
+                        pos = new vec((Math.random()-0.5)*40, 0, (Math.random()-0.5)*40);
                         Velocity = new vec(0, 0, 0);
                         normal = new vec(Math.cos(Math.toRadians(90-direction.y)), 0, Math.sin(Math.toRadians(90-direction.y)));
                     }
