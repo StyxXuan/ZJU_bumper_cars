@@ -202,7 +202,7 @@ public class Cars extends BaseModel{
                         Cars.this.isLive = outfBound;
                     }else if(!canMove && !isLive){
                         FallingTime = 0;
-                        for(int i=0; i<1000; i++){
+                        for(int i=0; i<200; i++){
                             rotateDown();
                             try {
                                 Thread.sleep(10);
@@ -241,8 +241,10 @@ public class Cars extends BaseModel{
     private void rotateDown(){
         vec v = new vec(Velocity);
         v.setY(0);
+
         pos = pos.add(v.mul(0.01f));
-        pos.setY(pos.y - 100 * (FallingTime*FallingTime));
+        pos.setY(pos.y - 0.0001 * (FallingTime*FallingTime));
+        FallingTime++;
     }
     public void addParticleSys(){
         new Thread(){
