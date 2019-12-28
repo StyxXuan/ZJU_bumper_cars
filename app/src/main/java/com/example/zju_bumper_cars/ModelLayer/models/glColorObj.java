@@ -7,6 +7,7 @@ import android.opengl.GLES20;
 import com.example.zju_bumper_cars.ViewLayer.MySurfaceView;
 import com.example.zju_bumper_cars.utils.MatrixState;
 import com.example.zju_bumper_cars.utils.ShaderUtil;
+import com.google.vr.sdk.base.GvrView;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -39,6 +40,13 @@ public class glColorObj extends glBasicObj{
      *
      */
     public glColorObj(MySurfaceView scene, float[] vertices, float[] normals, int diffuseColor, float alpha) {
+        //初始化顶点坐标与着色数据
+        initVertexData(vertices, normals, diffuseColor, alpha);
+        //初始化shader
+        initShader(scene.getResources());
+    }
+
+    public glColorObj(GvrView scene, float[] vertices, float[] normals, int diffuseColor, float alpha) {
         //初始化顶点坐标与着色数据
         initVertexData(vertices, normals, diffuseColor, alpha);
         //初始化shader

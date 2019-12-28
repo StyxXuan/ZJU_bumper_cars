@@ -19,6 +19,7 @@ import com.example.zju_bumper_cars.ViewLayer.MySurfaceView;
 import com.example.zju_bumper_cars.config.glConfig;
 import com.example.zju_bumper_cars.utils.MatrixState;
 import com.example.zju_bumper_cars.utils.vec;
+import com.google.vr.sdk.base.GvrView;
 //import com.plattysoft.leonids.ParticleSystem;
 
 import java.util.ArrayList;
@@ -36,11 +37,11 @@ public class ModelGroup {
     public static boolean initDown = false;
 
     public static void initData(MySurfaceView surfaceView){
-        Player = new Cars(surfaceView, new vec(-10, 0, 10), new vec(270, 0, 0));
+        Player = new Cars(surfaceView, new vec(-10, -17.5, 10), new vec(270, 0, 0));
         Player.isPlayer = true;
-        Cars car1 = new Cars(surfaceView, new vec(10, 0, 10), new vec(270, 0, 0));
-        Cars car2 = new Cars(surfaceView, new vec(10, 0, -10), new vec(270, 0, 0));
-        Cars car3 = new Cars(surfaceView, new vec(-10, 0, -10), new vec(270, 0, 0));
+        Cars car1 = new Cars(surfaceView, new vec(10, -17.5, 10), new vec(270, 0, 0));
+        Cars car2 = new Cars(surfaceView, new vec(10, -17.5, -10), new vec(270, 0, 0));
+        Cars car3 = new Cars(surfaceView, new vec(-10, -17.5, -10), new vec(270, 0, 0));
         skyBox = new SkyBox(surfaceView);
         test_obj obj = new test_obj(surfaceView, new vec(0, -27, 0), new vec(0, 0, 0), new vec(0, 0, 0));
         ALLPlayer.add(Player);
@@ -60,12 +61,27 @@ public class ModelGroup {
         modelGroup.add(obj);
     }
 
+    public static void initData(GvrView surfaceView){
+        Player = new Cars(surfaceView, new vec(-10, -17.5, 10), new vec(270, 0, 0));
+        skyBox = new SkyBox(surfaceView);
+        ALLPlayer.add(Player);
+        modelGroup.addAll(ALLPlayer);
+        modelGroup.add(skyBox);
+    }
+
     public static void setGameState(boolean state){
         for(Cars c : ALLPlayer)
             c.setCanMove(state);
     }
 
     public static void initModel(MySurfaceView surfaceView){
+        modelGroup = new ArrayList<>();
+        ALLPlayer = new ArrayList<>();
+        particleSystems = new ArrayList<>();
+        initData(surfaceView);
+    }
+
+    public static void initModel(GvrView surfaceView){
         modelGroup = new ArrayList<>();
         ALLPlayer = new ArrayList<>();
         particleSystems = new ArrayList<>();
@@ -101,6 +117,7 @@ public class ModelGroup {
         surfaceView.requestRender();
     }
 
+
     public static void addParticleSystem(Cars cars){
         for(ParticleSystem system : particleSystems){
             if(!system.inUse){
@@ -125,10 +142,10 @@ public class ModelGroup {
                     car.pos.add(car.normal.mul(5));
                     car.pos.add(car.getVelocity().mul(30));
                     toDetect.pos.add(toDetect.normal.mul(30));
-//                    vec bounce_direction = car.pos.sub(toDetect.pos);
-//                    bounce_direction.standardize();
-//                    car.pos.add(bounce_direction.mul(50));
-//                    toDetect.pos.add(bounce_direction.mul(-50));
+                    vec bounce_direction = car.pos.sub(toDetect.pos);
+                    bounce_direction.standardize();
+                    car.pos.add(bounce_direction.mul(50));
+                    toDetect.pos.add(bounce_direction.mul(-50));
 
                     toDetect.addParticleSys();
                     toDetect.RunState = true;

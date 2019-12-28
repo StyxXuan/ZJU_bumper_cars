@@ -22,6 +22,7 @@ import com.example.zju_bumper_cars.ControlLayer.controlers.player_controler;
 import com.example.zju_bumper_cars.ModelLayer.ModelGroup;
 import com.example.zju_bumper_cars.ViewLayer.MySurfaceView;
 import com.example.zju_bumper_cars.config.glConfig;
+import com.google.common.logging.nano.Vr;
 
 public class MainActivity extends Activity {
     public static float WIDTH;
@@ -36,8 +37,8 @@ public class MainActivity extends Activity {
     boolean RightPress = false;
     boolean GameStart = false;
     boolean GamePause = false;
-    private SensorManager mSensorManager;
-    private Sensor mSensor;
+//    private SensorManager mSensorManager;
+//    private Sensor mSensor;
     private Intent intent;
 
 
@@ -75,9 +76,9 @@ public class MainActivity extends Activity {
         initBtn();
         mview.requestFocus();//获取焦点
         mview.setFocusableInTouchMode(true);//设置为可触控
-        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
-        mSensorManager.registerListener(mSensorEventListener, mSensor, SensorManager.SENSOR_DELAY_GAME);
+//        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+//        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+//        mSensorManager.registerListener(mSensorEventListener, mSensor, SensorManager.SENSOR_DELAY_GAME);
 //        handler=new Handler(){
 //            @Override
 //            public void handleMessage(Message msg) {
@@ -96,7 +97,7 @@ public class MainActivity extends Activity {
     protected void onResume() {
         super.onResume();
         mview.onResume();
-        mSensorManager.registerListener(mSensorEventListener, mSensor, SensorManager.SENSOR_DELAY_GAME);
+//        mSensorManager.registerListener(mSensorEventListener, mSensor, SensorManager.SENSOR_DELAY_GAME);
 
     }
 
@@ -104,15 +105,14 @@ public class MainActivity extends Activity {
     protected void onPause() {
         super.onPause();
         mview.onPause();
-        mSensorManager.unregisterListener(mSensorEventListener);
+//        mSensorManager.unregisterListener(mSensorEventListener);
 
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mSensorManager.unregisterListener(mSensorEventListener);
-
+//        mSensorManager.unregisterListener(mSensorEventListener);
     }
 
     @Override
@@ -208,6 +208,11 @@ public class MainActivity extends Activity {
                             super.run();
                             while(DownPress){
                                 player_controler.goBack();
+                                try {
+                                    Thread.sleep(1);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
                     }.start();
@@ -233,6 +238,11 @@ public class MainActivity extends Activity {
                             super.run();
                             while(UpPress){
                                 player_controler.goStraght();
+                                try {
+                                    Thread.sleep(1);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
                     }.start();
@@ -257,6 +267,11 @@ public class MainActivity extends Activity {
                             super.run();
                             while(LeftPress){
                                 player_controler.ChangeDerectionLeft();
+                                try {
+                                    Thread.sleep(1);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
                     }.start();
@@ -281,7 +296,13 @@ public class MainActivity extends Activity {
                             super.run();
                             while(RightPress){
                                 player_controler.ChageDerectionRight();
+                                try {
+                                    Thread.sleep(1);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
                             }
+
                         }
                     }.start();
                 }
@@ -355,5 +376,9 @@ public class MainActivity extends Activity {
 //                }
 //            }
 //        }.start();
+    }
+
+    public void onpenSkybox(View v) {
+        startActivity(new Intent(this, VrActivity.class));
     }
 }

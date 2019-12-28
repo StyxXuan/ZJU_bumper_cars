@@ -163,8 +163,9 @@ public class MySurfaceView extends GLSurfaceView {
     @Override
     public void onResume() {
         super.onResume();
-
+        isInintFinsh = false;
     }
+
 
     public void setSceneWidthAndHeight(float mSceneWidth, float mSceneHeight) {
         this.mSceneWidth = mSceneWidth;

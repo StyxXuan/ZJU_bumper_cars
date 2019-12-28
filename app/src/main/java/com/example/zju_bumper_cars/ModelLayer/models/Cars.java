@@ -13,6 +13,7 @@ import com.example.zju_bumper_cars.ViewLayer.MySurfaceView;
 import com.example.zju_bumper_cars.utils.MatrixState;
 import com.example.zju_bumper_cars.utils.Util;
 import com.example.zju_bumper_cars.utils.vec;
+import com.google.vr.sdk.base.GvrView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,12 +25,14 @@ public class Cars extends BaseModel{
     private static float scale = 3;
     public boolean isLive;
     public boolean canMove;
+    public static float bounding_box_scale = 1.5f;
     public static vec bouningBox = new vec(1.5f, 3.6f, 0f);
     private List<glBasicObj> objs;
     public boolean RunState;
     public boolean onCollision;
     public boolean isPlayer;
     public boolean reBirth;
+    public double FallingTime;
     public List<Particle> particles;
     public Cars(MySurfaceView mySurfaceView){
         List<ObjLoaderUtil.ObjData> mObjList = new ArrayList<>();
@@ -51,6 +54,29 @@ public class Cars extends BaseModel{
         reBirth = false;
         particles = new ArrayList<>();
     }
+
+    public Cars(GvrView mySurfaceView, vec position, vec direction){
+        List<ObjLoaderUtil.ObjData> mObjList = new ArrayList<>();
+        try {
+            mObjList.addAll(ObjLoaderUtil.load(ObjPath, mySurfaceView.getResources()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        objs = Util.DatatoOBJ(mySurfaceView, mObjList);
+        this.pos = position;
+        this.direction = direction;
+        this.normal = new vec(Math.cos(Math.toRadians(90-direction.y)), 0, Math.sin(Math.toRadians(90-direction.y)));
+        Velocity = new vec(0, 0,0);
+        isLive = true;
+        RunState = false;
+        canMove = true;
+        onCollision = false;
+        isPlayer = false;
+        reBirth = false;
+        particles = new ArrayList<>();
+//        initParticles(mySurfaceView);
+    }
+
 
     public Cars(MySurfaceView mySurfaceView, vec position, vec direction){
         List<ObjLoaderUtil.ObjData> mObjList = new ArrayList<>();
@@ -77,10 +103,10 @@ public class Cars extends BaseModel{
     void initParticles(MySurfaceView mySurfaceView){
         vec b_vertical = normal.rotate(Math.toRadians(90), 0, 1, 0);
         Log.d("vertical", "" + b_vertical.x + " " + b_vertical.y + " " + b_vertical.z);
-        vec RightDownPoint = normal.mul(0.5f*Cars.bouningBox.y).add(b_vertical.mul(0.5f*Cars.bouningBox.x));
-        vec LeftDownPoint = normal.mul(-0.5f*Cars.bouningBox.y).sub(b_vertical.mul(0.5f*Cars.bouningBox.x));
-        vec LeftUpPoint = normal.mul(-0.5f*Cars.bouningBox.y).add(b_vertical.mul(0.5f*Cars.bouningBox.x));
-        vec RightUpPoint = normal.mul(0.5f*Cars.bouningBox.y).sub(b_vertical.mul(0.5f*Cars.bouningBox.x));
+        vec RightDownPoint = this.pos.add(normal.mul(1f*Cars.bouningBox.y)).add(b_vertical.mul(1f*Cars.bouningBox.x));
+        vec LeftDownPoint = this.pos.add(normal.mul(-1f*Cars.bouningBox.y)).sub(b_vertical.mul(1f*Cars.bouningBox.x));
+        vec LeftUpPoint = this.pos.add(normal.mul(-1f*Cars.bouningBox.y)).add(b_vertical.mul(1f*Cars.bouningBox.x));
+        vec RightUpPoint = this.pos.add(normal.mul(1f*Cars.bouningBox.y)).sub(b_vertical.mul(1f*Cars.bouningBox.x));
         RightDownPoint.y = 0;
         LeftDownPoint.y = 0;
         LeftUpPoint.y = 0;
@@ -96,10 +122,10 @@ public class Cars extends BaseModel{
         Log.d("vertical", "" + b_vertical.x + " " + b_vertical.y + " " + b_vertical.z);
         Log.d("normal", "" + normal.x + " " + normal.y + " " + normal.z);
 
-        vec RightDownPoint = normal.mul(0.5f*Cars.bouningBox.y).add(b_vertical.mul(0.5f*Cars.bouningBox.x));
-        vec LeftDownPoint = normal.mul(-0.5f*Cars.bouningBox.y).sub(b_vertical.mul(0.5f*Cars.bouningBox.x));
-        vec LeftUpPoint = normal.mul(-0.5f*Cars.bouningBox.y).add(b_vertical.mul(0.5f*Cars.bouningBox.x));
-        vec RightUpPoint = normal.mul(0.5f*Cars.bouningBox.y).sub(b_vertical.mul(0.5f*Cars.bouningBox.x));
+        vec RightDownPoint = this.pos.add(normal.mul(bounding_box_scale*Cars.bouningBox.y)).add(b_vertical.mul(bounding_box_scale*Cars.bouningBox.x));
+        vec LeftDownPoint = this.pos.add(normal.mul(-bounding_box_scale*Cars.bouningBox.y)).sub(b_vertical.mul(bounding_box_scale*Cars.bouningBox.x));
+        vec LeftUpPoint = this.pos.add(normal.mul(-bounding_box_scale*Cars.bouningBox.y)).add(b_vertical.mul(bounding_box_scale*Cars.bouningBox.x));
+        vec RightUpPoint = this.pos.add(normal.mul(bounding_box_scale*Cars.bouningBox.y)).sub(b_vertical.mul(bounding_box_scale*Cars.bouningBox.x));
         RightDownPoint.y = 0;
         LeftDownPoint.y = 0;
         LeftUpPoint.y = 0;
@@ -155,6 +181,11 @@ public class Cars extends BaseModel{
 
                     if(!isPlayer){
                         AI_controler.attack(Cars.this);
+                        try {
+                            Thread.sleep(5);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
                     if(RunState && canMove) {
                         Log.d("state", "RunState is true");
@@ -165,22 +196,30 @@ public class Cars extends BaseModel{
                             Velocity = new vec(0, 0, 0);
                             RunState = false;
                         }
+                        ModelGroup.CollisionDetect(Cars.this);
                         Boolean outfBound = Judger.detectBorder(Cars.this);
                         Cars.this.canMove = outfBound;
                         Cars.this.isLive = outfBound;
                     }else if(!canMove && !isLive){
-
-                        for(int i=0; i<100; i++)
+                        FallingTime = 0;
+                        for(int i=0; i<1000; i++){
                             rotateDown();
+                            try {
+                                Thread.sleep(10);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
 
                         reBirth = true;
                         isLive = true;
                         direction = new vec(270, 0, 0);
-                        pos = new vec((Math.random()-0.5)*40, 50, (Math.random()-0.5)*40);
+                        pos = new vec((Math.random()-0.5)*40, -17.5, (Math.random()-0.5)*40);
                         Velocity = new vec(0, 0, 0);
+                        normal = new vec(Math.cos(Math.toRadians(90-direction.y)), 0, Math.sin(Math.toRadians(90-direction.y)));
                     }
                     if(isLive && reBirth){
-                        if(pos.y > 0)
+                        if(pos.y > - 17.5)
                             pos.y -= 0.1;
                         else{
                             reBirth = false;
@@ -200,16 +239,10 @@ public class Cars extends BaseModel{
     }
 
     private void rotateDown(){
-        int dis = -1;
-        if(pos.z < -4)
-            dis = 1;
-
-        for(int i=0; i<10; i++)
-            direction.x += dis;
-
-        direction.x += dis;
-        pos.y -= 1;
-        pos.add(getVelocity().mul(0.001f));
+        vec v = new vec(Velocity);
+        v.setY(0);
+        pos = pos.add(v.mul(0.01f));
+        pos.setY(pos.y - 100 * (FallingTime*FallingTime));
     }
     public void addParticleSys(){
         new Thread(){
@@ -234,10 +267,10 @@ public class Cars extends BaseModel{
         Log.d("point b_vertical", ""+b_vertical.x +" "+b_vertical.y + " " + b_vertical.z);
         Log.d("point b_position", ""+b_pos.x +" "+b_pos.y + " " + b_pos.z);
 
-        vec RightDownPoint = b_pos.add(b_normal.mul(0.5f*Cars.bouningBox.y)).add(b_vertical.mul(0.5f*Cars.bouningBox.x));
-        vec LeftDownPoint = b_pos.add(b_normal.mul(-0.5f*Cars.bouningBox.y)).sub(b_vertical.mul(0.5f*Cars.bouningBox.x));
-        vec LeftUpPoint = b_pos.add(b_normal.mul(-0.5f*Cars.bouningBox.y)).add(b_vertical.mul(0.5f*Cars.bouningBox.x));
-        vec RightUpPoint = b_pos.add(b_normal.mul(0.5f*Cars.bouningBox.y)).sub(b_vertical.mul(0.5f*Cars.bouningBox.x));
+        vec RightDownPoint = b_pos.add(b_normal.mul(bounding_box_scale*Cars.bouningBox.y)).add(b_vertical.mul(bounding_box_scale*Cars.bouningBox.x));
+        vec LeftDownPoint = b_pos.add(b_normal.mul(-bounding_box_scale*Cars.bouningBox.y)).sub(b_vertical.mul(bounding_box_scale*Cars.bouningBox.x));
+        vec LeftUpPoint = b_pos.add(b_normal.mul(-bounding_box_scale*Cars.bouningBox.y)).add(b_vertical.mul(bounding_box_scale*Cars.bouningBox.x));
+        vec RightUpPoint = b_pos.add(b_normal.mul(bounding_box_scale*Cars.bouningBox.y)).sub(b_vertical.mul(bounding_box_scale*Cars.bouningBox.x));
         RightDownPoint.y = 0;
         LeftDownPoint.y = 0;
         LeftUpPoint.y = 0;
@@ -255,51 +288,67 @@ public class Cars extends BaseModel{
         collision |= this.checkInBox(LeftUpPoint);
         collision |= this.checkInBox(RightUpPoint);
 
-        b_vertical = normal.rotate(Math.toRadians(90), 0, 1, 0);
-        RightDownPoint = this.pos.add(normal.mul(0.5f*Cars.bouningBox.y)).add(b_vertical.mul(0.5f*Cars.bouningBox.x));
-        LeftDownPoint = this.pos.add(normal.mul(-0.5f*Cars.bouningBox.y)).sub(b_vertical.mul(0.5f*Cars.bouningBox.x));
-        LeftUpPoint = this.pos.add(normal.mul(-0.5f*Cars.bouningBox.y)).add(b_vertical.mul(0.5f*Cars.bouningBox.x));
-        RightUpPoint = this.pos.add(normal.mul(0.5f*Cars.bouningBox.y)).sub(b_vertical.mul(0.5f*Cars.bouningBox.x));
-        RightDownPoint.y = 0;
-        LeftDownPoint.y = 0;
-        LeftUpPoint.y = 0;
-        RightUpPoint.y = 0;
-
-        collision |= b.checkInBox(RightDownPoint);
-        collision |= b.checkInBox(LeftDownPoint);
-        collision |= b.checkInBox(LeftUpPoint);
-        collision |= b.checkInBox(RightUpPoint);
+//        b_vertical = normal.rotate(Math.toRadians(90), 0, 1, 0);
+//        RightDownPoint = this.pos.add(normal.mul(0.5f*Cars.bouningBox.y)).add(b_vertical.mul(0.5f*Cars.bouningBox.x));
+//        LeftDownPoint = this.pos.add(normal.mul(-0.5f*Cars.bouningBox.y)).sub(b_vertical.mul(0.5f*Cars.bouningBox.x));
+//        LeftUpPoint = this.pos.add(normal.mul(-0.5f*Cars.bouningBox.y)).add(b_vertical.mul(0.5f*Cars.bouningBox.x));
+//        RightUpPoint = this.pos.add(normal.mul(0.5f*Cars.bouningBox.y)).sub(b_vertical.mul(0.5f*Cars.bouningBox.x));
+//        RightDownPoint.y = 0;
+//        LeftDownPoint.y = 0;
+//        LeftUpPoint.y = 0;
+//        RightUpPoint.y = 0;
+//
+//        collision |= b.checkInBox(RightDownPoint);
+//        collision |= b.checkInBox(LeftDownPoint);
+//        collision |= b.checkInBox(LeftUpPoint);
+//        collision |= b.checkInBox(RightUpPoint);
 
         return collision;
     }
 
     public boolean checkInBox(vec a){
         boolean res = true;
-        vec b = a.sub(pos);
-        Log.d("point subed", ""+b.x +" "+b.y + " " + b.z);
-        vec b_norm = new vec(normal);
-        vec b_vertical = normal.rotate(Math.toRadians(90), 0, 1, 0);
-        b_norm.standardizeXZ();
-        b_vertical.standardizeXZ();
-        vec pos_orien = a.sub(pos);
-        if(Math.abs(b_norm.x * pos_orien.x + b_norm.z * pos_orien.z) > scale*bouningBox.y * 3/4){
-            res = false;
-        }
-        if(Math.abs(b_vertical.x * pos_orien.x + b_vertical.z * pos_orien.z) > scale*bouningBox.x * 3/4){
-            res = false;
-        }
+//        vec b = a.sub(pos);
+////        Log.d("point subed", ""+b.x +" "+b.y + " " + b.z);
+////        vec b_norm = new vec(normal);
+////        vec b_vertical = normal.rotate(Math.toRadians(90), 0, 1, 0);
+////        b_norm.standardizeXZ();
+////        b_vertical.standardizeXZ();
+////        vec pos_orien = a.sub(pos);
+////        if(Math.abs(b_norm.x * pos_orien.x + b_norm.z * pos_orien.z) > scale*bouningBox.y * 3/4){
+////            res = false;
+////        }
+////        if(Math.abs(b_vertical.x * pos_orien.x + b_vertical.z * pos_orien.z) > scale*bouningBox.x * 3/4){
+////            res = false;
+////        }
 
+        vec b_vertical = normal.rotate(Math.toRadians(90), 0, 1, 0);
+        vec RightDownPoint = this.pos.add(normal.mul(bounding_box_scale*Cars.bouningBox.y)).add(b_vertical.mul(bounding_box_scale*Cars.bouningBox.x));
+        vec LeftDownPoint = this.pos.add(normal.mul(-bounding_box_scale*Cars.bouningBox.y)).sub(b_vertical.mul(bounding_box_scale*Cars.bouningBox.x));
+        vec LeftUpPoint = this.pos.add(normal.mul(-bounding_box_scale*Cars.bouningBox.y)).add(b_vertical.mul(bounding_box_scale*Cars.bouningBox.x));
+        vec RightUpPoint = this.pos.add(normal.mul(bounding_box_scale*Cars.bouningBox.y)).sub(b_vertical.mul(bounding_box_scale*Cars.bouningBox.x));
+        double x_max = Math.max(Math.max(RightDownPoint.x, LeftDownPoint.x), Math.max(LeftUpPoint.x, RightUpPoint.x));
+        double x_min = Math.min(Math.min(RightDownPoint.x, LeftDownPoint.x), Math.min(LeftUpPoint.x, RightUpPoint.x));
+        double z_min = Math.min(Math.min(RightDownPoint.z, LeftDownPoint.z), Math.min(LeftUpPoint.z, RightUpPoint.z));
+        double z_max = Math.min(Math.max(RightDownPoint.z, LeftDownPoint.z), Math.max(LeftUpPoint.z, RightUpPoint.z));
+
+        res &= (a.x <= x_max) && (a.x > x_min);
+        res &= (a.z <= z_max) && (a.z > z_min);
         return res;
     }
 
     @Override
     public void draw() {
+        Log.d("Car_Draw", "drawing");
         MatrixState.pushMatrix();
-        MatrixState.translate((float)pos.x, (float)pos.y, (float)pos.z);
-        MatrixState.scale(scale, scale, scale);
         for(Particle particle : particles){
             particle.draw();
         }
+        MatrixState.popMatrix();
+
+        MatrixState.pushMatrix();
+        MatrixState.translate((float)pos.x, (float)pos.y, (float)pos.z);
+        MatrixState.scale(scale, scale, scale);
         MatrixState.rotate((float) direction.y, 0, 1, 0);
         MatrixState.rotate((float)direction.z, 0, 0, 1);
         MatrixState.rotate((float)direction.x, 1, 0, 0);

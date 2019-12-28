@@ -48,16 +48,38 @@
 
     <ImageButton
         android:id="@+id/btn_state"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
         android:layout_alignParentRight="true"
-        android:background="@mipmap/left" />
+        android:background="@mipmap/pause" />
+
+    <ImageButton
+        android:id="@+id/btn_restart"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_toLeftOf="@id/btn_state"
+        android:background="@mipmap/arrow" />
+
+    <ImageButton
+        android:id="@+id/btn_vr_game"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentLeft="true"
+        android:background="@mipmap/change"
+        android:onClick="onpenSkybox"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btn_collision"
         android:visibility="invisible"/>
+
 
 
 </RelativeLayout>

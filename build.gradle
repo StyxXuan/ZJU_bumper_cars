@@ -18,7 +18,12 @@ allprojects {
     repositories {
         google()
         jcenter()
-        
+        maven {
+            //use google vr
+            url "http://google.bintray.com/googlevr"
+        }
+        // You can also use a local Maven repository if desired.
+        mavenLocal()
     }
 }
 

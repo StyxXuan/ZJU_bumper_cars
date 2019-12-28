@@ -9,6 +9,7 @@ import com.example.zju_bumper_cars.ViewLayer.MySurfaceView;
 import com.example.zju_bumper_cars.utils.MatrixState;
 import com.example.zju_bumper_cars.utils.ShaderUtil;
 import com.example.zju_bumper_cars.utils.TextureUtil;
+import com.google.vr.sdk.base.GvrView;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -48,6 +49,13 @@ public class glTextureObj extends glBasicObj {
 
 
     public glTextureObj(MySurfaceView scene, float[] vertices, float[] normals, float texCoors[], float alpha, Bitmap bmp) {
+        //初始化顶点坐标与着色数据
+        initVertexData(vertices, normals, texCoors, alpha, bmp);
+        //初始化shader
+        initShader(scene.getResources());
+    }
+
+    public glTextureObj(GvrView scene, float[] vertices, float[] normals, float texCoors[], float alpha, Bitmap bmp) {
         //初始化顶点坐标与着色数据
         initVertexData(vertices, normals, texCoors, alpha, bmp);
         //初始化shader
