@@ -1,5 +1,7 @@
 package com.example.zju_bumper_cars.ModelLayer.models;
 
+import android.opengl.Matrix;
+
 import com.example.zju_bumper_cars.IOLayer.Obj.ObjLoaderUtil;
 import com.example.zju_bumper_cars.ViewLayer.MySurfaceView;
 import com.example.zju_bumper_cars.utils.MatrixState;

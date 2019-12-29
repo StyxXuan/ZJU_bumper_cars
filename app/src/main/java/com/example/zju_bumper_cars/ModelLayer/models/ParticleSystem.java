@@ -3,6 +3,7 @@ package com.example.zju_bumper_cars.ModelLayer.models;
 import android.util.Log;
 
 import com.example.zju_bumper_cars.ViewLayer.MySurfaceView;
+import com.example.zju_bumper_cars.utils.MatrixState;
 import com.example.zju_bumper_cars.utils.vec;
 
 import java.util.ArrayList;

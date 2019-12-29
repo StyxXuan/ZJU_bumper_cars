@@ -45,7 +45,7 @@ public class ModelGroup {
         skyBox = new SkyBox(surfaceView);
         test_obj obj = new test_obj(surfaceView, new vec(0, -27, 0), new vec(0, 0, 0), new vec(0, 0, 0));
         ALLPlayer.add(Player);
-//        ALLPlayer.add(car1);
+        ALLPlayer.add(car1);
 //        ALLPlayer.add(car2);
 //        ALLPlayer.add(car3);
         modelGroup.addAll(ALLPlayer);
