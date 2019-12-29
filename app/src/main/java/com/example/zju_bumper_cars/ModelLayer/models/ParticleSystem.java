@@ -24,7 +24,7 @@ public class ParticleSystem {
         inUse = false;
         initParticles();
         readyToDraw = false;
-        LifeTime = 100;
+        LifeTime = 50;
     }
 
 
@@ -39,7 +39,7 @@ public class ParticleSystem {
             particles.get(i).setPos(pos);
             particles.get(i).setNormal(normal);
         }
-        LifeTime = 100;
+        LifeTime = 50;
         readyToDraw = true;
     }
 
@@ -51,7 +51,7 @@ public class ParticleSystem {
         inUse = false;
         readyToDraw = false;
         initParticles();
-        LifeTime = 100;
+        LifeTime = 50;
     }
 
     public void initParticles(){

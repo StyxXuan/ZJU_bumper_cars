@@ -101,17 +101,17 @@ public class ModelGroup {
             model.draw();
         }
 
-//        if(ParticleSystemReady){
-//            for(ParticleSystem system:particleSystems){
-//                if(system.inUse && system.readyToDraw){
-//                    system.drawSelf();
-//                    if(system.LifeTime <= 0){
-//                        system.inUse = false;
-//                        system.readyToDraw = false;
-//                    }
-//                }
-//            }
-//        }
+        if(ParticleSystemReady){
+            for(ParticleSystem system:particleSystems){
+                if(system.inUse && system.readyToDraw){
+                    system.drawSelf();
+                    if(system.LifeTime <= 0){
+                        system.inUse = false;
+                        system.readyToDraw = false;
+                    }
+                }
+            }
+        }
 
         MatrixState.popMatrix();
         surfaceView.requestRender();
@@ -122,7 +122,7 @@ public class ModelGroup {
         for(ParticleSystem system : particleSystems){
             if(!system.inUse){
 //                system.setParam("red.obj", cars.pos, cars.normal);
-                system.setParam("red.obj", new vec(0, 0, 0), new vec(0, -1, 0));
+                system.setParam("red.obj", cars.pos, new vec(0, -1, 0));
                 return;
             }
         }

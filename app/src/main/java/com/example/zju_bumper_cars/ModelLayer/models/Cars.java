@@ -342,11 +342,11 @@ public class Cars extends BaseModel{
     @Override
     public void draw() {
         Log.d("Car_Draw", "drawing");
-        MatrixState.pushMatrix();
-        for(Particle particle : particles){
-            particle.draw();
-        }
-        MatrixState.popMatrix();
+//        MatrixState.pushMatrix();
+//        for(Particle particle : particles){
+//            particle.draw();
+//        }
+//        MatrixState.popMatrix();
 
         MatrixState.pushMatrix();
         MatrixState.translate((float)pos.x, (float)pos.y, (float)pos.z);
