@@ -7,8 +7,8 @@ import com.example.zju_bumper_cars.ModelLayer.models.Cars;
 import com.example.zju_bumper_cars.utils.vec;
 
 public class Judger {
-    private static Point[] rec1 = {new Point(-36, -4), new Point(-19, -37), new Point(37, -4), new Point(19, 26)};
-    private static Point[] rec2 = {new Point(-19, 26), new Point(-36, -4), new Point(19, -37), new Point(37, -4)};
+    private static Point[] rec1 = {new Point(-45, -15), new Point(-24, -25), new Point(45, -15), new Point(23, 27)};
+    private static Point[] rec2 = {new Point(-23, 27), new Point(-45, -15), new Point(23, -50), new Point(45, -15)};
     public static void OutofBound(){
 
     }
@@ -23,7 +23,7 @@ public class Judger {
     }
 
     public static Boolean checkInRec(vec p){
-        if(p.z <= 26 && p.z >= -37 && p.x >= -19 && p.x <= 19) {
+        if(p.z <= 27 && p.z >= -50 && p.x >= -24 && p.x <= 24) {
             Log.d("first rec", "in");
             return true;
         }

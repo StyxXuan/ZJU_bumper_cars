@@ -170,6 +170,7 @@ public class Cars extends BaseModel{
             public void run() {
                 super.run();
                 while(true){
+                    Log.d("Car Position", ""+pos.x +" "+pos.y + " " + pos.z);
                     if(!ModelGroup.initDown) {
                         try {
                             Thread.sleep(100);
