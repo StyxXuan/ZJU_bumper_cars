@@ -35,6 +35,7 @@ public class ModelGroup {
     public static boolean ParticleSystemReady = false;
     public static boolean CollisionHapen = false;
     public static boolean initDown = false;
+    public static int light_chage_way = 1;
 
     public static void initData(MySurfaceView surfaceView){
         Player = new Cars(surfaceView, new vec(-10, -17.5, 10), new vec(270, 0, 0));
@@ -92,6 +93,10 @@ public class ModelGroup {
         MatrixState.pushMatrix();
 
         MatrixState.setLightLocation(glConfig.LIGHT_POS_X, glConfig.LIGHT_POS_Y, glConfig.LIGHT_POS_Z);
+        glConfig.LIGHT_POS_X += 1 * light_chage_way;
+        if(glConfig.LIGHT_POS_X >= 160 | glConfig.LIGHT_POS_X<= -160)
+            light_chage_way *= -1;
+
 
         MatrixState.rotate(glConfig.rotateZ, 0, 0,1);
         MatrixState.rotate(glConfig.rotateY, 0, 1,0);
