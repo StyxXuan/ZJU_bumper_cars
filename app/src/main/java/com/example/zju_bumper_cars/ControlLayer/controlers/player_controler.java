@@ -4,8 +4,6 @@ import com.example.zju_bumper_cars.ModelLayer.ModelGroup;
 
 public class player_controler {
 
-    public static void ChangeView(){}
-
     public static void ChangeDerectionLeft(){
         if(ModelGroup.Player.canMove){
             ModelGroup.Player.goLeft();
@@ -31,7 +29,5 @@ public class player_controler {
                 ModelGroup.Player.goBack();
         }
     }
-
-    public static void ChangeSpeede(){}
 
 }
