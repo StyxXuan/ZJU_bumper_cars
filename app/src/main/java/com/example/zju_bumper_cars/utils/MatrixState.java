@@ -17,6 +17,14 @@ public class MatrixState {
 
     public static Stack<float[]> mStack = new Stack<float[]>();//保护变换矩阵的栈
 
+    public static void setmProjMatrix(float[] matrix){
+        mProjMatrix = matrix;
+    }
+
+    public static void setmVMatrix(float[] matrix){
+        mVMatrix = matrix;
+    }
+
     public static void setInitStack()//获取不变换初始矩阵
     {
         currMatrix = new float[16];

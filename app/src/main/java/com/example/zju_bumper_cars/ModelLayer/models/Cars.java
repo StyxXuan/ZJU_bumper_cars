@@ -364,6 +364,20 @@ public class Cars extends BaseModel{
         MatrixState.popMatrix();
     }
 
+    public void vrDraw(){
+        MatrixState.pushMatrix();
+        MatrixState.translate((float)pos.x, (float)pos.y - 3, (float)pos.z - 10);
+        MatrixState.scale(scale, scale, scale);
+        MatrixState.rotate(90, 0, 1, 0);
+        MatrixState.rotate((float)direction.z, 0, 0, 1);
+        MatrixState.rotate((float)direction.x, 1, 0, 0);
+
+        for(glBasicObj obj:objs){
+            obj.drawSelf();
+        }
+        MatrixState.popMatrix();
+    }
+
     public void setRunState(Boolean state){
         this.RunState = state;
     }

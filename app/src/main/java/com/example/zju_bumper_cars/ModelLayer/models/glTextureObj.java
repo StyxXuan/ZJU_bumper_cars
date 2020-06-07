@@ -3,7 +3,6 @@ package com.example.zju_bumper_cars.ModelLayer.models;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.opengl.GLES20;
-import android.util.Log;
 
 import com.example.zju_bumper_cars.ViewLayer.MySurfaceView;
 import com.example.zju_bumper_cars.utils.MatrixState;
@@ -24,8 +23,8 @@ public class glTextureObj extends glBasicObj {
     int maLightLocationHandle;//光源位置属性引用
     int maCameraHandle; //摄像机位置属性引用
     int maTexCoorHandle; //顶点纹理坐标属性引用
-    int muColorHandle; // 顶点颜色
-    int muOpacityHandle; // 材质中透明度
+//    int muColorHandle; // 顶点颜色
+    //int muOpacityHandle; // 材质中透明度
     String mVertexShader;//顶点着色器代码脚本
     String mFragmentShader;//片元着色器代码脚本
 
@@ -104,9 +103,9 @@ public class glTextureObj extends glBasicObj {
     //初始化shader
     public void initShader(Resources res) {
         //加载顶点着色器的脚本内容
-        mVertexShader = ShaderUtil.loadFromAssetsFile("shader/texture_vertex.sh", res);
+        mVertexShader = ShaderUtil.loadFromAssetsFile("shader/texture_vertex.glsl", res);
         //加载片元着色器的脚本内容
-        mFragmentShader = ShaderUtil.loadFromAssetsFile("shader/texture_frag.sh", res);
+        mFragmentShader = ShaderUtil.loadFromAssetsFile("shader/texture_frag.glsl", res);
         //基于顶点着色器与片元着色器创建程序
         mProgram = ShaderUtil.createProgram(mVertexShader, mFragmentShader);
         //获取程序中顶点位置属性引用
@@ -124,9 +123,9 @@ public class glTextureObj extends glBasicObj {
         //获取程序中摄像机位置引用
         maCameraHandle = GLES20.glGetUniformLocation(mProgram, "uCamera");
         // 顶点颜色
-        muColorHandle = GLES20.glGetUniformLocation(mProgram, "uColor");
+//        muColorHandle = GLES20.glGetUniformLocation(mProgram, "uColor");
         // alpha
-        muOpacityHandle = GLES20.glGetUniformLocation(mProgram, "uOpacity");
+        //muOpacityHandle = GLES20.glGetUniformLocation(mProgram, "uOpacity");
     }
 
     /**
@@ -190,7 +189,7 @@ public class glTextureObj extends glBasicObj {
                         mTexCoorBuffer
                 );
         // 材质alpha
-        GLES20.glUniform1f(muOpacityHandle, mAlpha);
+        //GLES20.glUniform1f(muOpacityHandle, mAlpha);
         // 启用顶点纹理数组
         GLES20.glEnableVertexAttribArray(maTexCoorHandle);
         //启用顶点位置、法向量、纹理坐标数据

@@ -76,21 +76,7 @@ public class MainActivity extends Activity {
         initBtn();
         mview.requestFocus();//获取焦点
         mview.setFocusableInTouchMode(true);//设置为可触控
-//        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-//        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
-//        mSensorManager.registerListener(mSensorEventListener, mSensor, SensorManager.SENSOR_DELAY_GAME);
-//        handler=new Handler(){
-//            @Override
-//            public void handleMessage(Message msg) {
-//                Log.d("collision", "particle sys start");
-//                ParticleSystem ps = new ParticleSystem(MainActivity.this, 100, R.drawable.star_pink, 800);
-//                ps.setScaleRange(0.7f, 1.3f);
-//                ps.setSpeedRange(0.1f, 0.25f);
-//                ps.setRotationSpeedRange(90, 180);
-//                ps.setFadeOut(200, new AccelerateInterpolator());
-//                ps.emit(glConfig.COLLISTION_X, glConfig.COLLISTION_Y, 200, 200);
-//            }
-//        };
+
 
     }
     @Override
@@ -329,53 +315,7 @@ public class MainActivity extends Activity {
                 }
             }
         });
-//        BtnCollision.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                ParticleSystem ps = new ParticleSystem(MainActivity.this, 100, R.drawable.star_pink, 800);
-//                ps.setScaleRange(0.7f, 1.3f);
-//                ps.setSpeedRange(0.1f, 0.25f);
-//                ps.setRotationSpeedRange(90, 180);
-//                ps.setFadeOut(200, new AccelerateInterpolator());
-//                ps.emit(glConfig.COLLISTION_X, glConfig.COLLISTION_Y, glConfig.COLLISTION_Z, 200);
-//            }
-//        });
 
-//        new Thread(){
-//            @Override
-//            public void run() {
-//                super.run();
-//                while(true){
-//                    if(ModelGroup.CollisionHapen){
-//                        for(Cars car:ModelGroup.ALLPlayer){
-//                            if (car.onCollision){
-//                                car.onCollision = false;
-//                                glConfig.COLLISTION_X = (int)car.pos.x;
-//                                glConfig.COLLISTION_Y = (int)car.pos.y;
-////                                glConfig.COLLISTION_X /= WIDTH;
-////                                glConfig.COLLISTION_Y /= HEIGHT;
-//                                handler.sendEmptyMessage(0);
-//                                try {
-//                                    Thread.sleep(10);
-//                                } catch (InterruptedException e) {
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//                        }
-//                        ModelGroup.CollisionHapen = false;
-//                    }
-//                    if(glConfig.LIGHT_POS_X <= -360 | glConfig.LIGHT_POS_X >= 360){
-//                        glConfig.LIGHT_DISPLACEMENT = -glConfig.LIGHT_DISPLACEMENT;
-//                    }
-//                    glConfig.LIGHT_POS_X += glConfig.LIGHT_DISPLACEMENT;
-//                    try {
-//                        Thread.sleep(10);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//        }.start();
     }
 
     public void onpenSkybox(View v) {

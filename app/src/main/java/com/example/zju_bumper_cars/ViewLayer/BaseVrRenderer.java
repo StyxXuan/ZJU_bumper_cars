@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.zju_bumper_cars.ModelLayer.VrModules.BaseSkyBox;
 import com.example.zju_bumper_cars.ModelLayer.models.Cars;
 import com.example.zju_bumper_cars.ModelLayer.models.SkyBox;
+import com.example.zju_bumper_cars.utils.MatrixState;
 import com.example.zju_bumper_cars.utils.vec;
 import com.google.vr.sdk.base.Eye;
 import com.google.vr.sdk.base.GvrView;
@@ -17,6 +18,7 @@ import static android.opengl.GLES20.GL_COLOR_BUFFER_BIT;
 import static android.opengl.GLES20.GL_DEPTH_BUFFER_BIT;
 import static android.opengl.GLES20.GL_DEPTH_TEST;
 import static android.opengl.GLES20.GL_LEQUAL;
+import static android.opengl.GLES20.GL_LESS;
 import static android.opengl.GLES20.glClear;
 import static android.opengl.GLES20.glDepthFunc;
 import static android.opengl.GLES20.glEnable;
@@ -58,7 +60,7 @@ public abstract class BaseVrRenderer  implements GvrView.StereoRenderer{
     public void onDrawEye(Eye eye) {
 
         glEnable(GL_DEPTH_TEST);
-        glDepthFunc(GL_LEQUAL);//开启深度测试后，这句话要加，不然会绘制失败
+        glDepthFunc(GL_LESS);//开启深度测试后，这句话要加，不然会绘制失败
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         multiplyMM(view, 0, eye.getEyeView(), 0, camera, 0);
         perspective = eye.getPerspective(getZ_NEAR(), getZ_FAR());
@@ -68,6 +70,13 @@ public abstract class BaseVrRenderer  implements GvrView.StereoRenderer{
             multiplyMM(modelViewProjection, 0, perspective, 0, modelView, 0);
             mSkyBox.draw(modelViewProjection);
         }
+
+        //MatrixState.pushMatrix();
+        MatrixState.setmProjMatrix(perspective);
+        MatrixState.setmVMatrix(view);
+        cars.vrDraw();
+
+
 //        drawEye(eye, perspective, view);
     }
 

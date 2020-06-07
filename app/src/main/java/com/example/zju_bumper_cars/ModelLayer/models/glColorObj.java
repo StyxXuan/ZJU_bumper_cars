@@ -90,9 +90,9 @@ public class glColorObj extends glBasicObj{
     //初始化shader
     public void initShader(Resources res) {
         //加载顶点着色器的脚本内容
-        mVertexShader = ShaderUtil.loadFromAssetsFile("shader/color_vertex.sh", res);
+        mVertexShader = ShaderUtil.loadFromAssetsFile("shader/color_vertex.glsl", res);
         //加载片元着色器的脚本内容
-        mFragmentShader = ShaderUtil.loadFromAssetsFile("shader/color_frag.sh", res);
+        mFragmentShader = ShaderUtil.loadFromAssetsFile("shader/color_frag.glsl", res);
         //基于顶点着色器与片元着色器创建程序
         mProgram = ShaderUtil.createProgram(mVertexShader, mFragmentShader);
         //获取程序中顶点位置属性引用
@@ -113,6 +113,12 @@ public class glColorObj extends glBasicObj{
         muOpacityHandle = GLES20.glGetUniformLocation(mProgram, "uOpacity");
     }
 
+    @Override
+    public void drawSelf(float[] mvp){
+
+    }
+
+    @Override
     public void drawSelf() {
         //制定使用某套着色器程序
         GLES20.glUseProgram(mProgram);

@@ -12,7 +12,9 @@ import static android.opengl.GLES20.glCreateProgram;
 import static android.opengl.GLES20.glCreateShader;
 import static android.opengl.GLES20.glDeleteProgram;
 import static android.opengl.GLES20.glDeleteShader;
+import static android.opengl.GLES20.glGetProgramInfoLog;
 import static android.opengl.GLES20.glGetProgramiv;
+import static android.opengl.GLES20.glGetShaderInfoLog;
 import static android.opengl.GLES20.glGetShaderiv;
 import static android.opengl.GLES20.glLinkProgram;
 import static android.opengl.GLES20.glShaderSource;
@@ -45,6 +47,7 @@ public class ShaderProgramUtil {
         glGetShaderiv(shaderObjectId, GL_COMPILE_STATUS, compileStatus, 0);
 
         if (compileStatus[0] == 0) {
+            glGetShaderInfoLog(shaderObjectId);
             glDeleteShader(shaderObjectId);
             throw new RuntimeException("Error Compile shader");
         }
@@ -83,6 +86,7 @@ public class ShaderProgramUtil {
         glGetProgramiv(programObjectId, GL_LINK_STATUS, linkStatus, 0);
 
         if (linkStatus[0] == 0) {
+            glGetProgramInfoLog(programObjectId);
             glDeleteProgram(programObjectId);
 
             throw new RuntimeException("Error Link Program");

@@ -2,6 +2,7 @@ package com.example.zju_bumper_cars.ModelLayer.VrModules;
 
 import android.content.Context;
 
+import com.example.zju_bumper_cars.utils.Shader;
 import com.example.zju_bumper_cars.utils.ShaderProgramUtil;
 
 
@@ -16,7 +17,7 @@ import com.example.zju_bumper_cars.utils.ShaderProgramUtil;
 public abstract class Shape {
 
     protected Context mContext;
-    protected int mProgram;
+    protected Shader shader;
 
     protected Shape(Context context) {
         this.mContext = context;
@@ -32,6 +33,6 @@ public abstract class Shape {
      * 销毁
      */
     public void destroy() {
-        ShaderProgramUtil.delete(mProgram);
+        shader.destroy();
     }
 }

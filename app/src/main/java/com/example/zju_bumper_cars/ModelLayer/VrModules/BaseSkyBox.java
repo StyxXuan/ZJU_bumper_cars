@@ -4,7 +4,9 @@ import android.content.Context;
 import android.util.Log;
 
 
+import com.example.zju_bumper_cars.R;
 import com.example.zju_bumper_cars.utils.CommonUtil;
+import com.example.zju_bumper_cars.utils.Shader;
 import com.example.zju_bumper_cars.utils.ShaderProgramUtil;
 import com.example.zju_bumper_cars.utils.TextureUtil;
 
@@ -24,11 +26,6 @@ import static android.opengl.GLES20.glBindTexture;
 import static android.opengl.GLES20.glDisableVertexAttribArray;
 import static android.opengl.GLES20.glDrawElements;
 import static android.opengl.GLES20.glEnableVertexAttribArray;
-import static android.opengl.GLES20.glGetAttribLocation;
-import static android.opengl.GLES20.glGetUniformLocation;
-import static android.opengl.GLES20.glUniform1i;
-import static android.opengl.GLES20.glUniformMatrix4fv;
-import static android.opengl.GLES20.glUseProgram;
 import static android.opengl.GLES20.glVertexAttribPointer;
 
 /**
@@ -40,28 +37,6 @@ import static android.opengl.GLES20.glVertexAttribPointer;
  */
 
 public abstract class BaseSkyBox extends Shape {
-
-    private final String vShaderStr =
-            "uniform mat4 u_Matrix; \n" +
-                    "attribute vec3 a_Position;  \n" +
-                    "varying vec3 v_Position;   \n" +
-                    "void main()                    \n" +
-                    "{                                \t  \t          \n" +
-                    "    v_Position = a_Position;\t\n" +
-                    "    v_Position.z = -v_Position.z; \n" +
-                    "    gl_Position = u_Matrix * vec4(a_Position, 1.0);\n" +
-                    "    gl_Position = gl_Position.xyww;\n" +
-                    "}    \n";
-
-    private final String fShaderStr =
-            "precision mediump float; \n" +
-                    "uniform samplerCube u_TextureUnit;\n" +
-                    "varying vec3 v_Position;\n" +
-
-                    "void main()  \n" +
-                    "{  \n" +
-                    "   gl_FragColor = textureCube(u_TextureUnit, v_Position);    \n" +
-                    "}";
 
     private final float[] vertexArray = new float[]{
             -1, 1, 1,//0
@@ -99,12 +74,10 @@ public abstract class BaseSkyBox extends Shape {
             7, 2, 3
     };
 
-
+    private Shader shader;
     private ByteBuffer indexBuffer;
     private FloatBuffer vertexBuffer;
     private int mPositionHandler;
-    private int mMVPMatrixHandler;
-    private int uTextureUnitHandler;
     private int mSkyboxTexture;
     private static final int POSITON_COMPONENT_COUNT = 3;
 
@@ -115,19 +88,21 @@ public abstract class BaseSkyBox extends Shape {
 
     @Override
     protected void createProgram() {
+        shader = Shader.create(mContext, R.raw.skybox_vertex_shader, R.raw.skybox_fragment_shader);
+        mPositionHandler = shader.getAttribute("a_Position");
+    }
 
-        this.mProgram = ShaderProgramUtil.newLinkProgram(
-                ShaderProgramUtil.loadShader(GL_VERTEX_SHADER, vShaderStr),
-                ShaderProgramUtil.loadShader(GL_FRAGMENT_SHADER, fShaderStr)
-        );
-        mPositionHandler = glGetAttribLocation(mProgram, "a_Position");
-        mMVPMatrixHandler = glGetUniformLocation(mProgram, "u_Matrix");
-        uTextureUnitHandler = glGetUniformLocation(mProgram, "u_TextureUnit");
+    protected void initAttribute(){
+
+
     }
 
     @Override
     protected void initData() {
         mSkyboxTexture = getTextureId();
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_CUBE_MAP, mSkyboxTexture);
+
         if (mSkyboxTexture == 0) {
             Log.e("BaseSkyBox", "纹理未成功加载");
             return;
@@ -140,22 +115,24 @@ public abstract class BaseSkyBox extends Shape {
                 .put(indexArray);
         indexBuffer.position(0);
 
+
+
         createProgram();
     }
 
-    public void draw(float[] mMVPMatrix) {
+    @Override
+    public void draw(float[] mVPMatrix) {
         if (mSkyboxTexture == 0) {
             Log.e("BaseSkyBox", "纹理未成功加载");
             return;
         }
-        //indexArray描绘的指引
-        glUseProgram(mProgram);
-        glUniformMatrix4fv(mMVPMatrixHandler, 1, false, mMVPMatrix, 0);
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_CUBE_MAP, mSkyboxTexture);
-        glUniform1i(uTextureUnitHandler, 0);
+
+        shader.use()
+                .setMatrix4("u_Matrix", mVPMatrix)
+                .setInt("u_TextureUnit",0);
         glVertexAttribPointer(mPositionHandler, POSITON_COMPONENT_COUNT,
                 GL_FLOAT, false, 0, vertexBuffer);
+        //indexArray描绘的指引
         glEnableVertexAttribArray(mPositionHandler);
         glDrawElements(GL_TRIANGLES, indexArray.length, GL_UNSIGNED_BYTE, indexBuffer);
         glDisableVertexAttribArray(mPositionHandler);
