@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.View;
 import android.view.WindowManager;
 
 import java.util.Timer;
@@ -35,20 +36,25 @@ public class WelcomeActivity extends AppCompatActivity {
         //设置为横屏模式
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-        startMainActivity();
+//        startMainActivity();
     }
 
-    private void startMainActivity(){
+    public void startMainActivity(View view){
+        Intent mainIntent = new Intent(WelcomeActivity.this,MainActivity.class);
+        startActivity(mainIntent);
 
-        TimerTask delayTask = new TimerTask() {
-            @Override
-            public void run() {
-                Intent mainIntent = new Intent(WelcomeActivity.this,MainActivity.class);
-                startActivity(mainIntent);
-                WelcomeActivity.this.finish();
-            }
-        };
-        Timer timer = new Timer();
-        timer.schedule(delayTask,2000);//延时两秒执行 run 里面的操作
+//        TimerTask delayTask = new TimerTask() {
+//            @Override
+//            public void run() {
+//
+//                WelcomeActivity.this.finish();
+//            }
+//        };
+//        Timer timer = new Timer();
+//        timer.schedule(delayTask,2000);//延时两秒执行 run 里面的操作
+    }
+
+    public void startVRActivity(View v) {
+        startActivity(new Intent(this, VrActivity.class));
     }
 }

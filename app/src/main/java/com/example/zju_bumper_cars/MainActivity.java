@@ -70,7 +70,6 @@ public class MainActivity extends Activity {
         intent.setAction(action);
         startService(intent);
 
-        mview = new MySurfaceView(this);
         mview = (MySurfaceView) findViewById(R.id.glscen);
         GameStart = true;
         initBtn();

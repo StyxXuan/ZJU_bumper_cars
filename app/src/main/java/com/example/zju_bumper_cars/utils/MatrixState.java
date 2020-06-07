@@ -131,6 +131,12 @@ public class MatrixState {
         return mMVPMatrix;
     }
 
+    public static float[] getVPMatrix(){
+        float[] mVPMatrix = new float[16];
+        Matrix.multiplyMM(mVPMatrix, 0, mProjMatrix, 0, mVMatrix, 0);
+        return mVPMatrix;
+    }
+
     //获取具体物体的变换矩阵
     public static float[] getMMatrix() {
         return currMatrix;

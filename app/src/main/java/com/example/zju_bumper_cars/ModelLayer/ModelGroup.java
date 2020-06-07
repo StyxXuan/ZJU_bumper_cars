@@ -12,7 +12,8 @@ import com.example.zju_bumper_cars.ModelLayer.models.Particle;
 //import com.example.zju_bumper_cars.ModelLayer.models.ParticleSystem;
 import com.example.zju_bumper_cars.ModelLayer.models.ParticleSystem;
 //import com.example.zju_bumper_cars.ModelLayer.models.SkyBox;
-import com.example.zju_bumper_cars.ModelLayer.models.SkyBox;
+//import com.example.zju_bumper_cars.ModelLayer.models.SkyBox;
+import com.example.zju_bumper_cars.ModelLayer.VrModules.SkyBox;
 import com.example.zju_bumper_cars.ModelLayer.models.test_obj;
 import com.example.zju_bumper_cars.R;
 import com.example.zju_bumper_cars.ViewLayer.MySurfaceView;
@@ -43,7 +44,7 @@ public class ModelGroup {
         Cars car1 = new Cars(surfaceView, new vec(10, -17.5, 10), new vec(270, 0, 0));
         Cars car2 = new Cars(surfaceView, new vec(10, -17.5, -10), new vec(270, 0, 0));
         Cars car3 = new Cars(surfaceView, new vec(-10, -17.5, -10), new vec(270, 0, 0));
-        skyBox = new SkyBox(surfaceView);
+        skyBox = new SkyBox(surfaceView.getContext());
         test_obj obj = new test_obj(surfaceView, new vec(0, -27, 0), new vec(0, 0, 0), new vec(0, 0, 0));
         ALLPlayer.add(Player);
         ALLPlayer.add(car1);
@@ -51,7 +52,7 @@ public class ModelGroup {
 //        ALLPlayer.add(car3);
         modelGroup.addAll(ALLPlayer);
         modelGroup.add(obj);
-        modelGroup.add(skyBox);
+        //modelGroup.add(skyBox);
         for(Cars c:ALLPlayer){
             c.driving();
         }
@@ -64,10 +65,10 @@ public class ModelGroup {
 
     public static void initData(GvrView surfaceView){
         Player = new Cars(surfaceView, new vec(-10, -17.5, 10), new vec(270, 0, 0));
-        skyBox = new SkyBox(surfaceView);
+        skyBox = new SkyBox(surfaceView.getContext());
         ALLPlayer.add(Player);
         modelGroup.addAll(ALLPlayer);
-        modelGroup.add(skyBox);
+//        modelGroup.add(skyBox);
     }
 
     public static void setGameState(boolean state){
@@ -105,6 +106,8 @@ public class ModelGroup {
         for(BaseModel model:modelGroup){
             model.draw();
         }
+
+        skyBox.draw(MatrixState.getVPMatrix());
 
         if(ParticleSystemReady){
             for(ParticleSystem system:particleSystems){
