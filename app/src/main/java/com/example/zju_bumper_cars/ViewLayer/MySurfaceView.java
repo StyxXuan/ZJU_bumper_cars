@@ -21,11 +21,13 @@ import com.example.zju_bumper_cars.config.Constant;
 import com.example.zju_bumper_cars.R;
 import com.example.zju_bumper_cars.config.glConfig;
 import com.example.zju_bumper_cars.utils.MatrixState;
+import com.example.zju_bumper_cars.utils.vec;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 import static com.example.zju_bumper_cars.ModelLayer.ModelGroup.ParticleSystemReady;
+import static com.example.zju_bumper_cars.ModelLayer.ModelGroup.Player;
 import static com.example.zju_bumper_cars.ModelLayer.ModelGroup.initDown;
 import static com.example.zju_bumper_cars.ModelLayer.ModelGroup.initModel;
 
@@ -191,20 +193,40 @@ public class MySurfaceView extends GLSurfaceView {
             initModel(this);
             isInintFinsh = true;
         }
-
         MatrixState.pushMatrix();
-        MatrixState.translate(0, 0, glConfig.distance);
-        MatrixState.rotate(glConfig.angle, 1 ,0, 0);
+
+        if(Player != null){
+            vec Pos = Player.getPos();
+            vec direction = Player.getDirection();
+            vec normal = Player.getNormal();
+//            MatrixState.rotate(glConfig.angle, 1 ,0, 0);
+//            MatrixState.rotate(-(float)direction.y, 0, 1, 0);
+//            MatrixState.rotate(-(float)direction.z, 0, 0, 1);
+//            MatrixState.rotate(-(float)direction.x, 1, 0, 0);
+//            MatrixState.translate(-(float)Pos.x, (float)pos.y, (float)pos.z);
+//            MatrixState.translate((float) (-Pos.x), glConfig.distance, (float) (-Pos.z));
+            MatrixState.translate(0, glConfig.distance, -30);
+            MatrixState.rotate(glConfig.angle, 1, 0, 0);
+            MatrixState.rotate(-(float) direction.y, 0, 1, 0);
+            MatrixState.translate((float) (-Pos.x), -(float)Pos.y, (float) (-Pos.z));
+
+//            MatrixState.rotate((float) direction.y, 0, 1, 0);
+//            MatrixState.rotate((float)direction.x, 1, 0, 0);
+        }else{
+            MatrixState.translate(0, 0, glConfig.distance);
+        }
+
+
         ModelGroup.draw(this);
         MatrixState.popMatrix();
 
         if(!ParticleSystemReady){
-            if(glConfig.distance > -70){
-                glConfig.distance -= 1;
-            }else{
-                ParticleSystemReady = true;
-                initDown = true;
-            }
+//            if(glConfig.distance > -20){
+//                glConfig.distance -= 1;
+//            }else{
+//                ParticleSystemReady = true;
+//            }
+            initDown = true;
         }
     }
 }

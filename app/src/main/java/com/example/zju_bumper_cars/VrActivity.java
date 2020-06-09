@@ -67,7 +67,6 @@ public class VrActivity extends GvrActivity{
                             if (gx != 0) {
                                 float c = gx - anglex;
                                 if (Math.abs(c) >= 0.5) {
-                                    Log.d("================", "anglex------------>" + (gx - anglex));
                                     gx = anglex;
                                 }
 
@@ -77,17 +76,13 @@ public class VrActivity extends GvrActivity{
                             if (gy != 0) {
                                 float c = gy - angley;
                                 if (Math.abs(c) >= 0.5) {
-                                    Log.d("================", "anglex------------>" + (gy - angley));
                                     gy = angley;
                                 }
                             } else {
                                 gy = angley;
                             }
                             if(gz != 0){
-                                Log.d("================", "anglex------------>" + (gz - anglez));
                             }
-
-
                             gz = anglez;
 
                         }
