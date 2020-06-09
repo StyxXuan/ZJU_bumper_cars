@@ -28,7 +28,7 @@ public class glConfig {
     public static float rotateX = 0.0f;
     public static float rotateY = 0.0f;
     public static float rotateZ = 0.0f;
-    public static float angle = 90;
-    public static float distance = 0;
+    public static float angle = 35;
+    public static float distance = -10;
     public static double LIGHT_DISPLACEMENT = 0.00005;
 }

@@ -291,20 +291,6 @@ public class Cars extends BaseModel{
         collision |= this.checkInBox(LeftUpPoint);
         collision |= this.checkInBox(RightUpPoint);
 
-//        b_vertical = normal.rotate(Math.toRadians(90), 0, 1, 0);
-//        RightDownPoint = this.pos.add(normal.mul(0.5f*Cars.bouningBox.y)).add(b_vertical.mul(0.5f*Cars.bouningBox.x));
-//        LeftDownPoint = this.pos.add(normal.mul(-0.5f*Cars.bouningBox.y)).sub(b_vertical.mul(0.5f*Cars.bouningBox.x));
-//        LeftUpPoint = this.pos.add(normal.mul(-0.5f*Cars.bouningBox.y)).add(b_vertical.mul(0.5f*Cars.bouningBox.x));
-//        RightUpPoint = this.pos.add(normal.mul(0.5f*Cars.bouningBox.y)).sub(b_vertical.mul(0.5f*Cars.bouningBox.x));
-//        RightDownPoint.y = 0;
-//        LeftDownPoint.y = 0;
-//        LeftUpPoint.y = 0;
-//        RightUpPoint.y = 0;
-//
-//        collision |= b.checkInBox(RightDownPoint);
-//        collision |= b.checkInBox(LeftDownPoint);
-//        collision |= b.checkInBox(LeftUpPoint);
-//        collision |= b.checkInBox(RightUpPoint);
 
         return collision;
     }
@@ -350,6 +336,7 @@ public class Cars extends BaseModel{
 //        MatrixState.popMatrix();
 
         MatrixState.pushMatrix();
+//        if(!isPlayer)
         MatrixState.translate((float)pos.x, (float)pos.y, (float)pos.z);
         MatrixState.scale(scale, scale, scale);
         MatrixState.rotate((float) direction.y, 0, 1, 0);
