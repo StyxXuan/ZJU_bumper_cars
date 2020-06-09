@@ -33,6 +33,8 @@ public abstract class Shape {
      * 销毁
      */
     public void destroy() {
-        shader.destroy();
+        if(shader != null){
+            shader.destroy();
+        }
     }
 }

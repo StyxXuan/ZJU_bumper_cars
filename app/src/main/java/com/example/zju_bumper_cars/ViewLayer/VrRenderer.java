@@ -75,7 +75,6 @@ public class VrRenderer extends BaseVrRenderer {
 
     @Override
     public void surfaceCreated(EGLConfig eglConfig) {
-
         updateTextureLocation(0f, 0f, 0f);
     }
 

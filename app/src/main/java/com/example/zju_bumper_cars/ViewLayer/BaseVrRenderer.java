@@ -1,6 +1,7 @@
 package com.example.zju_bumper_cars.ViewLayer;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.zju_bumper_cars.ModelLayer.VrModules.BaseSkyBox;
 import com.example.zju_bumper_cars.ModelLayer.models.Cars;
@@ -65,16 +66,24 @@ public abstract class BaseVrRenderer  implements GvrView.StereoRenderer{
         multiplyMM(view, 0, eye.getEyeView(), 0, camera, 0);
         perspective = eye.getPerspective(getZ_NEAR(), getZ_FAR());
 
-        if (mSkyBox != null) {
-            multiplyMM(modelView, 0, view, 0, model, 0);
-            multiplyMM(modelViewProjection, 0, perspective, 0, modelView, 0);
-            mSkyBox.draw(modelViewProjection);
+        Log.d("VRBase Draw Eye", "on Draw");
+
+        if(cars != null){
+
         }
 
         //MatrixState.pushMatrix();
         MatrixState.setmProjMatrix(perspective);
         MatrixState.setmVMatrix(view);
         cars.vrDraw();
+
+        if (mSkyBox != null) {
+            multiplyMM(modelView, 0, view, 0, model, 0);
+            multiplyMM(modelViewProjection, 0, perspective, 0, modelView, 0);
+            mSkyBox.draw(modelViewProjection);
+        }
+
+
 
 
 //        drawEye(eye, perspective, view);
@@ -95,6 +104,7 @@ public abstract class BaseVrRenderer  implements GvrView.StereoRenderer{
         surfaceCreated(eglConfig);
         initSkyBoxMatrix(model);
         mSkyBox = getSkyBox();
+        Log.d("VRBase", "Surface Create");
         cars = new Cars(gvrView, new vec(0, 0, 0), new vec(270, 0, 0));
         skyBox = new SkyBox(gvrView);
     }

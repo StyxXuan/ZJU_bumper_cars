@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 
+import com.example.zju_bumper_cars.ViewLayer.CarVRRenderer;
 import com.example.zju_bumper_cars.ViewLayer.VrRenderer;
 import com.google.vr.sdk.base.AndroidCompat;
 import com.google.vr.sdk.base.GvrActivity;
@@ -100,11 +101,13 @@ public class VrActivity extends GvrActivity{
 
     public void initializeGvrView() {
 
-        gvrView = (GvrView) findViewById(R.id.gvr_view);
+        gvrView = findViewById(R.id.gvr_view);
         gvrView.setEGLConfigChooser(8, 8, 8, 8, 16, 8);
 
-        mRender = new VrRenderer(this, gvrView);
-        gvrView.setRenderer(mRender);
+//        mRender = new VrRenderer(this, gvrView);
+//        gvrView.setRenderer(mRender);
+        CarVRRenderer renderer = new CarVRRenderer(this);
+        gvrView.setRenderer(renderer);
         gvrView.setTransitionViewEnabled(true);
 
         if (gvrView.setAsyncReprojectionEnabled(true)) {
