@@ -32,7 +32,7 @@ public class Model {
     private float[] rotateM = new float[16];
 
     private final FloatBuffer vertex;
-    private final FloatBuffer uv;
+    private FloatBuffer uv;
     private final FloatBuffer normal;
     private FloatBuffer tangent;
     private FloatBuffer biTangent;
@@ -60,18 +60,20 @@ public class Model {
         IntBuffer intIndex = ObjData.getFaceVertexIndices(obj, 3);
 
         vertex = ObjData.getVertices(obj);
-        uv = ObjData.getTexCoords(obj, 2);
+        uv = ObjData.getTexCoords(obj, 2, true);
         normal = ObjData.getNormals(obj);
 
-        vertexIndex = ByteBuffer.allocateDirect(2 * intIndex.limit())
-                .order(ByteOrder.nativeOrder())
-                .asShortBuffer();
+        vertexIndex = ObjData.convertToShortBuffer(intIndex);
 
-        while (intIndex.hasRemaining()){
-            vertexIndex.put((short) intIndex.get());
-        }
-
-        vertexIndex.rewind();
+//        vertexIndex = ByteBuffer.allocateDirect(2 * intIndex.limit())
+//                .order(ByteOrder.nativeOrder())
+//                .asShortBuffer();
+//
+//        while (intIndex.hasRemaining()){
+//            vertexIndex.put((short) intIndex.get());
+//        }
+//
+//        vertexIndex.rewind();
 
     }
 
@@ -111,16 +113,16 @@ public class Model {
         }
 
         GLES20.glEnableVertexAttribArray(attrs[VERTEX_ATTR]);
-        GLES20.glVertexAttribPointer(attrs[VERTEX_ATTR], 3, GLES20.GL_FLOAT, false, 0, vertex);
+        GLES20.glVertexAttribPointer(attrs[VERTEX_ATTR], 3, GLES20.GL_FLOAT, false, 3 * 4, vertex);
 
         if(attrs[UV_ATTR] != -1) {
             GLES20.glEnableVertexAttribArray(attrs[UV_ATTR]);
-            GLES20.glVertexAttribPointer(attrs[UV_ATTR], 2, GLES20.GL_FLOAT, false, 0, uv);
+            GLES20.glVertexAttribPointer(attrs[UV_ATTR], 2, GLES20.GL_FLOAT, false, 2 * 4, uv);
         }
 
         if(attrs[NORMAL_ATTR] != -1){
             GLES20.glEnableVertexAttribArray(attrs[NORMAL_ATTR]);
-            GLES20.glVertexAttribPointer(attrs[NORMAL_ATTR], 3, GLES20.GL_FLOAT, false, 0, normal);
+            GLES20.glVertexAttribPointer(attrs[NORMAL_ATTR], 3, GLES20.GL_FLOAT, false, 3 * 4, normal);
         }
 
         GLES20.glDrawElements(GLES20.GL_TRIANGLES, vertexIndex.limit(), GLES20.GL_UNSIGNED_SHORT, vertexIndex);

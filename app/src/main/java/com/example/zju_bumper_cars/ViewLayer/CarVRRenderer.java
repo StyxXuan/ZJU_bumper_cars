@@ -25,8 +25,11 @@ public class CarVRRenderer implements GvrView.StereoRenderer {
     private Context context;
 
     private Shader modelShader;
+    private Shader skyboxShader;
     private Model car;
+    private Model skybox;
     private Texture carAlbedo;
+    private Texture skyboxCube;
 
     private float[] inverseModel = new float[16];
     private float[] camera = new float[16];
@@ -48,6 +51,7 @@ public class CarVRRenderer implements GvrView.StereoRenderer {
 
     @Override
     public void onDrawEye(Eye eye) {
+        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
         Matrix.multiplyMM(view, 0, eye.getEyeView(), 0, camera, 0);
@@ -57,6 +61,12 @@ public class CarVRRenderer implements GvrView.StereoRenderer {
         modelShader.use();
         modelShader.setMatrix4("u_MVP", mvp);
         car.draw(modelShader);
+
+        Matrix.multiplyMM(mvp, 0, vp, 0, skybox.modelMatrix, 0);
+
+        skyboxShader.use();
+        skyboxShader.setMatrix4("u_Matrix", mvp);
+        skybox.draw(skyboxShader);
     }
 
     @Override
@@ -79,10 +89,13 @@ public class CarVRRenderer implements GvrView.StereoRenderer {
         Matrix.setLookAtM(camera, 0, 0f, 0f, -5.0f, 0f, 0f, 0f, 0f, 1f, 0f);
 
         modelShader = Shader.create(context, R.raw.model_vertex_shader, R.raw.model_fragment_shader);
+        skyboxShader = Shader.create(context, R.raw.skybox_vertex_shader, R.raw.skybox_fragment_shader);
+
         try {
 
             carAlbedo = Texture.load(context,"camaro.jpg", Texture.ALBEDO);
 
+            //设置车
             car = Model.load(context, "camaro.obj");
             car.setAttr(Model.VERTEX_ATTR, modelShader.getAttribute("a_Position"))
                     .setAttr(Model.UV_ATTR, modelShader.getAttribute("a_Uv"))
@@ -99,6 +112,25 @@ public class CarVRRenderer implements GvrView.StereoRenderer {
                     })
                     .rotate(-90, 0,0,1)
                     .rotate(-90, 0, 1, 0);
+
+            skyboxCube = Texture.load(context, new int[]{R.drawable.left,
+                    R.drawable.right,
+                    R.drawable.bottom,
+                    R.drawable.top,
+                    R.drawable.front,
+                    R.drawable.back
+            }, Texture.SKYBOX);
+
+            skybox = Model.load(context, "sky2.obj");
+            skybox.setAttr(Model.VERTEX_ATTR, skyboxShader.getAttribute("a_Position"))
+                    .setOnDraw(new Model.OnDrawCall() {
+                        @Override
+                        public void onDraw(Shader shader) {
+                            skyboxCube.active();
+                            shader.setInt("u_TextureUnit", skyboxCube.getGLTexture());
+                        }
+                    })
+                    .scale(5,5,5);
 
         } catch (IOException e) {
             e.printStackTrace();
