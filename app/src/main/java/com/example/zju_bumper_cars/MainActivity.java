@@ -24,7 +24,9 @@ import com.example.zju_bumper_cars.ViewLayer.MySurfaceView;
 import com.example.zju_bumper_cars.config.glConfig;
 import com.google.common.logging.nano.Vr;
 
-public class MainActivity extends Activity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
     public static float WIDTH;
     public static float HEIGHT;
     Handler handler;

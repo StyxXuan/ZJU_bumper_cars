@@ -69,6 +69,24 @@ public class Texture {
         }
     }
 
+    private Texture(Context context, String[] assets, int type) throws IOException {
+        if (BuildConfig.DEBUG && !(type == SKYBOX)) {
+            throw new AssertionError("Assertion failed");
+        }
+
+        Bitmap[] bitmaps = new Bitmap[6];
+        for(int i = 0;i < 6;i++){
+            bitmaps[i] = BitmapFactory.decodeStream(context.getAssets().open(assets[i]));
+        }
+        generate3DTexture(bitmaps);
+
+        for(Bitmap bitmap: bitmaps){
+            if(bitmap != null){
+                bitmap.recycle();
+            }
+        }
+    }
+
     private void generate2DTexture(Bitmap bitmap){
         GLES20.glGenTextures(1, textureID, 0);
         active();
@@ -127,6 +145,10 @@ public class Texture {
 
     public static Texture load(Context context, int[] resIds, int type) throws IOException{
         return new Texture(context, resIds, type);
+    }
+
+    public static Texture load(Context context, String[] assets, int type) throws IOException{
+        return new Texture(context, assets, type);
     }
 
     public void active(){

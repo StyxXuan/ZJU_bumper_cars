@@ -31,8 +31,8 @@ public class ModelGroup {
     public static List<Cars> ALLPlayer;
     public static List<ParticleSystem> particleSystems;
     public static Cars Player;
-//    public static SkyBox skyBox;
     public static SkyBox skyBox;
+//    public static SkyBox skyBox;
     public static boolean ParticleSystemReady = false;
     public static boolean CollisionHapen = false;
     public static boolean initDown = false;
@@ -52,7 +52,7 @@ public class ModelGroup {
 //        ALLPlayer.add(car3);
         modelGroup.addAll(ALLPlayer);
         modelGroup.add(obj);
-        //modelGroup.add(skyBox);
+//        modelGroup.add(skyBox);
         for(Cars c:ALLPlayer){
             c.driving();
         }
@@ -108,6 +108,7 @@ public class ModelGroup {
         }
 
         skyBox.draw(MatrixState.getVPMatrix());
+//        skyBox.draw();
 
         if(ParticleSystemReady){
             for(ParticleSystem system:particleSystems){

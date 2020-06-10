@@ -4,10 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
+
+import com.example.zju_bumper_cars.ViewLayer.WelcomeViewRenderer;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -15,6 +19,9 @@ import java.util.TimerTask;
 public class WelcomeActivity extends AppCompatActivity {
     public static float WIDTH;
     public static float HEIGHT;
+
+    private GLSurfaceView surfaceView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,23 +42,32 @@ public class WelcomeActivity extends AppCompatActivity {
         }
         //设置为横屏模式
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        surfaceView = findViewById(R.id.surfaceView);
+        surfaceView.setEGLContextClientVersion(2);
+        surfaceView.setRenderer(new WelcomeViewRenderer(this));
 
 //        startMainActivity();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(surfaceView != null){
+            surfaceView.onPause();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(surfaceView != null){
+            surfaceView.onResume();
+        }
     }
 
     public void startMainActivity(View view){
         Intent mainIntent = new Intent(WelcomeActivity.this,MainActivity.class);
         startActivity(mainIntent);
-
-//        TimerTask delayTask = new TimerTask() {
-//            @Override
-//            public void run() {
-//
-//                WelcomeActivity.this.finish();
-//            }
-//        };
-//        Timer timer = new Timer();
-//        timer.schedule(delayTask,2000);//延时两秒执行 run 里面的操作
     }
 
     public void startVRActivity(View v) {
