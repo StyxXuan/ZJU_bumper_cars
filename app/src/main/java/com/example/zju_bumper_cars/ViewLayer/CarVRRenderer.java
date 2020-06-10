@@ -3,6 +3,7 @@ package com.example.zju_bumper_cars.ViewLayer;
 import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
+import android.os.SystemClock;
 
 import com.example.zju_bumper_cars.ModelLayer.VrModules.SkyBox;
 import com.example.zju_bumper_cars.ModelLayer.models.Cars;
@@ -17,6 +18,7 @@ import com.google.vr.sdk.base.HeadTransform;
 import com.google.vr.sdk.base.Viewport;
 
 import java.io.IOException;
+import java.util.Timer;
 
 import javax.microedition.khronos.egl.EGLConfig;
 
@@ -36,6 +38,10 @@ public class CarVRRenderer implements GvrView.StereoRenderer {
     private float[] view = new float[16];
     private float[] mvp = new float[16];
     private float[] vp = new float[16];
+
+    private float cameraX = 0.0f;
+    private float cameraY = 0.5f;
+    private float cameraZ = -3.0f;
 
     private float zNear = 0.01f;
     private float zFar = 20.0f;
@@ -59,7 +65,10 @@ public class CarVRRenderer implements GvrView.StereoRenderer {
         Matrix.multiplyMM(mvp,0, vp, 0, car.modelMatrix, 0);
 
         modelShader.use();
-        modelShader.setMatrix4("u_MVP", mvp);
+        modelShader.setMatrix4("u_MVP", mvp)
+                .setFloat3("u_CameraPosition", cameraX, cameraY, cameraZ);
+
+        car.rotate(0.1f, 0,0,1);
         car.draw(modelShader);
 
         Matrix.multiplyMM(mvp, 0, vp, 0, skybox.modelMatrix, 0);
@@ -86,10 +95,16 @@ public class CarVRRenderer implements GvrView.StereoRenderer {
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
         GLES20.glDepthFunc(GLES20.GL_LESS);
 
-        Matrix.setLookAtM(camera, 0, 0f, 0f, -5.0f, 0f, 0f, 0f, 0f, 1f, 0f);
+        Matrix.setLookAtM(camera, 0, cameraX, cameraY, cameraZ, 0f, 0f, 0f, 0f, 1f, 0f);
 
         modelShader = Shader.create(context, R.raw.model_vertex_shader, R.raw.model_fragment_shader);
         skyboxShader = Shader.create(context, R.raw.skybox_vertex_shader, R.raw.skybox_fragment_shader);
+
+
+        modelShader.setFloat3("u_LightLocation", 0, 0, -1)
+                .setFloat3("u_LightColor", 0.6f, 0.6f, 0.6f)
+                .setFloat("u_Shiness",32.0f);
+
 
         try {
 
@@ -105,6 +120,7 @@ public class CarVRRenderer implements GvrView.StereoRenderer {
                         public void onDraw(Shader shader) {
                             shader.setMatrix4("u_ModelMatrix", car.modelMatrix);
                             Matrix.invertM(inverseModel, 0, car.modelMatrix, 0);
+                            Matrix.transposeM(inverseModel, 0, inverseModel, 0);
                             shader.setMatrix4("u_InverseModelMatrix", inverseModel);
                             carAlbedo.active();
                             shader.setInt("u_Albedo", carAlbedo.getGLTexture());

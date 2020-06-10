@@ -9,7 +9,9 @@ import java.nio.FloatBuffer;
 import static android.opengl.GLES20.GL_VERTEX_SHADER;
 import static android.opengl.GLES20.GL_FRAGMENT_SHADER;
 import static android.opengl.GLES20.glGetAttribLocation;
+import static android.opengl.GLES20.glUniform1f;
 import static android.opengl.GLES20.glUniform1i;
+import static android.opengl.GLES20.glUniform3f;
 import static android.opengl.GLES20.glUniform4f;
 import static android.opengl.GLES20.glUniformMatrix4fv;
 import static android.opengl.GLES20.glUseProgram;
@@ -50,6 +52,18 @@ public class Shader {
     public Shader setInt(String attr, int value){
         int location = glGetUniformLocation(program, attr);
         glUniform1i(location, value);
+        return this;
+    }
+
+    public Shader setFloat3(String attr, float x, float y, float z){
+        int location = glGetUniformLocation(program, attr);
+        glUniform3f(location, x, y, z);
+        return this;
+    }
+
+    public Shader setFloat(String attr, float value){
+        int location = glGetUniformLocation(program, attr);
+        glUniform1f(location, value);
         return this;
     }
 
