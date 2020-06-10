@@ -1,3 +1,5 @@
+precision mediump float;
+
 uniform sampler2D u_Albedo;
 uniform vec3 u_LightLocation;
 uniform vec3 u_CameraPosition;
